@@ -150,11 +150,11 @@
 
 #body{
     position: relative;
-    width: 350px;
+    width: 300px;
     height: 500px;
-    left: 10px;
+    left: 45px;
     top: -5px;
-    border-radius: 40% 40% 20% 90%;
+    border-radius: 40% 40% 40% 80%;
     background-image: linear-gradient(to bottom right, rgb(114, 108, 29) , rgb(31, 31, 61), rgb(114, 108, 29));
     background-size: auto 30px;
 }
@@ -197,10 +197,10 @@
 
 .back_left{
     top: 380px;
-    left: 220px;
+    left: 180px;
     position: absolute;
     width: 60px;
-    height: 200px;
+    height: 170px;
     border-radius: 20% 30% 10% 90%;
     transform: rotate(80deg);
     background-image: linear-gradient(to bottom right, rgb(114, 108, 29) , rgb(31, 31, 61), rgb(114, 108, 29));
@@ -209,7 +209,7 @@
 
 #tail{
     top: 320px;
-    left: 420px;
+    left: 380px;
     position: absolute;
     width: 45px;
     height: 400px;
