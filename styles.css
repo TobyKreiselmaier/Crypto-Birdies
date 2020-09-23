@@ -50,6 +50,7 @@
     position: absolute;
     background-image: linear-gradient(to bottom right, rgb(114, 108, 29) , rgb(31, 31, 61), rgb(114, 108, 29));
     background-size: auto 30px;
+    z-index: -1;
 }
 
 .left_ear{

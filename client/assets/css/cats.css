@@ -25,7 +25,7 @@ body {
 .cat__head-dots {
     position: absolute;
     left: 101px;
-    height: 48px;
+    height: 88px;
     top: 1px;
     width: 14px;
     background: #ffb74d;
@@ -38,7 +38,7 @@ body {
     content: '';
     top: 1px;
     width: 14px;    
-    height: 35px;
+    height: 60px;
     background: #ffb74d;
     left: -20px;
     border-radius: 50% 0 50% 50%;
@@ -48,7 +48,7 @@ body {
     content: '';
     top: 1px;
     width: 14px;    
-    height: 35px;
+    height: 60px;
     background: #ffb74d;
     left: 20px;
     border-radius: 0 50% 50% 50%;
@@ -156,27 +156,27 @@ body {
 }
 .cat__mouth-left, .cat__mouth-right {
     position: absolute;
-    top: 120px;
-    width: 23px;
-    height: 23px;
-    -webkit-border-radius: 50%;
+    top: 110px;
+    width: 60px;
+    height: 60px;
+    -webkit-border-radius: 30%;
     border-radius: 50%;
     border: 4px solid  #373737;
     border-right: 3px solid rgba(255, 255, 255, 0);
     border-top: 3px solid rgba(255, 255, 255, 0);
-    transform: rotate(-45deg);
+    transform: rotate(-60deg);
 }
 .cat__mouth-left {
-    left: 88px;
+    left: 52px;
 }
 .cat__mouth-right {
-    left: 108px;
+    left: 109px;
 }
 .cat__whiskers-left, .cat__whiskers-right {
     position: relative;
 }
 .cat__whiskers-left, .cat__whiskers-right, .cat__whiskers-left::after, .cat__whiskers-right::after, .cat__whiskers-left::before, .cat__whiskers-right::before {
-    width: 32px;
+    width: 62px;
     height: 5px;
     background: #373737;
 }
@@ -187,7 +187,7 @@ body {
 }
 .cat__whiskers-left {
     top: 112px;
-    left: -18px;
+    left: -48px;
 }
 .cat__whiskers-left::before {
     top: -16px;
@@ -274,23 +274,23 @@ body {
 }
 .cat__paw-left {
     left: 78px;
-    border-radius: 0 0 45% 35%;
+    border-radius: 0 0 50% 50%;
 }
 .cat__paw-left::after {
     left: -32px;
 }
 .cat__paw-right {
     left: 122px;
-    border-radius: 0 0 35% 45%;
+    border-radius: 0 0 50% 50%;
 }
 .cat__paw-right::after {
     left: 16px;
 }
 .cat__tail {
     position: absolute;
-    top: 20px;
+    top: 8px;
     left: 130px;
-    width: 90px;
+    width: 130px;
     height: 23px;
     background: #ffcc80;
     border: 5px solid transparent;
