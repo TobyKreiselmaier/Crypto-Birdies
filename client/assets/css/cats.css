@@ -25,7 +25,7 @@ body {
 .cat__head-dots {
     position: absolute;
     left: 101px;
-    height: 88px;
+    height: 48px;
     top: 1px;
     width: 14px;
     background: #ffb74d;
@@ -38,7 +38,7 @@ body {
     content: '';
     top: 1px;
     width: 14px;    
-    height: 60px;
+    height: 35px;
     background: #ffb74d;
     left: -20px;
     border-radius: 50% 0 50% 50%;
@@ -48,7 +48,7 @@ body {
     content: '';
     top: 1px;
     width: 14px;    
-    height: 60px;
+    height: 35px;
     background: #ffb74d;
     left: 20px;
     border-radius: 0 50% 50% 50%;

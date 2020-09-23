@@ -37,64 +37,66 @@ function earsColor(color,code) {
     $('#dnaears').html(code) //This updates the body color part of the DNA that is displayed below the cat
 }
 
-function eyeVariation(num) {
+function eyesVariation(num) {
 
     $('#dnashape').html(num)
     switch (num) {
         case 0:
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Basic');
             break;
         case 1:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Chilled');
             eyesType1();
             break;
         case 2:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Up');
             eyesType2();
             break;
         case 3:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Right');
             eyesType3();
             break;    
         case 4:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Left');
             eyesType4();
             break;    
         case 5:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Bottom Left');
             eyesType5();
             break;    
         case 6:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Top Right');
             eyesType6();
             break;    
         case 7:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Bottom Right');
             eyesType7();
             break;    
         case 8:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Top Left');
             eyesType8();
             break;    
         case 9:    
-            normalEyes();
+            basicEyes();
             $('#eyeDesign').html('Special');
             eyesType9();
             break;    
-
+        default:
+            basicEyes();
+            $('#eyeDesign').html('Basic');
     }
 }
 
-function normalEyes() {
+function basicEyes() {
     $('.cat__eye').find('span').css('border', 'none');
     $('.cat__eye').find('span').css('transform', 'none');
     $('.cat__eye').find('span').css('background-image', 'none');
@@ -141,32 +143,110 @@ function eyesType9() {
 
 }
 
-function normaldecoration() {
-    $('.cat__head-dots').css({ "transform": "rotate(0deg)", "height": "48px", "width": "14px", "top": "1px", "border-radius": "0 0 50% 50%" })
-    $('.cat__head-dots_first').css({ "transform": "rotate(0deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "50% 0 50% 50%" })
-    $('.cat__head-dots_second').css({ "transform": "rotate(0deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "0 50% 50% 50%" })
-}
-
 function decorationVariation(num) {
     $('#dnadecoration').html(num)
     switch (num) {
-        case 1:
-            $('#decorationName').html('Basic');
-            normaldecoration();
+        case 0:
+            $('#decorationDesign').html('Basic');
+            basicDecoration();
             break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
+        case 1:
+            basicDecoration();
+            $('#decorationDesign').html('Large');
+            decorationType1();
+            break;
+        case 2:
+            basicDecoration();
+            $('#decorationDesign').html('Max');
+            decorationType2();
+            break;
+        case 3:
+            basicDecoration();
+            $('#decorationDesign').html('Left Twist');
+            decorationType3();
+            break;
+        case 4:
+            basicDecoration();
+            $('#decorationDesign').html('Right Twist');
+            decorationType4();
+            break;
+        case 5:
+            basicDecoration();
+            $('#decorationDesign').html('W-Shape');
+            decorationType5();
+            break;
+        case 6:
+            basicDecoration();
+            $('#decorationDesign').html('Inverse W');
+            decorationType6();
+            break;
+        case 7:
+            basicDecoration();
+            $('#decorationDesign').html('Cross');
+            decorationType7();
+            break;
+        default:
+            $('#decorationDesign').html('Basic');
+            basicDecoration();
     }
+}
+
+function basicDecoration() {
+    $('.cat__head-dots').css({ 'transform': 'rotate(0deg)', 'height': '48px', 'width': '14px' })
+    $('.cat__head-dots_first').css({ 'transform': 'rotate(0deg)', 'height': '35px', 'width': '14px', 'top': '1px', 'left': '-20px' })
+    $('.cat__head-dots_second').css({ 'transform': 'rotate(0deg)', 'height': '35px', 'width': '14px', 'top': '1px', 'left': '20px' })
+}
+
+function decorationType1() {//Large
+    $('.cat__head-dots').css({ 'height': '68px' })
+    $('.cat__head-dots_first').css({ 'height': '55px' })
+    $('.cat__head-dots_second').css({ 'height': '55px' })
+}
+
+function decorationType2() {//Max
+    $('.cat__head-dots').css({ 'height': '88px' })
+    $('.cat__head-dots_first').css({ 'height': '75px' })
+    $('.cat__head-dots_second').css({ 'height': '75px' })
+}
+
+function decorationType3() {//Left Twist
+    $('.cat__head-dots').css({ 'height': '68px' })
+    $('.cat__head-dots_first').css({ 'transform': 'rotate(60deg)', 'height': '55px', 'top': '-12px', 'left': '-38px'})
+    $('.cat__head-dots_second').css({ 'height': '55px', })
+}
+
+function decorationType4() {//Right Twist
+    $('.cat__head-dots').css({ 'height': '68px' })
+    $('.cat__head-dots_first').css({ 'height': '55px', })
+    $('.cat__head-dots_second').css({ 'transform': 'rotate(-60deg)', 'height': '55px', 'top': '-12px', 'left': '40px'})
+}
+
+function decorationType5() {//W-Shape
+    $('.cat__head-dots').css({ 'height': '68px' })
+    $('.cat__head-dots_first').css({ 'transform': 'rotate(-45deg)', 'height': '55px', 'width': '14px', 'top': '15px', 'left': '-40px' })
+    $('.cat__head-dots_second').css({ 'transform': 'rotate(45deg)', 'height': '55px', 'width': '14px', 'top': '15px', 'left': '40px' })
+}
+
+function decorationType6() {//Inverse W
+    $('.cat__head-dots').css({ 'height': '68px' })
+    $('.cat__head-dots_first').css({ 'transform': 'rotate(60deg)', 'height': '55px', 'width': '14px', 'top': '-11px', 'left': '-40px' })
+    $('.cat__head-dots_second').css({ 'transform': 'rotate(-60deg)', 'height': '55px', 'width': '14px', 'top': '-11px', 'left': '40px' })
+}
+
+function decorationType7() {//Cross
+    $('.cat__head-dots').css({ 'height': '68px' })
+    $('.cat__head-dots_first').css({ 'transform': 'rotate(90deg)', 'height': '55px', 'width': '14px', 'top': '0px', 'left': '-40px' })
+    $('.cat__head-dots_second').css({ 'transform': 'rotate(-90deg)', 'height': '55px', 'width': '14px', 'top': '0px', 'left': '40px' })
+}
+
+function middleDecorationColor(color,code) {
+    $('.cat__head-dots').css('background-color', '#' + color)  //This changes the color of the middle decoration
+    $('#middledecorationcode').html('code: '+ code) //This updates text of the badge next to the slider
+    $('#dnadecorationMid').html(code) //This updates the body color part of the DNA that is displayed below the cat
+}
+
+function sidesDecorationColor(color,code) {
+    $('.cat__head-dots_first, .cat__head-dots_second').css('background-color', '#' + color)  //This changes the color of the side decoration
+    $('#sidesdecorationcode').html('code: '+ code) //This updates text of the badge next to the slider
+    $('#dnadecorationSides').html(code) //This updates the body color part of the DNA that is displayed below the cat
 }
