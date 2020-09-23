@@ -2,25 +2,41 @@
 //Random color
 function getColor() {
     var randomColor = Math.floor(Math.random() * 16777215).toString(16);
-    return randomColor
+    return randomColor;
 }
 
 function genColors(){
-    var colors = []
-    for(var i = 10; i < 99; i ++){
-      var color = getColor()
-      colors[i] = color
+    var colors = [];
+    for(var i = 0; i <= 99; i ++){
+      var color = getColor();
+      colors[i] = color;
     }
-    return colors
+    return colors;
 }
 
-//This function code needs to modified so that it works with Your cat code.
 function headColor(color,code) {
-    $('.cat__head, .cat__chest').css('background', '#' + color)  //This changes the color of the cat
-    $('#headcode').html('code: '+code) //This updates text of the badge next to the slider
+    $('.cat__head, .cat__chest').css('background-color', '#' + color)  //This changes the color of the cat
+    $('#headcode').html('code: '+ code) //This updates text of the badge next to the slider
     $('#dnabody').html(code) //This updates the body color part of the DNA that is displayed below the cat
 }
 
+function mouthColor(color,code) {
+    $('.cat__mouth-contour, .cat__chest, .cat__tail').css('background-color', '#' + color)  //This changes the color of the cat
+    $('#mouthcode').html('code: '+ code) //This updates text of the badge next to the slider
+    $('#dnamouth').html(code) //This updates the body color part of the DNA that is displayed below the cat
+}
+
+function eyesColor(color,code) {
+    $('.pupil-left, .pupil-right').css('background-color', '#' + color)  //This changes the color of the cat
+    $('#eyescode').html('code: '+ code) //This updates text of the badge next to the slider
+    $('#dnaeyes').html(code) //This updates the body color part of the DNA that is displayed below the cat
+}
+
+function earsColor(color,code) {
+    $('#leftEar, #rightEar, .cat__paw-left, .cat__paw-left_inner, .cat__paw-right, .cat__paw-right_inner').css('background-color', '#' + color)  //This changes the color of the cat
+    $('#earscode').html('code: '+ code) //This updates text of the badge next to the slider
+    $('#dnaears').html(code) //This updates the body color part of the DNA that is displayed below the cat
+}
 
 //###################################################
 //Functions below will be used later on in the project

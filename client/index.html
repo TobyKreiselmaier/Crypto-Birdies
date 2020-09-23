@@ -2,8 +2,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Academy kitties </title>
-  <script type="text/javascript" src="assets/js/jquery-3.4.1.js"></script>
+  <title>Crypto-Kitties-Clone</title>
+  <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <script src="assets/bootstrap/js/popper.js"></script>
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>
@@ -18,7 +18,7 @@
     <div class="container p-5" style="margin-top: 12vh;margin-bottom: 10vh;">
         <div align="center">
         <h1 class="c-white">Kitties-Factory</h1>
-        <p class="c-white">Create your custom Kitty</p>
+        <p class="c-white">Color Your Kitty</p>
     </div>
         <div class="row">
             <div class="col-lg-4 catBox m-2 light-b-shadow">
@@ -46,30 +46,20 @@
                             </div>
                         </div>
                         <div class="cat__nose"></div>
-
                         <div class="cat__mouth-contour"></div>
                         <div class="cat__mouth-left"></div>
                         <div class="cat__mouth-right"></div>
-
                         <div class="cat__whiskers-left"></div>
                         <div class="cat__whiskers-right"></div>
                     </div>
 
                     <div class="cat__body">
-
                         <div class="cat__chest"></div>
-
                         <div class="cat__chest_inner"></div>
-
-
                         <div class="cat__paw-left"></div>
                         <div class="cat__paw-left_inner"></div>
-
-
                         <div class="cat__paw-right"></div>
                         <div class="cat__paw-right_inner"></div>
-
-
                         <div id="tail" class="cat__tail"></div>
                     </div>
                 </div>
@@ -93,15 +83,21 @@
                     </b>
                 </div>
             </div>
-            <div class="col-lg-7 cattributes m-2 light-b-shadow">
 
-<!-- Cat colors -->
-<div id="catColors">
-                <div class="form-group">
-                    <label for="formControlRange"><b>Head and body</b><span class="badge badge-dark ml-2" id="headcode"></span></label>
-                    <input type="range" min="10" max="98" class="form-control-range" id="bodycolor">
+            <div class="col-lg-7 cattributes m-2 light-b-shadow ">
+                <!-- Cat colors -->
+                <div id="catColors">
+                    <div class="form-group">
+                        <label for="formControlRange"><b>Head | Body</b><span class="badge badge-dark ml-2" id="headcode"></span></label>
+                        <input type="range" min="10" max="99" class="form-control-range" id="bodycolor"><br>
+                        <label for="formControlRange"><b>Mouth | Belly | Tail</b><span class="badge badge-dark ml-2" id="mouthcode"></span></label>
+                        <input type="range" min="00" max="99" class="form-control-range" id="mouthcolor"><br>
+                        <label for="formControlRange"><b>Eyes</b><span class="badge badge-dark ml-2" id="eyescode"></span></label>
+                        <input type="range" min="00" max="99" class="form-control-range" id="eyescolor"><br>
+                        <label for="formControlRange"><b>Ears | Paws</b><span class="badge badge-dark ml-2" id="earscode"></span></label>
+                        <input type="range" min="00" max="99" class="form-control-range" id="earscolor">
+                    </div>
                 </div>
-            </div>
 
             </div>
 
@@ -113,8 +109,8 @@
 
 
     </div>
-    <footer align="left">
-        <p>Ivan on Tech Academy Bootcamp July 2020</p>
+    <footer align="right">
+        <p> Written by <a href="mailto:the.rainmaker@mail.com" target="_blank">The Rainmaker</a></p>
     </footer>
 
   </body>

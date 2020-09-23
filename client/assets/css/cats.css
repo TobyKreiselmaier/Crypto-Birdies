@@ -298,7 +298,7 @@ body {
     z-index: 1;
     transform: rotate(-45deg);
 }
-/* .cursor {
+.cursor {
     position: absolute;
     height: 23px;
     width: 23px;
@@ -307,4 +307,4 @@ body {
     background: #b40660;
     transform: translateX(-50%) translateY(-50%);
     z-index: 4000;
-} */
+}
