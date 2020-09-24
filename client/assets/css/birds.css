@@ -1,0 +1,261 @@
+html {
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+body {
+	background: teal;
+}
+
+.dnaDiv {
+	font-size: 15px;
+}
+
+.angryBird_Red {
+	left:10em;
+	font-size: 5px;
+	position:relative;
+	top: 15em;
+}
+
+.tail {
+	border-color: transparent transparent transparent black;
+	border-style: solid;
+	height: 0;
+	position: absolute;
+	width: 0;
+}
+
+.tail_top {
+	border-width: 2em 0em 2em 10em;
+	left: -5em;
+	top: 16.5em;
+	transform: rotate(45deg);
+}
+
+.tail_middle {
+	border-width: 3em 0em 2em 15em;
+	left: -8em;
+	top: 18em;
+	transform: rotate(12deg);
+}
+
+.tail_bottom {
+	border-width: 2em 0em 1em 7em;
+	left: -4em;
+	top: 21.2em;
+	transform: rotate(-35deg);
+}
+
+.feather_top {
+	background: #ce000f;
+	border: 0.8em solid black;
+	border-radius: 100% 100% 100% 100% / 80% 100% 80% 100% ;
+	border-right:0;
+	height: 6em;
+	left: 16em;
+	position: absolute;
+	top: -6em;
+	transform: rotate(40deg);
+	width: 17em;
+	z-index: 6;
+}
+
+.feather_bottom {
+	background: #ce000f;
+	border: 0.8em solid black;
+	border-radius: 100% 100% 100% 100% / 80% 90% 50% 100% ;
+	border-right: 0;
+	height: 5em;
+	left: 8em;
+	position: absolute;
+	top: -4em;
+	transform: rotate(10deg);
+	width: 15em;
+	z-index: 6;
+}
+
+.bird_body {
+	border: .6em solid black;
+	border-radius: 100% / 120% 100% 95% 85%;
+	height: 42em;
+	position:absolute;
+	width: 43em;
+	z-index: 5;
+}
+
+.bird_body_inner {
+	background: #ce000f;
+	border: none;
+	height: 40.2em;
+	position:absolute;
+	width: 43em;
+	z-index: 3
+}
+
+.deco_1 {
+	background: #ab060c;
+	border: none;
+	border-radius: 100% / 120% 100% 95% 85%;
+	top: 24em;
+	height: 4.5em;
+	left: 7em;
+	position: absolute;
+	transform: rotate(-25deg);
+	width: 4em;
+	z-index: 4;
+}
+
+.deco_2 {
+	background: #ab060c;
+	border: none;
+	border-radius: 100% / 120% 100% 95% 85%;
+	top: 20em;
+	height: 7.5em;
+	left: 12em;
+	position: absolute;
+	transform: rotate(-15deg);
+	width: 4em;
+	z-index: 4;
+}
+
+.deco_3 {
+	background: #ab060c;
+	border: none;
+	border-radius: 100% / 120% 100% 95% 85%;
+	top: 19em;
+	height: 9em;
+	left: 17em;
+	position: absolute;
+	transform: rotate(-10deg);
+	width: 10em;
+	z-index: 4;
+}
+
+.deco_4 {
+	background: #ab060c;
+	border: none;
+	border-radius: 100% / 120% 100% 95% 85%;
+	top: 17.5em;
+	height: 9em;
+	left: 31em;
+	position: absolute;
+	transform: rotate(-10deg);
+	width: 10em;
+	z-index: 40;
+}
+
+.belly {
+	border: #E5E8D5 solid;
+	border-bottom-width: 0;
+	border-left-width: 14em;
+	border-radius: 100% 100% 100% 100% / 120% 120% 80% 80%;
+	border-right-width: 14em;
+	border-top-width: 12em;
+	left: 8.5em;
+	position: absolute;
+	top: 29em;
+	z-index: 5
+}
+
+.face {
+	position: relative;
+}
+
+.eye_right .eye_highlight {
+	background: white;
+	border-radius: 100%;
+	height: 10em;
+	position: relative;
+	width: 10em;
+	z-index: 6
+}
+
+.eye {
+	background: #dddddd;
+	border: 0.9em black solid;
+	border-radius: 100%;
+	height: 10.7em;
+	position: absolute;
+	width: 10.7em;
+	z-index: 5
+}
+
+.pupil {
+	background: black;
+	border-radius: 100%;
+	height: 3em;
+	position: relative;
+	width: 3em;
+	z-index: 10;
+}
+
+.eye_right {
+	left: 30em;
+	top: 16em;
+}
+
+.eye_left {
+	left: 20em;
+	top: 16em;
+}
+
+.eye_right .pupil {
+	left: 1.5em;
+	top: 3em;
+}
+
+.eye_left .pupil {
+	left: 5em;
+	top: 3em;
+}
+
+.eyebrow {
+	background: black;
+	height: 3.2em;
+	position: absolute;
+	width: 13em;
+	z-index: 7;
+}
+
+.eye_right .eyebrow {
+	left: -1em;
+	top: -1.5em;
+	transform: rotate(-11deg);
+}
+
+.eye_left .eyebrow {
+	left: -3em;
+	top: -1.5em;
+	transform: rotate(11deg);
+}
+
+.beak_upper {
+	background: #e9b90d;
+	border: 0.3em solid black;
+	border-bottom-left-radius: 200%;
+	border-top-left-radius: 10%;
+	border-top-right-radius: 40%;
+	height: 5em;
+	left: 31em;
+	position: relative;
+	top: 26em;
+	transform: rotate(-70deg) skewY(20deg) scale(1.5, 2.7);
+	width: 5em;
+	z-index: 10;
+}
+
+.beak_lower {
+	background: #e28810;
+	border: 0.3em solid black;
+	border-bottom-left-radius: 200%;
+	border-top-left-radius: 10%;
+	border-top-right-radius: 30%;
+	height: 7.5em;
+	left: 30em;
+	position: relative;
+	top: 20em;
+	transform: rotate(120deg) skewY(20deg) scale(1.5, 1.5);
+	width: 6em;
+	z-index: 9;
+}

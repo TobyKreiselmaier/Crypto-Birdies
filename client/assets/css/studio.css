@@ -1,12 +1,12 @@
-.catBox {
+.birdBox {
     background-color: #e2efff;
     border-radius: 10px;
-    padding-top: 50px;
-    padding-left: 65px;
-    padding-bottom: 100px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 10px;
 }
 
-.cattributes {
+.birdattributes {
     padding: 25px;
     background-color: #ededed;
     border-radius: 10px;

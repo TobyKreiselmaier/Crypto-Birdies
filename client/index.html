@@ -2,120 +2,125 @@
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Crypto-Kitties-Clone</title>
+      <title>Angry Birds on the Block</title>
       <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
       <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
       <script src="assets/bootstrap/js/popper.js"></script>
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>
       <link rel="stylesheet" href="assets/css/animations.css">
       <link rel="stylesheet" href="assets/css/mystyle.css">
-      <link rel="stylesheet" href="assets/css/cats.css">
+      <link rel="stylesheet" href="assets/css/birds.css">
       <link rel="stylesheet" href="assets/css/colors.css">
-      <link rel="stylesheet" href="assets/css/factory.css">
+      <link rel="stylesheet" href="assets/css/studio.css">
       <link rel="stylesheet" href="assets/css/frontend.css">
     </head>
     <body>
-        <div class="container p-5" style="margin-top: 12vh;margin-bottom: 10vh;">
+        <div class="container p-5">
             <div align="center">
-                <h1 class="c-white">Kitties-Factory</h1>
-                <p class="c-white">Design Your Kitty</p>
+                <h1 class="c-white"><b>Angry Bird Design Studio</b></h1>
+                <p class="c-white">Create Your Own Angry Bird</p>
             </div>
             <div class="row">
-                <div class="col-lg-4 catBox m-2 light-b-shadow">
-                    <div class="cat">
-                        <div class="cat__ear">
-                            <div id="leftEar" class="cat__ear--left">
-                                <div class="cat__ear--left-inside"></div>
-                            </div>
-                            <div id="rightEar" class="cat__ear--right">
-                                <div class="cat__ear--right-inside"></div>
+                <div class="col-lg-4 birdBox m-2 light-b-shadow">
+                    <div class="angryBird_Red">
+                        <div class="tail">
+                            <div class="tail tail_top"></div>
+                            <div class="tail tail_middle"></div>
+                            <div class="tail tail_bottom"></div>
+                        </div>
+                        <div class="feather">
+                            <div class="feather feather_top"></div>
+                            <div class="feather feather_bottom"></div>
+                        </div>
+                        <div class="bird_body">
+                            <div class="bird_body bird_body_inner"></div>
+                            <div class="bird_body bird_body_decoration">
+                                <div class="bird_body bird_body_decoration deco_1"></div>
+                                <div class="bird_body bird_body_decoration deco_2"></div>
+                                <div class="bird_body bird_body_decoration deco_3"></div>
+                                <div class="bird_body bird_body_decoration deco_4"></div>
                             </div>
                         </div>
-                        <div id="head" class="cat__head">
-                            <div id="midDot" class="cat__head-dots">
-                                <div id="leftDot" class="cat__head-dots_first"></div>
-                                <div id="rightDot" class="cat__head-dots_second"></div>
+                        <div class="belly"></div>
+                        <div class="face">
+                            <div class="eye eye_right">
+                                <div class="eyebrow"></div>
+                                <div class="pupil"></div>
                             </div>
-                            <div class="cat__eye">
-                                <div class="cat__eye--left">
-                                    <span class="pupil-left"></span>
-                                </div>
-                                <div class="cat__eye--right">
-                                    <span class="pupil-right"></span>
-                                </div>
+                            <div class="eye eye_left">
+                                <div class="eyebrow"></div>
+                                <div class="pupil"></div>
                             </div>
-                            <div class="cat__nose"></div>
-                            <div class="cat__mouth-contour"></div>
-                            <div class="cat__mouth-left"></div>
-                            <div class="cat__mouth-right"></div>
-                            <div class="cat__whiskers-left"></div>
-                            <div class="cat__whiskers-right"></div>
-                        </div>
-                        <div class="cat__body">
-                            <div class="cat__chest"></div>
-                            <div class="cat__chest_inner"></div>
-                            <div class="cat__paw-left"></div>
-                            <div class="cat__paw-left_inner"></div>
-                            <div class="cat__paw-right"></div>
-                            <div class="cat__paw-right_inner"></div>
-                            <div id="tail" class="cat__tail"></div>
+                            <div class="beak">
+                                <div class="beak beak_upper"></div>
+                                <div class="beak beak_lower"></div>
+                            </div>
                         </div>
                     </div>
+                    
                     <br>
                     <div class="dnaDiv" id="catDNA">
                         <b>
                             DNA:
-                                <span id="dnabody"></span>
-                                <span id="dnamouth"></span>
-                                <span id="dnaeyes"></span>
-                                <span id="dnaears"></span>
-                                <span id="dnashape"></span>
-                                <span id="dnadecoration"></span>
-                                <span id="dnadecorationMid"></span>
-                                <span id="dnadecorationSides"></span>
-                                <span id="dnaanimation"></span>
-                                <span id="dnaspecial"></span>
+                                <span id="dnaTopFeather"></span>
+                                <span id="dnaBodyFeather"></span>
+                                <span id="dnaTopBeak"></span>
+                                <span id="dnaBottomBeak"></span>
+                                <span id="dnaBelly"></span>
+                                <span id="dnaEyesShape"></span>
+                                <span id="dnaDecorationPattern"></span>
+                                <span id="dnaDecorationAtEye"></span>
+                                <span id="dnaDecorationMid"></span>
+                                <span id="dnaDecorationSmall"></span>
+                                <span id="dnaAnimation"></span>
+                                <span id="dnaSpecial"></span>
                         </b>
                     </div>
                 </div>
-                <div class="col-lg-7 cattributes m-2 light-b-shadow ">
+                <div class="col-lg-7 birdattributes m-2 light-b-shadow ">
                     <button type="button" id="colorsButton" class="m-2 btn btn-primary light-b-shadow"><b>Colors</b></button>
                     <button type="button" id="attributesButton" class="m-2 btn btn-primary light-b-shadow"><b>Attributes</b></button>
                     <div class="form-group">
-                        <div class="catcolors"><br><br>
-                            <label for="formControlRange"><b>Head | Body</b><span class="badge badge-dark ml-2" id="headcode"></span></label>
-                            <input type="range" min="10" max="99" class="form-control-range" id="bodycolor">
-                            <label for="formControlRange"><b>Mouth | Belly | Tail</b><span class="badge badge-dark ml-2" id="mouthcode"></span></label>
-                            <input type="range" min="00" max="99" class="form-control-range" id="mouthcolor">
-                            <label for="formControlRange"><b>Eyes</b><span class="badge badge-dark ml-2" id="eyescode"></span></label>
-                            <input type="range" min="00" max="99" class="form-control-range" id="eyescolor">
-                            <label for="formControlRange"><b>Ears | Paws</b><span class="badge badge-dark ml-2" id="earscode"></span></label>
-                            <input type="range" min="00" max="99" class="form-control-range" id="earscolor">
-                        </div>
-                        <div class="catattributes"><br>
-                            <label for="formControlRange"><b>Eye Design</b><span class="badge badge-dark ml-2" id="eyeDesign"></span></label>
-                            <input type="range" min="0" max="9" class="form-control-range" id="eyesStyle">
-                            <label for="formControlRange"><b>Decoration Design</b><span class="badge badge-dark ml-2" id="decorationDesign"></span></label>
-                            <input type="range" min="0" max="7" class="form-control-range" id="decorationStyle">
-                            <label for="formControlRange"><b>Decoration Pattern</b></label><br>
+                        <div class="colorscreen"><br><br>
+                            <label for="formControlRange"><b>Top Feathers</b><span class="badge badge-dark ml-2" id="topfeatherstext"></span></label>
+                            <input type="range" min="10" max="99" class="form-control-range" id="topfeatherscolor">
+                            <label for="formControlRange"><b>Body Feathers</b><span class="badge badge-dark ml-2" id="bodyfeatherstext"></span></label>
+                            <input type="range" min="00" max="99" class="form-control-range" id="bodyfeatherscolor">
+                            <label for="formControlRange"><b>Beak - Top</b><span class="badge badge-dark ml-2" id="topbeaktext"></span></label>
+                            <input type="range" min="00" max="99" class="form-control-range" id="topbeakcolor">
+                            <label for="formControlRange"><b>Beak - Bottom</b><span class="badge badge-dark ml-2" id="bottombeaktext"></span></label>
+                            <input type="range" min="00" max="99" class="form-control-range" id="bottombeakcolor">
+                         </div>
+                        <div class="attributes"><br>
+                            <label for="formControlRange"><b>Eyes Shape</b><span class="badge badge-dark ml-2" id="eyesshapetext"></span></label>
+                            <input type="range" min="0" max="9" class="form-control-range" id="eyesstyle">
+                            <label for="formControlRange"><b>Decoration Pattern</b><span class="badge badge-dark ml-2" id="decorationpatterntext"></span></label>
+                            <input type="range" min="0" max="7" class="form-control-range" id="decorationstyle">
+                            <label for="formControlRange"><b>Decoration</b></label><br>
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="formControlRange"><b>Middle Color</b><span class="badge badge-dark ml-2" id="middledecorationcode"></span></label>
-                                    <input type="range" min="00" max="99" class="form-control-range" id="middledecorationcolor">
+                                <div class="col-md-4 mb-3">
+                                    <label for="formControlRange"><b>At Eyes</b><span class="badge badge-dark ml-2" id="ateyestext"></span></label>
+                                    <input type="range" min="00" max="99" class="form-control-range" id="ateyescolor">
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="formControlRange"><b>Side Color</b><span class="badge badge-dark ml-2" id="sidesdecorationcode"></span></label>
-                                    <input type="range" min="00" max="99" class="form-control-range" id="sidesdecorationcolor">
+                                <div class="col-md-4 mb-3">
+                                    <label for="formControlRange"><b>Middle</b><span class="badge badge-dark ml-2" id="middletext"></span></label>
+                                    <input type="range" min="00" max="99" class="form-control-range" id="middlecolor">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="formControlRange"><b>Small</b><span class="badge badge-dark ml-2" id="smalltext"></span></label>
+                                    <input type="range" min="00" max="99" class="form-control-range" id="smallcolor">
                                 </div>
                             </div>
-                            <label for="formControlRange"><b>Animation</b><span class="badge badge-dark ml-2" id="animationType"></span></label>
-                            <input type="range" min="0" max="9" class="form-control-range" id="animationStyle">
+                            <label for="formControlRange"><b>Animation</b><span class="badge badge-dark ml-2" id="animationtext"></span></label>
+                            <input type="range" min="0" max="9" class="form-control-range" id="animationstyle">
+                            <label for="formControlRange"><b>Special</b><span class="badge badge-dark ml-2" id="specialtext"></span></label>
+                            <input type="range" min="0" max="9" class="form-control-range" id="specialstyle">
                         </div>
                     </div>
                 </div>
-                <button type="button" id="randomizeButton" class="m-2 btn btn-primary light-b-shadow"><b>Create Random</b></button>
+                <button type="button" id="randomizeButton" class="m-2 btn btn-primary light-b-shadow"><b>Randomize Colors</b></button>
                 <button type="button" id="defaultButton" class="m-2 btn btn-primary light-b-shadow"><b>Back to Default</b></button>
-                <button type="button" id="blockchainButton" class="m-2 btn btn-success light-b-shadow"><b>Transfer to Blockchain</b></button>
+                <button type="button" id="blockchainButton" class="m-2 btn btn-success light-b-shadow"><b>Send To Blockchain</b></button>
             </div>
         </div>
         </div>
@@ -124,6 +129,6 @@
         </footer>
     </body>
     <script src="assets/js/colors.js"></script>
-    <script src="assets/js/catSettings.js"></script>
-    <script src="assets/js/catFactory.js"></script>
-    </html>
+    <script src="assets/js/birdSettings.js"></script>
+    <script src="assets/js/birdStudio.js"></script>
+</html>
