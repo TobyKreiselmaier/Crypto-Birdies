@@ -1,8 +1,162 @@
+2 Tabs - colors, cattributes
+
 .movingHead {
     animation: moveHead 1s infinite;
 }
 
 @keyframes moveHead {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.waggingTail {
+    animation: wagTail 1s infinite;   
+}
+
+@keyframes wagTail {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.clappingPaws {
+    animation: clapPaws 1s infinite;
+}
+
+@keyframes clapPaws {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.twitchingEar {
+    animation: twitchEar 1s infinite;
+}
+
+@keyframes twitchEar {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.noddingHead {
+    animation: nodHead 1s infinite;
+}
+
+@keyframes nodHead {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.twinklingEye {
+    animation: twinkleEye 1s infinite;
+}
+
+@keyframes twinkleEye {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.wrinklingNose {
+    animation: wrinkleNose 1s infinite;
+}
+
+@keyframes wrinkleNose {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.laughingMouth {
+    animation: laughter 1s infinite;
+}
+
+@keyframes laughter {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(5deg);
+    }
+    60% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.attentiveEars {
+    animation: attention 1s;
+}
+
+@keyframes attention {
     0% {
         transform: rotate(0deg);
     }

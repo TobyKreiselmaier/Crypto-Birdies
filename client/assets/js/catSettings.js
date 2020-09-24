@@ -1,6 +1,6 @@
 var colors = Object.values(allColors())
 
-var defaultDNA = {
+const defaultDNA = {
     //Colors
     "headColor" : 57,
     "mouthColor" : 28,
@@ -11,12 +11,18 @@ var defaultDNA = {
     "decorationPattern" : 4,
     "decorationMidcolor" : 35,
     "decorationSidescolor" : 13,
-    "animation" :  1,
-    "lastNum" :  1
+    "animation" : 5,
+    "lastNum" : 1
     }
 
 // populate DNA when page loads
 $(document).ready(function() {
+  setDefaultDNA();
+  $('.catcolors').show();
+  $('.catattributes').hide();
+});
+
+function setDefaultDNA(){
   $('#dnabody').html(defaultDNA.headColor);
   $('#dnamouth').html(defaultDNA.mouthColor);
   $('#dnaeyes').html(defaultDNA.eyesColor);
@@ -28,7 +34,7 @@ $(document).ready(function() {
   $('#dnaanimation').html(defaultDNA.animation);
   $('#dnaspecial').html(defaultDNA.lastNum);
   renderCat(defaultDNA);
-});
+}
 
 function getDna(){
     var dna = '';
@@ -62,10 +68,21 @@ function renderCat(dna){
     $('#middledecorationcolor').val(dna.decorationMidcolor);
     sidesDecorationColor(colors[dna.decorationSidescolor],dna.decorationSidescolor);
     $('#middledecorationcolor').val(dna.decorationSidescolor);
-
+    animationVariation(dna.animation);
+    $('#animationStyle').val(dna.animation);
 }
 
 // Event listeners
+$('#colorsButton').click(()=>{
+  $('.catcolors').show();
+  $('.catattributes').hide();
+});
+
+$('#attributesButton').click(()=>{
+  $('.catcolors').hide();
+  $('.catattributes').show();
+});
+
 $('#bodycolor').change(()=>{
     var colorVal = $('#bodycolor').val();
     headColor(colors[colorVal],colorVal);
@@ -104,4 +121,21 @@ $('#middledecorationcolor').change(()=>{
 $('#sidesdecorationcolor').change(()=>{
   var colorVal = $('#sidesdecorationcolor').val();
   sidesDecorationColor(colors[colorVal],colorVal);
+});
+
+$('#animationStyle').change(()=>{
+  var variation = parseInt($('#animationStyle').val());
+  animationVariation(variation);
+});
+
+$('#randomizeButton').click(()=>{
+  createRandomDna();
+});
+
+$('#defaultButton').click(()=>{
+  setDefaultDNA();
+});
+
+$('#blockchainButton').click(()=>{
+  //code later.
 });

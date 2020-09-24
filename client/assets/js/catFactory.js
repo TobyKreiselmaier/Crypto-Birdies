@@ -38,7 +38,6 @@ function earsColor(color,code) {
 }
 
 function eyesVariation(num) {
-
     $('#dnashape').html(num)
     switch (num) {
         case 0:
@@ -186,8 +185,8 @@ function decorationVariation(num) {
             decorationType7();
             break;
         default:
-            $('#decorationDesign').html('Basic');
             basicDecoration();
+            $('#decorationDesign').html('Basic');
     }
 }
 
@@ -249,4 +248,102 @@ function sidesDecorationColor(color,code) {
     $('.cat__head-dots_first, .cat__head-dots_second').css('background-color', '#' + color)  //This changes the color of the side decoration
     $('#sidesdecorationcode').html('code: '+ code) //This updates text of the badge next to the slider
     $('#dnadecorationSides').html(code) //This updates the body color part of the DNA that is displayed below the cat
+}
+
+function animationVariation(num) {
+    $('#dnaanimation').html(num)
+    switch (num) {
+        case 0:
+            resetAnimation();
+            $('#animationType').html('None');
+            break;
+        case 1:    
+            resetAnimation();
+            $('#animationType').html('Moving Head');
+            animationType1();
+            break;
+        case 2:    
+            resetAnimation();
+            $('#animationType').html('Wagging Tail');
+            animationType2();
+            break;
+        case 3:    
+            resetAnimation();
+            $('#animationType').html('Clapping Paws');
+            animationType3();
+            break;
+        case 4:    
+            resetAnimation();
+            $('#animationType').html('Twitching Ear');
+            animationType4();
+            break;
+        case 5:    
+            resetAnimation();
+            $('#animationType').html('Nodding Head');
+            animationType5();
+            break;
+        case 6:    
+            resetAnimation();
+            $('#animationType').html('Twinkling Eye');
+            animationType6();
+            break;
+        case 7:    
+            resetAnimation();
+            $('#animationType').html('Wrinkling Nose');
+            animationType7();
+            break;
+        case 8:    
+            resetAnimation();
+            $('#animationType').html('Laughter');
+            animationType8();
+            break;
+        case 9:    
+            resetAnimation();
+            $('#animationType').html('Attention');
+            animationType9();
+            break;
+        default:
+            resetAnimation();
+            $('#animationType').html('None');
+    }
+}
+
+function resetAnimation() {
+    $('*').removeClass('movingHead waggingTail clappingPaws twitchingEar noddingHead twinklingEye wrinklingNose laughingMouth attentiveEars');
+}
+
+function animationType1() {
+    $('#head').addClass('movingHead');
+}
+
+function animationType2() {
+    $('#tail').addClass('waggingTail');
+}
+
+function animationType3() {
+    $('.cat__paw-left_inner, cat__paw-right_inner').addClass('clappingPaws');
+}
+
+function animationType4() {
+    $('#leftEar').addClass('twitchingEar');
+}
+
+function animationType5() {
+    $('#head').addClass('noddingHead');
+}
+
+function animationType6() {
+    $('.cat__eye--right').addClass('twinklingEye');
+}
+
+function animationType7() {
+    $('.cat__nose').addClass('wrinklingNose');
+}
+
+function animationType8() {
+    $('.cat__mouth-left, .cat__mouth-right').addClass('laughingMouth');
+}
+
+function animationType9() {
+    $('.cat__ear').addClass('attentiveEars');
 }
