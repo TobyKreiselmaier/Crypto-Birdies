@@ -1,29 +1,27 @@
 var colors = Object.values(allColors())
 
 const defaultDNA = {
-    //Colors
     "topFeatherColor": 57,
     "bodyFeatherColor": 57,
     "topBeakColor": 83,
     "bottomBeakColor": 73,
-    //Attributes
     "eyesShape": 0,
-    "decorationPattern": 1,
+    "decorationPattern": 0,
     "decorationColor": 35,
     "decorationMidColor": 35,
     "decorationSmallColor": 35,
-    "animation": 1,
-    "special" : 1
+    "animation": 0,
+    "special" : 0
     }
 
 // populate default DNA and Color Screen when page loads
 $(document).ready(function() {
   $('.colorscreen').show();
   $('.attributes').hide();
-  setDefaultDNA();
+  setDefaultDna();
 });
 
-function setDefaultDNA(){
+function setDefaultDna(){
   $('#dnaTopFeather').html(defaultDNA.topFeatherColor);
   $('#dnaBodyFeather').html(defaultDNA.bodyFeatherColor);
   $('#dnaTopBeak').html(defaultDNA.topBeakColor);
@@ -45,13 +43,30 @@ function getDna(){
     dna += $('#dnaTopBeak').html();
     dna += $('#dnaBottomBeak').html();
     dna += $('#dnaEyesShape').html();
-    dna += $('#dnadecorationPattern').html();
+    dna += $('#dnaDecorationPattern').html();
     dna += $('#dnaDecorationAtEyes').html();
     dna += $('#dnaDecorationMid').html();
     dna += $('#dnaDecorationSmall').html();
     dna += $('#dnaAnimation').html();
     dna += $('#dnaSpecial').html();
     return parseInt(dna);
+}
+
+function setRandomDna(){
+  var randomDna = {
+    "topFeatherColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "bodyFeatherColor": Math.floor(Math.random()*100),// number from 0 to 99
+    "topBeakColor": Math.floor(Math.random()*100),// number from 0 to 99 for topBeakColor
+    "bottomBeakColor": Math.floor(Math.random()*100),// number from 0 to 99
+    "eyesShape": Math.floor(Math.random()*8),// number from 0 to 7
+    "decorationPattern": Math.floor(Math.random()*8),// number from 0 to 7
+    "decorationColor": Math.floor(Math.random()*100),// number from 0 to 99
+    "decorationMidColor": Math.floor(Math.random()*100),// number from 0 to 99
+    "decorationSmallColor": Math.floor(Math.random()*100),// number from 0 to 99
+    "animation": Math.floor(Math.random()*8),// number from 0 to 7
+    "special" : Math.floor(Math.random()*10)// number from 0 to 9
+    };
+  renderBird(randomDna);
 }
 
 function renderBird(dna){
@@ -67,7 +82,7 @@ function renderBird(dna){
     $('#eyesstyle').val(dna.eyesShape);
     decorationVariation(dna.decorationPattern);
     $('#decorationstyle').val(dna.decorationPattern);
-    decorationColor(colors[dna.decorationColor],dna.decorationColor);
+    decorationMainColor(colors[dna.decorationColor],dna.decorationColor);
     $('#ateyescolor').val(dna.decorationColor);
     middleColor(colors[dna.decorationMidColor],dna.decorationMidColor);
     $('#middlecolor').val(dna.decorationMidColor);
@@ -83,11 +98,13 @@ function renderBird(dna){
 $('#colorsButton').click(()=>{
   $('.colorscreen').show();
   $('.attributes').hide();
+  $('.angryBird_Red').css('top', '15em');
 });
 
 $('#attributesButton').click(()=>{
   $('.colorscreen').hide();
   $('.attributes').show();
+  $('.angryBird_Red').css('top', '25em');
 });
 
 $('#topfeatherscolor').change(()=>{
@@ -120,19 +137,19 @@ $('#decorationstyle').change(()=>{
   decorationVariation(shape);
 });
 
-$('#attopBeakColor').change(()=>{
-  var colorVal = $('#attopBeakColor').val();
-  middleDecorationColor(colors[colorVal],colorVal);
+$('#ateyescolor').change(()=>{
+  var colorVal = $('#ateyescolor').val();
+  decorationMainColor(colors[colorVal],colorVal);
 });
 
 $('#middlecolor').change(()=>{
   var colorVal = $('#middlecolor').val();
-  sidesDecorationColor(colors[colorVal],colorVal);
+  middleColor(colors[colorVal],colorVal);
 });
 
 $('#smallcolor').change(()=>{
   var colorVal = $('#smallcolor').val();
-  sidesDecorationColor(colors[colorVal],colorVal);
+  smallColor(colors[colorVal],colorVal);
 });
 
 $('#animationstyle').change(()=>{
@@ -141,16 +158,15 @@ $('#animationstyle').change(()=>{
 });
 
 $('#specialstyle').change(()=>{
-  var variation = parseInt($('#specialstyle').val());
-  specialVariation(variation);
+  //code later.
 });
 
 $('#randomizeButton').click(()=>{
-  genColors();
+  setRandomDna();
 });
 
 $('#defaultButton').click(()=>{
-  setDefaultDNA();
+  setDefaultDna();
 });
 
 $('#blockchainButton').click(()=>{

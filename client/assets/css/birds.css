@@ -8,7 +8,7 @@ body {
 }
 
 .dnaDiv {
-	font-size: 15px;
+	font-size: 18px;
 }
 
 .angryBird_Red {
@@ -18,15 +18,10 @@ body {
 	top: 15em;
 }
 
-.tail {
+.tail_top {
 	border-color: transparent transparent transparent black;
 	border-style: solid;
-	height: 0;
 	position: absolute;
-	width: 0;
-}
-
-.tail_top {
 	border-width: 2em 0em 2em 10em;
 	left: -5em;
 	top: 16.5em;
@@ -34,6 +29,9 @@ body {
 }
 
 .tail_middle {
+	border-color: transparent transparent transparent black;
+	border-style: solid;
+	position: absolute;
 	border-width: 3em 0em 2em 15em;
 	left: -8em;
 	top: 18em;
@@ -41,6 +39,9 @@ body {
 }
 
 .tail_bottom {
+	border-color: transparent transparent transparent black;
+	border-style: solid;
+	position: absolute;
 	border-width: 2em 0em 1em 7em;
 	left: -4em;
 	top: 21.2em;
@@ -76,11 +77,11 @@ body {
 }
 
 .bird_body {
-	border: .6em solid black;
+	border: 1em solid black;
 	border-radius: 100% / 120% 100% 95% 85%;
 	height: 42em;
 	position:absolute;
-	width: 43em;
+	width: 45em;
 	z-index: 5;
 }
 
@@ -178,7 +179,7 @@ body {
 	height: 10.7em;
 	position: absolute;
 	width: 10.7em;
-	z-index: 5
+	z-index: 6
 }
 
 .pupil {
@@ -257,5 +258,5 @@ body {
 	top: 20em;
 	transform: rotate(120deg) skewY(20deg) scale(1.5, 1.5);
 	width: 6em;
-	z-index: 9;
+	z-index: 5;
 }
