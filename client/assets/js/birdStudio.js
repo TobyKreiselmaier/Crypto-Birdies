@@ -365,7 +365,3 @@ function animationType7() {
     $('.feather_top').addClass('topAttention');
     $('.feather_bottom').addClass('bottomAttention');
 }
-
-function specialVariation(){
-    //code later
-}

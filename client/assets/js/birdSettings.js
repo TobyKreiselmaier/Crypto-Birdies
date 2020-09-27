@@ -11,10 +11,9 @@ const defaultDNA = {
     "decorationMidColor": 35,
     "decorationSmallColor": 35,
     "animation": 0,
-    "special" : 0
     }
 
-// populate default DNA and Color Screen when page loads
+// populate default DNA and show Color Screen when page loads
 $(document).ready(function() {
   $('.colorscreen').show();
   $('.attributes').hide();
@@ -32,7 +31,6 @@ function setDefaultDna(){
   $('#dnaDecorationMid').html(defaultDNA.decorationMidColor);
   $('#dnaDecorationSmall').html(defaultDNA.decorationSmallColor);
   $('#dnaAnimation').html(defaultDNA.animation);
-  $('#dnaSpecial').html(defaultDNA.special);
   renderBird(defaultDNA);
 }
 
@@ -48,7 +46,6 @@ function getDna(){
     dna += $('#dnaDecorationMid').html();
     dna += $('#dnaDecorationSmall').html();
     dna += $('#dnaAnimation').html();
-    dna += $('#dnaSpecial').html();
     return parseInt(dna);
 }
 
@@ -64,7 +61,6 @@ function setRandomDna(){
     "decorationMidColor": Math.floor(Math.random()*100),// number from 0 to 99
     "decorationSmallColor": Math.floor(Math.random()*100),// number from 0 to 99
     "animation": Math.floor(Math.random()*8),// number from 0 to 7
-    "special" : Math.floor(Math.random()*10)// number from 0 to 9
     };
   renderBird(randomDna);
 }
@@ -90,8 +86,6 @@ function renderBird(dna){
     $('#smallcolor').val(dna.decorationSmallColor);
     animationVariation(dna.animation);
     $('#animationstyle').val(dna.animation);
-    specialVariation(dna.special);
-    $('#specialtyle').val(dna.special);
 }
 
 // Event listeners
@@ -155,10 +149,6 @@ $('#smallcolor').change(()=>{
 $('#animationstyle').change(()=>{
   var variation = parseInt($('#animationstyle').val());
   animationVariation(variation);
-});
-
-$('#specialstyle').change(()=>{
-  //code later.
 });
 
 $('#randomizeButton').click(()=>{

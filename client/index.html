@@ -15,13 +15,19 @@
       <link rel="stylesheet" href="assets/css/frontend.css">
     </head>
     <body>
+        <div class="video-container">
+            <video autoplay loop muted width="100%">
+                <source src="assets/media/birdvideo.mp4" type="video/mp4" />
+            </video>
+        </div>
+
         <div class="container p-5">
             <div align="center">
                 <h1 class="c-white"><b>Angry Bird Design Studio</b></h1>
                 <p class="c-white">Create Your Own Angry Bird</p>
             </div>
             <div class="row">
-                <div class="col-lg-4 birdBox m-2 light-b-shadow">
+                <div id="rainbox" class="col-lg-4 birdBox m-2 light-b-shadow">
                     <div class="angryBird_Red">
                         <div class="tail">
                             <div class="tail tail_top"></div>
@@ -111,8 +117,6 @@
                             </div>
                             <label for="formControlRange"><b>Animation</b><span class="badge badge-dark ml-2" id="animationtext"></span></label>
                             <input type="range" min="0" max="7" class="form-control-range" id="animationstyle">
-                            <label for="formControlRange"><b>Special</b><span class="badge badge-dark ml-2" id="specialtext"></span></label>
-                            <input type="range" min="0" max="9" class="form-control-range" id="specialstyle">
                         </div>
                     </div>
                 </div>

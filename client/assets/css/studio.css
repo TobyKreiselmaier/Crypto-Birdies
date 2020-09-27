@@ -1,3 +1,16 @@
+video { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+    transition: 1s opacity;
+}
+
 .birdBox {
     background-color: #e2efff;
     border-radius: 10px;
@@ -16,5 +29,4 @@
     position: absolute;
     left:20px;
     bottom: 5px;
-
 }
