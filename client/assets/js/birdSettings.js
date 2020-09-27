@@ -1,3 +1,4 @@
+ethereum.autoRefreshOnNetworkChange = false;
 var colors = Object.values(allColors())
 
 const defaultDNA = {

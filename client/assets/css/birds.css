@@ -3,6 +3,10 @@ html {
     overflow-y: scroll;
 }
 
+body {
+	background: teal;
+}
+
 h1 {
 	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
