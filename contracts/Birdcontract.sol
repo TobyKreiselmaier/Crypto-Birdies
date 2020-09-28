@@ -9,8 +9,8 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
 
     using SafeMath for uint256;
 
-    string public constant name = "AngryBirdontheBlock";
-    string public constant symbol = "ABBX";
+    string private _name;
+    string private _symbol;
 
     struct Bird {
         uint256 genes;
@@ -20,28 +20,33 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
         uint16 generation;
     }
 
-    Bird[] birdies; //actual tokens are in this array;
+    Bird[] birdies;
 
-    mapping(uint256 => address) public birdOwner;//id will return owner of token;
+    mapping(uint256 => address) public birdOwner;
     mapping(address => uint256) ownsNumberOfTokens;
 
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+
+    constructor (string memory name, string memory symbol) public {
+        _name = name;
+        _symbol = symbol;
+    }
 
     function balanceOf(address owner) external view returns (uint256 balance) {
         return ownsNumberOfTokens[owner];
     }
 
     function totalSupply() external view returns (uint256 total) {
-        return birdies.length();
+        return birdies.length;
     }
 
-    function name() external view returns (string memory tokenName) {
-        return name;
+    function name() public view returns (string memory){
+        return _name;
     }
 
-    function symbol() external view returns (string memory tokenSymbol) {
-        return symbol;
+    function symbol() public view returns (string memory){
+        return _symbol;
     }
 
     function ownerOf(uint256 tokenId) external view returns (address owner) {
@@ -52,9 +57,9 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
         require(to != address(0), "Use the burn function to burn tokens!");
         require(to != address(this), "Wrong address, try again!");
         require(birdOwner[tokenId] == msg.sender);
-        birdOwner[tokenID] = to;
+        birdOwner[tokenId] = to;
         ownsNumberOfTokens[msg.sender] = ownsNumberOfTokens[msg.sender].sub(1);
         ownsNumberOfTokens[to] = ownsNumberOfTokens[to].add(1);
         emit Transfer(msg.sender, to, tokenId);
     }
-};
+}
