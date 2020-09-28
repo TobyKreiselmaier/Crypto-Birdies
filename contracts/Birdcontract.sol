@@ -9,10 +9,31 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
 
     using SafeMath for uint256;
 
+    string public constant name = "AngryBirdsontheBlock";
+    string public constant symbol = "ABBX";
+
+    struct Bird {
+        uint256 genes;
+        uint64 birthTime;
+        uint32 mumId;
+        uint32 dadId;
+        uint16 generation;
+    }
+
+    Bird[] birdies;
+
+    mapping(uint256 => address) public birdIndexToOwner;
+    mapping(address => uint256) addressOwnsNumberOfTokens;
+
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
 
-    function balanceOf(address owner) external view returns (uint256 balance);
+
+
+
+    function balanceOf(address owner) external view returns (uint256 balance) {
+        return addressOwnsNumberOfTokens[owner];
+    };
 
     /*
      * @dev Returns the total number of tokens in circulation.
