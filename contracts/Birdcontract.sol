@@ -9,36 +9,9 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
 
     using SafeMath for uint256;
 
-    string private _name;
-    string private _symbol;
-    uint8 private _decimals;
-    
-    uint256 private _totalSupply;
-    
-    mapping (address => uint256) private _balances;
+    event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+    event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
 
-    constructor(string memory name, string memory symbol, uint8 decimals) public {
-        _name = name;
-        _symbol = symbol;
-        _decimals = decimals;
-    }
-
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
-
-interface IERC721 {
-    /**
-     * @dev Emitted when `tokenId` token is transfered from `from` to `to`.
-     */
-    
-
-    /**
-     * @dev Emitted when `owner` enables `approved` to manage the `tokenId` token.
-     */
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
-
-    /**
-     * @dev Returns the number of tokens in ``owner``'s account.
-     */
     function balanceOf(address owner) external view returns (uint256 balance);
 
     /*
@@ -77,8 +50,6 @@ interface IERC721 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(address to, uint256 tokenId) external;
-}
 
 
     function name() public view returns (string memory){
