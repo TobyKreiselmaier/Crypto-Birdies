@@ -24,11 +24,18 @@ contract("Birdcontract", async accounts => {
 
   });
 
+  it("should return the correct owner of the token", async () => {
+    var instance = await Birdcontract.deployed();
+    var testOwner = await instance.ownerOf(0);
+    assert.equal(testOwner, accounts[0], "The owner of the token is incorrect");
+    //a bird was created in the balanceOf() test.
+  });
+
   it("should record the total supply of tokens correctly", async () => {
     var instance = await Birdcontract.deployed();
     var supply = await instance.totalSupply();
     assert.equal(supply, 1, "The record of total supply is flawed and can't be trusted");
-    //a bird was created in the previous test.
+    //a bird was created in the balanceOf() test.
   });
 
   it("should transfer a token correctly", async () => {
@@ -47,5 +54,6 @@ contract("Birdcontract", async accounts => {
     assert.equal(numberTokensSenderEnd, numberTokensSenderStart--, "Token balance sender is not updated correctly");
     var numberTokensRecipientEnd = await instance.balanceOf(accounts[1]);
     assert.equal(numberTokensRecipientEnd, numberTokensRecipientStart++, "Token balance sender is not updated correctly");
+    //a bird was created in the balanceOf() test.
   });
 })
