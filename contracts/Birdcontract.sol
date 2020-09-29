@@ -40,7 +40,7 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
     function createBirdGen0(uint256 _genes) public onlyOwner returns (uint256) {
         require(gen0Counter <= maxGen0Birds, "Maximum number of Birds is reached. No new birds allowed!");
         gen0Counter = gen0Counter.add(1);
-        return _createBird(0, 0, 0, _genes, address(this));
+        return _createBird(0, 0, 0, _genes, msg.sender);
     }
 
     function _createBird(
@@ -57,9 +57,9 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
             dadId: uint32(_dadId),
             generation: uint16(_generation)
         });
-        uint256 newBirdId = birdies.push(_bird).sub(1);//we want to start with zero.
+        uint256 newBirdId = birdies.push(_bird).sub(1);//want to start with zero.
         emit Birth(_owner, newBirdId, _mumId, _dadId, _genes);
-        _transfer(address(0), _owner, newBirdId);//transfer from nowhere. Creation of a bird
+        _transfer(address(0), _owner, newBirdId);//transfer from nowhere. Creation event.
         return newBirdId;
     }
 
