@@ -1,5 +1,5 @@
 import "./IERC721.sol";
-import "./Safemath.sol";
+import "./SafeMath.sol";
 import "./Ownable.sol";
 import "./Destroyable.sol";
 
@@ -32,7 +32,7 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
     event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
     event Birth(address owner, uint256 birdId, uint256 mumId, uint256 dadId, uint256 genes);
 
-    constructor (string memory name, string memory symbol) public {
+    constructor(string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
     }
