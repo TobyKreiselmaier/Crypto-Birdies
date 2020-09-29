@@ -94,6 +94,7 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
     }
 
     function ownerOf(uint256 tokenId) external view returns (address owner) {
+        require(tokenId != "", "Token ID doesn't exist.");
         return birdOwner[tokenId];
     }
 
