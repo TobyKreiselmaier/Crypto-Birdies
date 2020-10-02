@@ -1,59 +1,8 @@
-html {
-    box-sizing: border-box;
-    overflow-y: scroll;
-}
-
-body {
-	background: teal;
-}
-
-h1 {
-	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-}
-
-p {
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.dnaDiv {
-	font-size: 18px;
-}
-
 .angryBird_Red {
 	left:10em;
 	font-size: 5px;
 	position:relative;
 	top: 15em;
-}
-
-.tail_top {
-	border-color: transparent transparent transparent black;
-	border-style: solid;
-	position: absolute;
-	border-width: 2em 0em 2em 10em;
-	left: -5em;
-	top: 16.5em;
-	transform: rotate(45deg);
-}
-
-.tail_middle {
-	border-color: transparent transparent transparent black;
-	border-style: solid;
-	position: absolute;
-	border-width: 3em 0em 2em 15em;
-	left: -8em;
-	top: 18em;
-	transform: rotate(12deg);
-}
-
-.tail_bottom {
-	border-color: transparent transparent transparent black;
-	border-style: solid;
-	position: absolute;
-	border-width: 2em 0em 1em 7em;
-	left: -4em;
-	top: 21.2em;
-	transform: rotate(-35deg);
 }
 
 .feather_top {
@@ -267,4 +216,34 @@ p {
 	transform: rotate(120deg) skewY(20deg) scale(1.5, 1.5);
 	width: 6em;
 	z-index: 5;
+}
+
+.tail_top {
+	border-color: transparent transparent transparent black;
+	border-style: solid;
+	position: absolute;
+	border-width: 2em 0em 2em 10em;
+	left: -5em;
+	top: 16.5em;
+	transform: rotate(45deg);
+}
+
+.tail_middle {
+	border-color: transparent transparent transparent black;
+	border-style: solid;
+	position: absolute;
+	border-width: 3em 0em 2em 15em;
+	left: -8em;
+	top: 18em;
+	transform: rotate(12deg);
+}
+
+.tail_bottom {
+	border-color: transparent transparent transparent black;
+	border-style: solid;
+	position: absolute;
+	border-width: 2em 0em 1em 7em;
+	left: -4em;
+	top: 21.2em;
+	transform: rotate(-35deg);
 }

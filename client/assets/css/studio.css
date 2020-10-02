@@ -1,3 +1,24 @@
+html {
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+body {
+	background: teal;
+}
+
+h1 {
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+p {
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.dnaDiv {
+	font-size: 18px;
+}
+
 .video-container { 
     position: fixed;
     top: 50%;

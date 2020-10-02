@@ -1,0 +1,145 @@
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Angry Birds on the Block</title>
+      <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
+      <script src="assets/js/web3.min.js"></script>
+      <script src="./abi.js"></script>
+      <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+      <script src="assets/bootstrap/js/popper.js"></script>
+      <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="assets/css/animations_red.css">
+      <link rel="stylesheet" href="assets/css/mystyle.css">
+      <link rel="stylesheet" href="assets/css/birds_red.css">
+      <link rel="stylesheet" href="assets/css/colors.css">
+      <link rel="stylesheet" href="assets/css/studio.css">
+      <link rel="stylesheet" href="assets/css/frontend.css">
+    </head>
+    <body>
+<!--    <div class="video-container">
+        <iframe height="100%" width="100%" frameborder="0" src="https://www.youtube.com/embed/B_lmVleDA4o?&controls=0&autoplay=1&loop=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>-->
+        <div class="container p-5">
+            <div align="center">
+                <h1 class="c-white"><b>Angry Bird Design Studio</b></h1>
+                <p class="c-white">Create Your Own Angry Bird</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 birdBox m-2 light-b-shadow">
+                    <div class="angryBird_Red">
+                        <div class="tail">
+                            <div class="tail tail_top"></div>
+                            <div class="tail tail_middle"></div>
+                            <div class="tail tail_bottom"></div>
+                        </div>
+                        <div class="feather">
+                            <div class="feather feather_top"></div>
+                            <div class="feather feather_bottom"></div>
+                        </div>
+                        <div class="bird_body">
+                            <div class="bird_body bird_body_inner"></div>
+                            <div class="bird_body deco_1"></div>
+                            <div class="bird_body deco_2"></div>
+                            <div class="bird_body deco_3"></div>
+                            <div class="bird_body deco_4"></div>
+                        </div>
+                        <div class="belly"></div>
+                        <div class="face">
+                            <div class="eye eye_right">
+                                <div class="eyebrow"></div>
+                                <div class="pupil"></div>
+                            </div>
+                            <div class="eye eye_left">
+                                <div class="eyebrow"></div>
+                                <div class="pupil"></div>
+                            </div>
+                            <div class="beak">
+                                <div class="beak beak_upper"></div>
+                                <div class="beak beak_lower"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <div class="dnaDiv" id="catDNA">
+                        <b>
+                            DNA:
+                                <span id="dnaTopFeather"></span>
+                                <span id="dnaBodyFeather"></span>
+                                <span id="dnaTopBeak"></span>
+                                <span id="dnaBottomBeak"></span>
+                                <span id="dnaBelly"></span>
+                                <span id="dnaEyesShape"></span>
+                                <span id="dnaDecorationPattern"></span>
+                                <span id="dnaDecorationAtEye"></span>
+                                <span id="dnaDecorationMid"></span>
+                                <span id="dnaDecorationSmall"></span>
+                                <span id="dnaAnimation"></span>
+                                <span id="dnaSpecial"></span>
+                        </b>
+                    </div>
+                </div>
+                <div class="col-lg-7 birdattributes m-2 light-b-shadow ">
+                    <button type="button" id="colorsButton" class="m-2 btn btn-primary light-b-shadow"><b>Colors</b></button>
+                    <button type="button" id="attributesButton" class="m-2 btn btn-primary light-b-shadow"><b>Attributes</b></button>
+                    <div class="form-group">
+                        <div class="colorscreen"><br><br>
+                            <label for="formControlRange"><b>Top Feathers</b><span class="badge badge-dark ml-2" id="topfeatherstext"></span></label>
+                            <input type="range" min="10" max="99" class="form-control-range" id="topfeatherscolor">
+                            <label for="formControlRange"><b>Body Feathers</b><span class="badge badge-dark ml-2" id="bodyfeatherstext"></span></label>
+                            <input type="range" min="00" max="99" class="form-control-range" id="bodyfeatherscolor">
+                            <label for="formControlRange"><b>Beak - Top</b><span class="badge badge-dark ml-2" id="topbeaktext"></span></label>
+                            <input type="range" min="00" max="99" class="form-control-range" id="topbeakcolor">
+                            <label for="formControlRange"><b>Beak - Bottom</b><span class="badge badge-dark ml-2" id="bottombeaktext"></span></label>
+                            <input type="range" min="00" max="99" class="form-control-range" id="bottombeakcolor">
+                         </div>
+                        <div class="attributes"><br>
+                            <label for="formControlRange"><b>Eyes Shape</b><span class="badge badge-dark ml-2" id="eyesshapetext"></span></label>
+                            <input type="range" min="0" max="7" class="form-control-range" id="eyesstyle">
+                            <label for="formControlRange"><b>Decoration Pattern</b><span class="badge badge-dark ml-2" id="decorationpatterntext"></span></label>
+                            <input type="range" min="0" max="7" class="form-control-range" id="decorationstyle">
+                            <label for="formControlRange"><b>Decoration</b></label><br>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="formControlRange"><b>At Eyes</b><span class="badge badge-dark ml-2" id="ateyestext"></span></label>
+                                    <input type="range" min="00" max="99" class="form-control-range" id="ateyescolor">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="formControlRange"><b>Middle</b><span class="badge badge-dark ml-2" id="middletext"></span></label>
+                                    <input type="range" min="00" max="99" class="form-control-range" id="middlecolor">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="formControlRange"><b>Small</b><span class="badge badge-dark ml-2" id="smalltext"></span></label>
+                                    <input type="range" min="00" max="99" class="form-control-range" id="smallcolor">
+                                </div>
+                            </div>
+                            <label for="formControlRange"><b>Animation</b><span class="badge badge-dark ml-2" id="animationtext"></span></label>
+                            <input type="range" min="0" max="7" class="form-control-range" id="animationstyle">
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <div class="btn-group float-left">
+                       <button type="button" id="randomizeButton" class="btn btn-primary mr-5 tsp-1 m-1 light-b-shadow"><b>Random Bird</b></button>
+                        <button type="button" id="defaultButton" class="btn btn-primary mr-5 tsp-1 m-1 light-b-shadow"><b>Default Bird</b></button>
+                    </div>
+                    <div class="btn-group float-right">
+                        <button type="button" id="blockchainButton" class="btn btn-success mr-5 tsp-1 m-1 light-b-shadow"><b>Send This Bird To The Blockchain</b></button>
+                    </div><br>
+                </div>
+                <hr>
+                <div class="alert alert-success" role="alert" id="birdCreation" style="display: none">
+                </div>
+            </div>
+        </div>
+        </div>
+        <footer align="right">
+            Written by <a href="mailto:the.rainmaker@mail.com" target="_blank">The Rainmaker</a>
+        </footer>
+    </body>
+    <script src="assets/js/colors.js"></script>
+    <script src="assets/js/birdSettings.js"></script>
+    <script src="assets/js/birdStudio.js"></script>
+    <script src="assets/js/blockchain.js"></script>
+</html>

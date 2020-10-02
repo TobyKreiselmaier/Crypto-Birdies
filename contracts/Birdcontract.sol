@@ -80,6 +80,18 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
             generation = uint256(bird.generation);
         }
 
+    function getAllBirdsOfOwner(address owner) external view returns(uint256[] memory) {
+        uint256[] memory allBirdsOfOwner = new uint[](ownsNumberOfTokens[owner]);
+        uint256 j = 0;
+        for (var i = 0; i < birdies.length; i++) {
+            if (birdOwner[i] == owner) {
+                allBirdsOfOwner[j] = i;
+                j.add(1);
+            }
+        }
+        return allBirdsOfOwner;
+    }
+
     function balanceOf(address owner) external view returns (uint256 balance) {
         return ownsNumberOfTokens[owner];
     }
