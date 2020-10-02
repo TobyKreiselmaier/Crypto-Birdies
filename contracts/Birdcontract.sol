@@ -37,10 +37,10 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
         _symbol = symbol;
     }
 
-    function createBirdGen0(uint256 _genes) public onlyOwner returns (uint256) {
+    function createBirdGen0(uint256 genes) public onlyOwner returns (uint256) {
         require(gen0Counter <= maxGen0Birds, "Maximum number of Birds is reached. No new birds allowed!");
         gen0Counter = gen0Counter.add(1);
-        return _createBird(0, 0, 0, _genes, msg.sender);
+        return _createBird(0, 0, 0, genes, msg.sender);
     }
 
     function _createBird(
@@ -49,7 +49,7 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
         uint256 _generation,
         uint256 _genes,
         address _owner
-    ) private returns (uint256) {
+    ) internal returns (uint256) {
         Bird memory _bird = Bird({
             genes: _genes,
             birthTime: uint64(now),
@@ -83,7 +83,7 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
     function getAllBirdsOfOwner(address owner) external view returns(uint256[] memory) {
         uint256[] memory allBirdsOfOwner = new uint[](ownsNumberOfTokens[owner]);
         uint256 j = 0;
-        for (var i = 0; i < birdies.length; i++) {
+        for (uint256 i = 0; i < birdies.length; i++) {
             if (birdOwner[i] == owner) {
                 allBirdsOfOwner[j] = i;
                 j.add(1);

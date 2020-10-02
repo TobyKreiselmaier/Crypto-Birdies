@@ -1,6 +1,29 @@
 const Birdcontract = artifacts.require("Birdcontract");
+const Testcontract = artifacts.require("Testcontract");
 const assert = require("chai").assert;
-const truffleAssert = require('truffle-assertions');
+const truffleAssert = require("truffle-assertions");
+
+
+contract("Testcontract", (accounts) => {
+  var instance;
+  
+  async () => {
+    instance = await Testcontract.new();
+  }
+
+  describe("getAllBirdsOfOwner()", () =>{
+    it("should return all birds owned by an address", async () => {
+      await instance.createTestBird(101, accounts[0]);
+      await instance.createTestBird(202, accounts[0]);
+      await instance.createTestBird(303, accounts[1]);
+      await instance.createTestBird(404, accounts[0]);
+      await instance.createTestBird(505, accounts[1]);
+      var testAllBirdsOfOwner = await instance.getAllBirdsOfOwner(accounts[1]);
+      assert.equal(testAllBirdsOfOwner[0], 2, "Data is incorrect");
+      assert.equal(testAllBirdsOfOwner[1], 4, "Data is incorrect");
+    });
+  });
+})
 
 contract("Birdcontract", (accounts) => {
   var instance;
