@@ -1,4 +1,3 @@
-ethereum.autoRefreshOnNetworkChange = false;
 var colors = Object.values(allColors())
 
 const defaultDNA = {
@@ -43,7 +42,7 @@ function getDna(){
     dna += $('#dnaBottomBeak').html();
     dna += $('#dnaEyesShape').html();
     dna += $('#dnaDecorationPattern').html();
-    dna += $('#dnaDecorationAtEyes').html();
+    dna += $('#dnaDecorationAtEye').html();
     dna += $('#dnaDecorationMid').html();
     dna += $('#dnaDecorationSmall').html();
     dna += $('#dnaAnimation').html();
@@ -161,5 +160,5 @@ $('#defaultButton').click(()=>{
 });
 
 $('#blockchainButton').click(()=>{
-  //code later.
+  sendBirdToBlockchain();
 });

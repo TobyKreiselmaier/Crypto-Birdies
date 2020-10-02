@@ -4,6 +4,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Angry Birds on the Block</title>
       <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
+      <script src="assets/js/web3.min.js"></script>
+      <script src="./abi.js"></script>
       <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
       <script src="assets/bootstrap/js/popper.js"></script>
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>
@@ -15,10 +17,9 @@
       <link rel="stylesheet" href="assets/css/frontend.css">
     </head>
     <body>
-        <div class="video-container">
-            <iframe height="100%" width="100%" src="https://www.youtube.com/embed/B_lmVleDA4o?autoplay=1&showinfo=0&controls=0&loop=1"
-            frameborder="0" allow="autoplay; showinfo; controls; loop"></iframe>
-        </div>
+    <div class="video-container">
+        <iframe height="100%" width="100%" frameborder="0" src="https://www.youtube.com/embed/B_lmVleDA4o?controls=0&autoplay=1&loop=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
         <div class="container p-5">
             <div align="center">
                 <h1 class="c-white"><b>Angry Bird Design Studio</b></h1>
@@ -118,9 +119,18 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" id="randomizeButton" class="m-2 btn btn-primary light-b-shadow"><b>Random Bird</b></button>
-                <button type="button" id="defaultButton" class="m-2 btn btn-primary light-b-shadow"><b>Default Bird</b></button>
-                <button type="button" id="blockchainButton" class="m-2 btn btn-success light-b-shadow"><b>Send This Bird To The Blockchain</b></button>
+                <div class="btn-group">
+                    <div class="btn-group float-left">
+                       <button type="button" id="randomizeButton" class="btn btn-primary mr-5 tsp-1 m-1 light-b-shadow"><b>Random Bird</b></button>
+                        <button type="button" id="defaultButton" class="btn btn-primary mr-5 tsp-1 m-1 light-b-shadow"><b>Default Bird</b></button>
+                    </div>
+                    <div class="btn-group float-right">
+                        <button type="button" id="blockchainButton" class="btn btn-success mr-5 tsp-1 m-1 light-b-shadow"><b>Send This Bird To The Blockchain</b></button>
+                    </div><br>
+                </div>
+                <hr>
+                <div class="alert alert-success" role="alert" id="birdCreation" style="display: none">
+                </div>
             </div>
         </div>
         </div>
@@ -131,4 +141,5 @@
     <script src="assets/js/colors.js"></script>
     <script src="assets/js/birdSettings.js"></script>
     <script src="assets/js/birdStudio.js"></script>
+    <script src="./index.js"></script>
 </html>

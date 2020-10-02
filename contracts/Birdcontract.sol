@@ -68,14 +68,17 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
         uint256 birthTime,
         uint256 mumId,
         uint256 dadId,
-        uint256 generation) {
-            Bird storage bird = birdies[tokenId];
+        uint256 generation) //code looks cleaner when the params appear here vs. in the return statement.
+        {
+            require(tokenId < birdies.length, "Token ID doesn't exist.");
+            Bird storage bird = birdies[tokenId];//saves space over using memory, which would make a copy
+            
             genes = bird.genes;
-            birthTime = bird.birthTime;
-            mumId = bird.mumId;
-            dadId = bird.dadId;
-            generation = bird.generation;
-    }
+            birthTime = uint256(bird.birthTime);
+            mumId = uint256(bird.mumId);
+            dadId = uint256(bird.dadId);
+            generation = uint256(bird.generation);
+        }
 
     function balanceOf(address owner) external view returns (uint256 balance) {
         return ownsNumberOfTokens[owner];
