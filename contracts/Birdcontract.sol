@@ -86,7 +86,7 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
         for (uint256 i = 0; i < birdies.length; i++) {
             if (birdOwner[i] == owner) {
                 allBirdsOfOwner[j] = i;
-                j.add(1);
+                j = j.add(1);
             }
         }
         return allBirdsOfOwner;

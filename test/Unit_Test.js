@@ -7,9 +7,7 @@ const truffleAssert = require("truffle-assertions");
 contract("Testcontract", (accounts) => {
   var instance;
   
-  async () => {
-    instance = await Testcontract.new();
-  }
+  beforeEach(async () => {instance = await Testcontract.new("AngryBirdontheBlock", "ABBX")});
 
   describe("getAllBirdsOfOwner()", () =>{
     it("should return all birds owned by an address", async () => {
@@ -19,7 +17,7 @@ contract("Testcontract", (accounts) => {
       await instance.createTestBird(404, accounts[0]);
       await instance.createTestBird(505, accounts[1]);
       var testAllBirdsOfOwner = await instance.getAllBirdsOfOwner(accounts[1]);
-      assert.equal(testAllBirdsOfOwner[0], 2, "Data is incorrect");
+      assert.equal(testAllBirdsOfOwner[0].toNumber(), 2, "Data is incorrect");
       assert.equal(testAllBirdsOfOwner[1], 4, "Data is incorrect");
     });
   });
