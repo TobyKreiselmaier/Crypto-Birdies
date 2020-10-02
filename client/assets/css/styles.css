@@ -15,6 +15,46 @@ p {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
+#logo {
+    border-radius: 40%;
+}
+
+#background {
+    width: 100%;
+    opacity: 50%;
+    z-index: -10;
+}
+
+.card-title {
+    text-align: center;
+}
+
+#card-button {
+    position: relative;
+    left: 2em;
+}
+
+#topCard {
+    background: transparent;
+    z-index: 1;
+    position: absolute;
+    left: 40%;
+    top: 30%;
+}
+
+.card-deck{
+    background: transparent;
+    z-index: 1;
+    position: relative;
+    top: -15em;
+    left: -8%;
+    width: 120%;
+}
+
+.card-img-top {
+    height: 200px;
+}
+
 .dnaDiv {
 	font-size: 18px;
 }
@@ -48,4 +88,9 @@ p {
     position: absolute;
     left:20px;
     bottom: 5px;
+}
+
+footer {
+    height: 5%;
+    background-color: whitesmoke;
 }

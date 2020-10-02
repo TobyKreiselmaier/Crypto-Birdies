@@ -2,7 +2,7 @@ var web3 = new Web3(Web3.givenProvider);//MetaMask will inject the selected netw
 
 var instance;
 var user;
-var contractAddress = "0x1aD1aF3121d65d92E981bc9B8522AB6850f38f40";
+var contractAddress = "0xbaeC31acC02460B8a4C62314678C491BfF358EcE";
 
 $(document).ready(function(){
     window.ethereum.enable().then(function(accounts){//will ask user to connect MetaMask
@@ -21,12 +21,11 @@ $(document).ready(function(){
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
                 $('#birdCreation').css("display", "block");
-                $('#birdCreation').text("Owner: " + owner 
+                $('#birdCreation').text("Bird successfully created on the blockchain! Owner: " + owner 
                                     + " | BirdID: " + birdId 
                                     + " | MumID: " + mumId 
                                     + " | DadID: " + dadId
                                     + " | Genes: " + genes);
-                alert("Bird created successfully on blockchain!");
             })
             .on('error', console.error);
     });
@@ -36,8 +35,6 @@ function sendBirdToBlockchain() {
     instance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){//web3 sends to smart contract
         if(error) {
             alert("Error: " + error);
-        } else {
-            alert("Success! tx Hash = " + txHash);
-        }
+        } //success handled in birth event.
     })
 };
