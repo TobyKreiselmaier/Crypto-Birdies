@@ -15,36 +15,44 @@
     </head>
     <body>
         <div class="container p-5">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                      </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Catalogue</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Design Studio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Market Place</a>
-                    </li>
-                  </ul>
-                  <button class="btn btn-success my-2 my-sm-0" type="submit">Start</button>
-                </div>
-            </nav>
+
+          <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./catalogue.html">Catalogue</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./studio.html">Design Studio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./market.html">Market Place</a>
+                </li>
+              </ul>
+              <button class="btn btn-success my-2 my-sm-0" type="submit">Start</button>
+            </div>
+        </nav>
+
+            <!-- Green Action Card -->
             <div id="topCard" class="card border-success mb-3 justify-content-center" style="max-width: 18rem;">
                 <div class="card-body text-success">
                   <h5 class="card-title">Collect, breed, and trade your own birds!</h5>
-                  <button id="card-button" class="btn btn-success my-2 my-sm-0" type="submit">Design your own Bird</button>
+                  <button id="card-button" class="btn btn-success my-2 my-sm-0" type="submit" onclick="window.location.href='./studio.html';">Design your own Bird</button>
                 </div>
               </div>
+
+            <!-- Background -->
             <img id="background" src="assets/media/background.jpg">
+
+            <!-- Feature Cards -->
             <div class="card-deck">
                 <div class="card">
                   <img src="assets/media/Eth.jpg" class="card-img-top" alt="crypto-currency">

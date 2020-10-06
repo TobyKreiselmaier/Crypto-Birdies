@@ -21,10 +21,39 @@
         <iframe height="100%" width="100%" frameborder="0" src="https://www.youtube.com/embed/B_lmVleDA4o?&controls=0&autoplay=1&loop=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>-->
         <div class="container p-5">
+
+          <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="./index.html">Home</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./catalogue.html">Catalogue</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Design Studio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./market.html">Market Place</a>
+                </li>
+              </ul>
+              <button class="btn btn-success my-2 my-sm-0" type="submit">Start</button>
+            </div>
+        </nav><br>
+
+            <!-- Headlines -->
             <div align="center">
                 <h1 class="c-white"><b>Angry Bird Design Studio</b></h1>
                 <p class="c-white">Create Your Own Angry Bird</p>
             </div>
+
+            <!-- BirdBox -->
             <div class="row">
                 <div class="col-lg-4 birdBox m-2 light-b-shadow">
                     <div class="angryBird_Red">
@@ -79,6 +108,8 @@
                         </b>
                     </div>
                 </div>
+
+                <!-- Color & Feature Box -->
                 <div class="col-lg-7 birdattributes m-2 light-b-shadow ">
                     <button type="button" id="colorsButton" class="m-2 btn btn-primary light-b-shadow"><b>Colors</b></button>
                     <button type="button" id="attributesButton" class="m-2 btn btn-primary light-b-shadow"><b>Attributes</b></button>
@@ -87,11 +118,11 @@
                             <label for="formControlRange"><b>Top Feathers</b><span class="badge badge-dark ml-2" id="topfeatherstext"></span></label>
                             <input type="range" min="10" max="99" class="form-control-range" id="topfeatherscolor">
                             <label for="formControlRange"><b>Body Feathers</b><span class="badge badge-dark ml-2" id="bodyfeatherstext"></span></label>
-                            <input type="range" min="00" max="99" class="form-control-range" id="bodyfeatherscolor">
+                            <input type="range" min="10" max="99" class="form-control-range" id="bodyfeatherscolor">
                             <label for="formControlRange"><b>Beak - Top</b><span class="badge badge-dark ml-2" id="topbeaktext"></span></label>
-                            <input type="range" min="00" max="99" class="form-control-range" id="topbeakcolor">
+                            <input type="range" min="10" max="99" class="form-control-range" id="topbeakcolor">
                             <label for="formControlRange"><b>Beak - Bottom</b><span class="badge badge-dark ml-2" id="bottombeaktext"></span></label>
-                            <input type="range" min="00" max="99" class="form-control-range" id="bottombeakcolor">
+                            <input type="range" min="10" max="99" class="form-control-range" id="bottombeakcolor">
                          </div>
                         <div class="attributes"><br>
                             <label for="formControlRange"><b>Eyes Shape</b><span class="badge badge-dark ml-2" id="eyesshapetext"></span></label>
@@ -102,15 +133,15 @@
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="formControlRange"><b>At Eyes</b><span class="badge badge-dark ml-2" id="ateyestext"></span></label>
-                                    <input type="range" min="00" max="99" class="form-control-range" id="ateyescolor">
+                                    <input type="range" min="10" max="99" class="form-control-range" id="ateyescolor">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="formControlRange"><b>Middle</b><span class="badge badge-dark ml-2" id="middletext"></span></label>
-                                    <input type="range" min="00" max="99" class="form-control-range" id="middlecolor">
+                                    <input type="range" min="10" max="99" class="form-control-range" id="middlecolor">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="formControlRange"><b>Small</b><span class="badge badge-dark ml-2" id="smalltext"></span></label>
-                                    <input type="range" min="00" max="99" class="form-control-range" id="smallcolor">
+                                    <input type="range" min="10" max="99" class="form-control-range" id="smallcolor">
                                 </div>
                             </div>
                             <label for="formControlRange"><b>Animation</b><span class="badge badge-dark ml-2" id="animationtext"></span></label>

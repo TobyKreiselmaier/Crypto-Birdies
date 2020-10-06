@@ -1,3 +1,4 @@
+if (ethereum) { ethereum.autoRefreshOnNetworkChange = false }; //avoids MetaMask errors in console.
 var colors = Object.values(allColors())
 
 const defaultDNA = {
@@ -46,21 +47,22 @@ function getDna(){
     dna += $('#dnaDecorationMid').html();
     dna += $('#dnaDecorationSmall').html();
     dna += $('#dnaAnimation').html();
-    return parseInt(dna);
+    return new BN(dna);
 }
 
 function setRandomDna(){
   var randomDna = {
     "topFeatherColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
-    "bodyFeatherColor": Math.floor(Math.random()*100),// number from 0 to 99
-    "topBeakColor": Math.floor(Math.random()*100),// number from 0 to 99 for topBeakColor
-    "bottomBeakColor": Math.floor(Math.random()*100),// number from 0 to 99
+    "bodyFeatherColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "topBeakColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "bottomBeakColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
     "eyesShape": Math.floor(Math.random()*8),// number from 0 to 7
     "decorationPattern": Math.floor(Math.random()*8),// number from 0 to 7
-    "decorationColor": Math.floor(Math.random()*100),// number from 0 to 99
-    "decorationMidColor": Math.floor(Math.random()*100),// number from 0 to 99
-    "decorationSmallColor": Math.floor(Math.random()*100),// number from 0 to 99
+    "decorationColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "decorationMidColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "decorationSmallColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
     "animation": Math.floor(Math.random()*8),// number from 0 to 7
+    //this will always return 17 digits for the Dna of a bird.
     };
   renderBird(randomDna);
 }

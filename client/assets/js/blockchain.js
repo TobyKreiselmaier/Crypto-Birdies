@@ -2,7 +2,7 @@ var web3 = new Web3(Web3.givenProvider);//MetaMask will inject the selected netw
 
 var instance;
 var user;
-var contractAddress = "0xbaeC31acC02460B8a4C62314678C491BfF358EcE";
+var contractAddress = "0x2B34fB3CFdEfC6F326bB0AF30E682f2eCc5c974d";
 
 $(document).ready(function(){
     window.ethereum.enable().then(function(accounts){//will ask user to connect MetaMask
@@ -28,8 +28,9 @@ $(document).ready(function(){
                                     + " | Genes: " + genes);
             })
             .on('error', console.error);
-    });
-});
+    })
+
+})
 
 function sendBirdToBlockchain() {
     instance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){//web3 sends to smart contract
@@ -37,4 +38,22 @@ function sendBirdToBlockchain() {
             alert("Error: " + error);
         } //success handled in birth event.
     })
-};
+}
+
+async function getBirdsOfOwner() {
+    var arrayOfIds = [];
+    var birdy;
+    try {
+        arrayOfIds = await instance.methods.getAllBirdsOfOwner(user).call();
+    } catch (error) {
+        console.log(error);
+    }
+    for (let i = 0; i < arrayOfIds.length; i++) {
+        birdy = await instance.methods.getBird(arrayOfIds[i]).call();
+        console.log(arrayOfIds[i]);
+        console.log(birdy);
+        appendBird(birdy, i)
+    }
+    console.log(birdy);
+    return birdy;
+}
