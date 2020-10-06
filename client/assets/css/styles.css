@@ -34,6 +34,10 @@ p {
     left: 2em;
 }
 
+#connectbutton {
+    font-size: 60%;
+}
+
 #topCard {
     background: transparent;
     z-index: 1;
@@ -88,9 +92,4 @@ p {
     position: absolute;
     left:20px;
     bottom: 5px;
-}
-
-footer {
-    height: 5%;
-    background-color: whitesmoke;
 }

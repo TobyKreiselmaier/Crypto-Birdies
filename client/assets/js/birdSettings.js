@@ -14,7 +14,7 @@ const defaultDNA = {
     "animation": 0,
     }
 
-// populate default DNA and show Color Screen when page loads
+// populate default DNA and show Color Screen only when page loads
 $(document).ready(function() {
   $('.colorscreen').show();
   $('.attributes').hide();
@@ -47,7 +47,7 @@ function getDna(){
     dna += $('#dnaDecorationMid').html();
     dna += $('#dnaDecorationSmall').html();
     dna += $('#dnaAnimation').html();
-    return new BN(dna);
+    return dna;
 }
 
 function setRandomDna(){

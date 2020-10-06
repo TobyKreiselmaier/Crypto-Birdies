@@ -1,6 +1,7 @@
 var colors = Object.values(allColors());
 
-$(document).ready( () => {//when page is loaded, create catalogue
+$(document).ready( async () => {//when page is loaded, create catalogue
+    await connectMetaMask();
     getBirdsOfOwner();
 });
 

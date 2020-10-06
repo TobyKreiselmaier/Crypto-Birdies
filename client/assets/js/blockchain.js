@@ -1,17 +1,13 @@
-var web3 = new Web3(Web3.givenProvider);//MetaMask will inject the selected network
+var web3 = new Web3(Web3.givenProvider);//Wallet will inject the selected network
 
 var instance;
 var user;
 var contractAddress = "0x2B34fB3CFdEfC6F326bB0AF30E682f2eCc5c974d";
 
-$(document).ready(function(){
-    window.ethereum.enable().then(function(accounts){//will ask user to connect MetaMask
-        instance = new web3.eth.Contract(abi, contractAddress, {from: accounts[0]});
-        //abi = Application Binary Interface (var created from contract.json as separate js file.
-        //It contains the sum of everything the contract does)
-        user = accounts[0];                          //almost always there will be only one account
-        console.log(instance);
-
+$('#connectbutton').click( async ()=>{
+    await window.ethereum.enable().then(function(accounts){
+        user = accounts[0];
+        connectWallet(user);
         instance.events.Birth()
             .on('data', function(event){
                 console.log(event);
@@ -29,15 +25,18 @@ $(document).ready(function(){
             })
             .on('error', console.error);
     })
-
-})
+});
 
 function sendBirdToBlockchain() {
-    instance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){//web3 sends to smart contract
+    instance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
         if(error) {
             alert("Error: " + error);
-        } //success handled in birth event.
+        }
     })
+}
+
+async function connectWallet(user) {
+    instance = await new web3.eth.Contract(abi, contractAddress, user);
 }
 
 async function getBirdsOfOwner() {
