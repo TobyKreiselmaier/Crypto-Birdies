@@ -1,3 +1,7 @@
+$(document).ready( async () => {//when page is loaded, get latest instance of blockchain
+    await connectWallet();
+});
+
 //Randomize color
 function getColor() {
     var randomColor = Math.floor(Math.random() * 16777215).toString(16);

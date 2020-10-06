@@ -4,10 +4,10 @@ var instance;
 var user;
 var contractAddress = "0x2B34fB3CFdEfC6F326bB0AF30E682f2eCc5c974d";
 
-$('#connectbutton').click( async ()=>{
-    await window.ethereum.enable().then(function(accounts){
+async function connectWallet() {
+    return window.ethereum.enable().then(function(accounts){
         user = accounts[0];
-        connectWallet(user);
+        instance = new web3.eth.Contract(abi, contractAddress, user, {from: user});
         instance.events.Birth()
             .on('data', function(event){
                 console.log(event);
@@ -25,18 +25,14 @@ $('#connectbutton').click( async ()=>{
             })
             .on('error', console.error);
     })
-});
+};
 
-function sendBirdToBlockchain() {
-    instance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
+async function sendBirdToBlockchain() {
+    await instance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
         if(error) {
-            alert("Error: " + error);
+            alert(error);
         }
     })
-}
-
-async function connectWallet(user) {
-    instance = await new web3.eth.Contract(abi, contractAddress, user);
 }
 
 async function getBirdsOfOwner() {
@@ -44,15 +40,14 @@ async function getBirdsOfOwner() {
     var birdy;
     try {
         arrayOfIds = await instance.methods.getAllBirdsOfOwner(user).call();
+        console.log(arrayOfIds);//works
     } catch (error) {
         console.log(error);
     }
     for (let i = 0; i < arrayOfIds.length; i++) {
         birdy = await instance.methods.getBird(arrayOfIds[i]).call();
-        console.log(arrayOfIds[i]);
-        console.log(birdy);
+        console.log(birdy);//works
         appendBird(birdy, i)
     }
-    console.log(birdy);
     return birdy;
 }

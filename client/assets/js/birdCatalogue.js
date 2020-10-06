@@ -1,38 +1,37 @@
 var colors = Object.values(allColors());
 
-$(document).ready( async () => {//when page is loaded, create catalogue
-    await connectMetaMask();
+$(document).ready( async () => {//when page is loaded, get latest instance of blockchain
+    await connectWallet();
     getBirdsOfOwner();
 });
 
 function appendBird(dna, id) {
-    var BirdyDna = birdDna(dna); //convert dna back into string
+    var BirdyDna = birdDna(dna, id); //convert dna back into string
     birdBox(id); //build box in HTML
     renderBird(BirdyDna, id);
 }
 
-function birdDna(dna) {//DNA sequence must be a 17 digit string at this point.
-    var dna = {
-        "topFeatherColor": dna.substring(0, 2),
-        "bodyFeatherColor": dna.substring(2, 4),
-        "topBeakColor": dna.substring(4, 6),
-        "bottomBeakColor": dna.substring(6, 8),
-        "eyesShape": dna.substring(8, 9),
-        "decorationPattern": dna.substring(9, 10),
-        "decorationColor": dna.substring(10, 12),
-        "decorationMidColor": dna.substring(12, 14),
-        "decorationSmallColor": dna.substring(14, 16),
-        "animation": dna.substring(16, 17),
+function birdDna(dna, id) {//DNA sequence must be a 17 digit string at this point.
+    var internalDna = {
+        "topFeatherColor": dna.genes.substring(0, 2),
+        "bodyFeatherColor": dna.genes.substring(2, 4),
+        "topBeakColor": dna.genes.substring(4, 6),
+        "bottomBeakColor": dna.genes.substring(6, 8),
+        "eyesShape": dna.genes.substring(8, 9),
+        "decorationPattern": dna.genes.substring(9, 10),
+        "decorationColor": dna.genes.substring(10, 12),
+        "decorationMidColor": dna.genes.substring(12, 14),
+        "decorationSmallColor": dna.genes.substring(14, 16),
+        "animation": dna.genes.substring(16, 17),
     }
-    console.log(dna);
-    $('#generation' + id).html(dna.substring());//check in console which digits are relevant.
-    return dna;
+    console.log(internalDna);
+    $('#generation' + id).html(dna.generation);
+    return internalDna;
 }
 
 function birdBox(id) {
 
-    var boxDiv =    `<div class="row">
-                    <div class="col-lg-4 birdBox m-2 light-b-shadow">
+    var boxDiv =    `<div class="col-lg-4 birdBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail tail_top"></div>

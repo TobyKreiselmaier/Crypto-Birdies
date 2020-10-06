@@ -1,4 +1,3 @@
-if (ethereum) { ethereum.autoRefreshOnNetworkChange = false }; //avoids MetaMask errors in console.
 var colors = Object.values(allColors())
 
 const defaultDNA = {
@@ -163,4 +162,8 @@ $('#defaultButton').click(()=>{
 
 $('#blockchainButton').click(()=>{
   sendBirdToBlockchain();
+});
+
+$('#connectbutton').click( async ()=>{
+  connectWallet();
 });
