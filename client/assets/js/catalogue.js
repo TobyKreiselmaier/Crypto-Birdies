@@ -11,7 +11,7 @@ function appendBird(dna, id) {
     renderBird(BirdyDna, id);
 }
 
-function birdDna(dna, id) {//DNA sequence must be a 17 digit string at this point.
+function birdDna(dna, id) {
     var internalDna = {
         "topFeatherColor": dna.genes.substring(0, 2),
         "bodyFeatherColor": dna.genes.substring(2, 4),
@@ -23,14 +23,14 @@ function birdDna(dna, id) {//DNA sequence must be a 17 digit string at this poin
         "decorationMidColor": dna.genes.substring(12, 14),
         "decorationSmallColor": dna.genes.substring(14, 16),
         "animation": dna.genes.substring(16, 17),
+        "generation": dna.generation,
+        "mum": dna.mumId,
+        "dad": dna.dadId
     }
-    console.log(internalDna);
-    $('#generation' + id).html(dna.generation);
     return internalDna;
 }
 
 function birdBox(id) {
-
     var boxDiv =    `<div class="col-lg-4 birdBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
@@ -69,21 +69,24 @@ function birdBox(id) {
                         <br>
                         <div class="dnaDiv">
                             <b>
-                                GEN:
-                                    <span id="generation` + id + `"></span><br>
-                                DNA:
+                            GEN:
+                            <span id="generation` + id + `"></span><br>
+                            MUM:
+                            <span id="mum` + id + `"></span><br>
+                            DAD:
+                            <span id="dad` + id + `"></span><br>
+                            DNA:
                                     <span id="dnaTopFeather` + id + `"></span>
                                     <span id="dnaBodyFeather` + id + `"></span>
                                     <span id="dnaTopBeak` + id + `"></span>
                                     <span id="dnaBottomBeak` + id + `"></span>
-                                    <span id="dnaBelly` + id + `"></span>
                                     <span id="dnaEyesShape` + id + `"></span>
                                     <span id="dnaDecorationPattern` + id + `"></span>
                                     <span id="dnaDecorationAtEye` + id + `"></span>
                                     <span id="dnaDecorationMid` + id + `"></span>
                                     <span id="dnaDecorationSmall` + id + `"></span>
                                     <span id="dnaAnimation` + id + `"></span><br>
-                                <ul class="ml-5">
+                                <ul class="ml-4">
                                     <li><span id="bottomeyetext` + id + `"></span></li>
                                     <li><span id="bottomdecorationpatterntext` + id + `"></span></li>
                                     <li><span id="bottomanimationtext` + id + `"></span></li>
@@ -115,6 +118,9 @@ function renderBird(dna, id){
     $('#smallcolor' + id).val(dna.decorationSmallColor);
     animationVariation(dna.animation, id);
     $('#animationstyle' + id).val(dna.animation);
+    printGeneration(dna.generation, id);
+    printMum(dna.mum, id);
+    printDad(dna.dad, id);
 }
 
 function topFeatherColor(color, code, id) {
@@ -359,17 +365,17 @@ function decorationType7(id) {//Cross & Eyes
 
 function decorationMainColor(color, code, id) {
     $('.deco_3' + id, '.deco_4' + id).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationAtEye').html(code) //This updates the DNA that is displayed below the bird
+    $('#dnaDecorationAtEye' + id).html(code) //This updates the DNA that is displayed below the bird
 }
 
 function middleColor(color, code, id) {
     $('.deco_2' + id).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationMid').html(code) //This updates the DNA that is displayed below the bird
+    $('#dnaDecorationMid' + id).html(code) //This updates the DNA that is displayed below the bird
 }
 
 function smallColor(color, code, id) {
     $('.deco_1' + id).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationSmall').html(code) //This updates the DNA that is displayed below the bird
+    $('#dnaDecorationSmall' + id).html(code) //This updates the DNA that is displayed below the bird
 }
 
 function animationVariation(num, id) {
@@ -468,4 +474,28 @@ function animationType7(id) {
     $('.tail_bottom' + id).addClass('bottomWaggingTail');
     $('.feather_top' + id).addClass('topAttention');
     $('.feather_bottom' + id).addClass('bottomAttention');
+}
+
+function printGeneration(genNo, id) {
+    $('#generation' + id).html(genNo);
+}
+
+function printMum(mum, id) {
+    var print;
+    if (mum == 0) {
+        print = 'not available'
+    } else {
+        print = mum;
+    }
+    $('#mum' + id).html(print);
+}
+
+function printDad(dad, id) {
+    var print;
+    if (dad == 0) {
+        print = 'not available'
+    } else {
+        print = dad;
+    }
+    $('#dad' + id).html(print);
 }
