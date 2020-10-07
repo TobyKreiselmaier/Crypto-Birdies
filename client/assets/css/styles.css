@@ -1,95 +1,123 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("/client/assets/fonts/Poppins-Light.ttf");
+}
+
+/* HTML Elements */
+body {
+	background: darkslategrey;
+    font-family: Poppins;
+    font-weight: 500;
+    letter-spacing: 1px; 
+}
+
+footer {
+    background: whitesmoke;
+    bottom: 0;
+    height: 100px;
+    padding: 4vh;
+    position: static;
+    width: 100%;
+}
+
+h1 {
+    color: whitesmoke;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
 html {
     box-sizing: border-box;
     overflow-y: scroll;
 }
 
-body {
-	background: teal;
-}
-
-h1 {
-	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-}
-
 p {
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: whitesmoke;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-#logo {
-    border-radius: 40%;
+/* Classes */
+.birdAttributes {
+    background-color: #ededed;
+    border-radius: 10px;
+    left: 2.5em;
+    padding: 25px;
 }
 
-#background {
-    width: 100%;
-    opacity: 50%;
-    z-index: -10;
-}
-
-.card-title {
-    text-align: center;
-}
-
-#card-button {
-    position: relative;
-    left: 2em;
-}
-
-#connectbutton {
-    font-size: 60%;
-}
-
-#topCard {
-    background: transparent;
-    z-index: 1;
-    position: absolute;
-    left: 42%;
-    top: 30%;
+.birdBox {
+    background-color: #e2efff;
+    border-radius: 10px;
+    left: 0.6em;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .card-deck{
     background: transparent;
-    z-index: 1;
+    left: -8%;
     position: relative;
     top: -15em;
-    left: -8%;
     width: 120%;
+    z-index: 1;
 }
 
 .card-img-top {
     height: 200px;
 }
 
-.dnaDiv {
-	font-size: 18px;
-}
-
-.video-container { 
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    z-index: -100;
-    transform: translateX(-50%) translateY(-50%);
-    transition: 1s opacity;
-}
-
-.birdBox {
-    background-color: #e2efff;
-    border-radius: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 10px;
-}
-
-.birdattributes {
-    padding: 25px;
-    background-color: #ededed;
-    border-radius: 10px;
+.card-text {
+    color: black;
 }
 
 .dnaDiv {
-    position: absolute;
-    left:20px;
     bottom: 5px;
+    font-size: 18px;
+    left:20px;
+    position: absolute;
+}
+
+/* IDs */
+#backgroundPicture {
+    opacity: 50%;
+    width: 100%;
+    z-index: -10;
+}
+#blockchainButton {
+    border-radius: 5%;
+    left: 26.1em;
+}
+
+#cardButton {
+    left: 2em;
+    position: relative;
+}
+
+#cardTitle {
+    text-align: center;
+}
+
+#connectButton {
+    font-size: 60%;
+}
+
+#defaultButton {
+    border-radius: 5%;
+    left: 4.6em;
+}
+
+#logo {
+    border-radius: 40%;
+}
+
+#randomizeButton {
+    border-radius: 5%;
+    left: 0.8em;
+}
+
+#topCard {
+    left: 42%;
+    position: absolute;
+    background: transparent;
+    top: 30%;
+    z-index: 1;
 }
