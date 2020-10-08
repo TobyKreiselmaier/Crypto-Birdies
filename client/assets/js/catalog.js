@@ -414,7 +414,7 @@ function animationVariation(num, id) {
             break;
         case 8:    
             resetAnimation(id);
-            $('#bottomanimationtext' + id).html('Combi Animation');
+            $('#bottomanimationtext' + id).html('Eyes Follow Mouse');
             animationType8(id);
             break;
         default:
@@ -477,8 +477,8 @@ function animationType8(id) {
     basicEyes(id);
     var eyeballs = $(`#BirdBox${id} .pupil`);
     document.onmousemove = function(event) {
-        var x = event.clientX * 100 / window.innerWidth + "%";
-        var y = event.clientY * 100 / window.innerHeight + "%";
+        var x = event.clientX * 65 / window.innerWidth + "%";
+        var y = event.clientY * 65 / window.innerHeight + "%";
         for (let i = 0; i < 2; i++) {
             eyeballs[i].style.left = x;
             eyeballs[i].style.top = y;
