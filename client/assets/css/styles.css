@@ -60,7 +60,7 @@ p {
     z-index: 1;
 }
 
-.catalogueBox {
+.catalogBox {
     background-color: #e2efff;
     border-radius: 10px;
     height: 30em;
@@ -91,6 +91,7 @@ p {
     opacity: 80%;
     width: 100%;
     z-index: -10;
+    position: relative;
 }
 
 #blockchainButton {
@@ -105,10 +106,6 @@ p {
 
 #cardTitle {
     text-align: center;
-}
-
-#connectButton {
-    font-size: 60%;
 }
 
 #defaultButton {
@@ -126,9 +123,9 @@ p {
 }
 
 #topCard {
-    left: 42%;
-    position: absolute;
+    left: 35%;
+    position: relative;
+    display: inline-block;
     background: transparent;
-    top: 30%;
     z-index: 1;
 }

@@ -5,7 +5,7 @@ import "./Destroyable.sol";
 
 pragma solidity 0.5.12;
 
-contract Birdcontract is Ownable, Destroyable, IERC721 {
+contract AngryBirds is Ownable, Destroyable, IERC721 {
 
     using SafeMath for uint256;
 
@@ -27,6 +27,9 @@ contract Birdcontract is Ownable, Destroyable, IERC721 {
 
     mapping(uint256 => address) public birdOwner;
     mapping(address => uint256) ownsNumberOfTokens;
+    mapping(uint256 => address) public _Approval;//which bird is approved to be transfered by an address other than the owner
+    mapping(address => mapping (address => bool)) private _operatorApprovals;//approval to handle all tokens of an address by another
+    //_operatorApprovals[myaddress][operatoraddress] = true/false;
 
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);

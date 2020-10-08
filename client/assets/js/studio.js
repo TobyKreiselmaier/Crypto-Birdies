@@ -383,8 +383,8 @@ function animationType8() {
     basicEyes();
     var eyeballs = document.getElementsByClassName("pupil");
     document.onmousemove = function(event) {
-        var x = event.clientX * 100 / window.innerWidth + "%";
-        var y = event.clientY * 100 / window.innerHeight + "%";
+        var x = event.clientX * 65 / window.innerWidth + "%";
+        var y = event.clientY * 65 / window.innerHeight + "%";
         for (let i = 0; i < 2; i++) {
             eyeballs[i].style.left = x;
             eyeballs[i].style.top = y;

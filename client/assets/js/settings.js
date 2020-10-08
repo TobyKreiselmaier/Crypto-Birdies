@@ -163,7 +163,3 @@ $('#defaultButton').click(()=>{
 $('#blockchainButton').click(()=>{
   sendBirdToBlockchain();
 });
-
-$('#connectbutton').click( async ()=>{
-  connectWallet();
-});

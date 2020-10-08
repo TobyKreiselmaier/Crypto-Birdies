@@ -1,4 +1,4 @@
-pragma solidity 0.5.12;
+pragma solidity ^0.5.0;
 /**
  * @dev Required interface of an ERC721 compliant contract.
  */
@@ -6,32 +6,37 @@ interface IERC721 {
     /**
      * @dev Emitted when `tokenId` token is transfered from `from` to `to`.
      */
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
 
     /**
      * @dev Emitted when `owner` enables `approved` to manage the `tokenId` token.
      */
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+    event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+
+    /**
+     * @dev Emitted when `owner` enables or disables (`approved`) `operator` to manage all of its assets.
+     */
+    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
 
     /**
      * @dev Returns the number of tokens in ``owner``'s account.
      */
-    function balanceOf(address owner) external view returns (uint256 balance);
+    function balanceOf(address owner) external view returns (uint256 _balance);
 
     /*
      * @dev Returns the total number of tokens in circulation.
      */
-    function totalSupply() external view returns (uint256 total);
+    function totalSupply() external view returns (uint256 _total);
 
     /*
      * @dev Returns the name of the token.
      */
-    function name() external view returns (string memory tokenName);
+    function name() external view returns (string memory _tokenName);
 
     /*
      * @dev Returns the symbol of the token.
      */
-    function symbol() external view returns (string memory tokenSymbol);
+    function symbol() external view returns (string memory _tokenSymbol);
 
     /**
      * @dev Returns the owner of the `tokenId` token.
@@ -40,7 +45,7 @@ interface IERC721 {
      *
      * - `tokenId` must exist.
      */
-    function ownerOf(uint256 tokenId) external view returns (address owner);
+    function ownerOf(uint256 _tokenId) external view returns (address _owner);
 
 
      /* @dev Transfers `tokenId` token from `msg.sender` to `to`.
@@ -54,5 +59,33 @@ interface IERC721 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(address to, uint256 tokenId) external;
+    function transfer(address _to, uint256 _tokenId) external;
+
+    /// @notice Change or reaffirm the approved address for an NFT
+    /// @dev The zero address indicates there is no approved address.
+    ///  Throws unless `msg.sender` is the current NFT owner, or an authorized
+    ///  operator of the current owner.
+    /// @param _approved The new approved NFT controller
+    /// @param _tokenId The NFT to approve
+    function approve(address _approved, uint256 _tokenId) external;
+
+    /// @notice Enable or disable approval for a third party ("operator") to manage
+    ///  all of `msg.sender`'s assets
+    /// @dev Emits the ApprovalForAll event. The contract MUST allow
+    ///  multiple operators per owner.
+    /// @param _operator Address to add to the set of authorized operators
+    /// @param _approved True if the operator is approved, false to revoke approval
+    function setApprovalForAll(address _operator, bool _approved) external;
+
+    /// @notice Get the approved address for a single NFT
+    /// @dev Throws if `_tokenId` is not a valid NFT.
+    /// @param _tokenId The NFT to find the approved address for
+    /// @return The approved address for this NFT, or the zero address if there is none
+    function getApproved(uint256 _tokenId) external view returns (address);
+
+    /// @notice Query if an address is an authorized operator for another address
+    /// @param _owner The address that owns the NFTs
+    /// @param _operator The address that acts on behalf of the owner
+    /// @return True if `_operator` is an approved operator for `_owner`, false otherwise
+    function isApprovedForAll(address _owner, address _operator) external view returns (bool);
 }
