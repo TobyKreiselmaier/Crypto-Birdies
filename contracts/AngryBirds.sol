@@ -1,16 +1,24 @@
 import "./IERC721.sol";
+import "./IERC721Receiver.sol";
 import "./SafeMath.sol";
 import "./Ownable.sol";
 import "./Destroyable.sol";
 
-pragma solidity 0.5.12;
+pragma solidity ^0.5.12;
 
-contract AngryBirds is Ownable, Destroyable, IERC721 {
+contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
 
     using SafeMath for uint256;
 
     uint256 public constant maxGen0Birds = 16;
     uint256 public gen0Counter = 0;
+
+    bytes4 internal constant _ERC721Checksum = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
+    //checksum used to determine if a receiving contract is able to handle ERC721 tokens
+    bytes4 private constant _InterfaceIdERC721 = 0x80ac58cd;
+    //checksum of function headers that are required in standard interface
+    bytes4 private constant _InterfaceIdERC165 = 0x01ffc9a7;
+    //checksum of function headers that are required in standard interface
 
     string private _name;
     string private _symbol;
@@ -27,7 +35,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
 
     mapping(uint256 => address) public birdOwner;
     mapping(address => uint256) ownsNumberOfTokens;
-    mapping(uint256 => address) public _Approval;//which bird is approved to be transfered by an address other than the owner
+    mapping(uint256 => address) public _approval;//which bird is approved to be transfered by an address other than the owner
     mapping(address => mapping (address => bool)) private _operatorApprovals;//approval to handle all tokens of an address by another
     //_operatorApprovals[owneraddress][operatoraddress] = true/false;
 
@@ -39,6 +47,10 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
     constructor(string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
+    }
+
+    function supportsInterface(bytes4 _interfaceId) external pure returns (bool) {
+        return (_interfaceId == _InterfaceIdERC721 || _interfaceId == _InterfaceIdERC165);
     }
 
     function createBirdGen0(uint256 genes) public onlyOwner returns (uint256) {
@@ -130,7 +142,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
         
         if (_from != address(0)) {
             ownsNumberOfTokens[_from] = ownsNumberOfTokens[_from].sub(1);
-            delete _Approval[_tokenId];//when owner changes, approval must be removed.
+            delete _approval[_tokenId];//when owner changes, approval must be removed.
         }
 
         emit Transfer(_from, _to, _tokenId);
@@ -138,7 +150,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
 
     function approve(address _approved, uint256 _tokenId) external {
         require(birdOwner[_tokenId] == msg.sender || _operatorApprovals[birdOwner[_tokenId]][msg.sender] == true, "You are not authorized to access this function.");
-        _Approval[_tokenId] = _approved;
+        _approval[_tokenId] = _approved;
         emit Approval(msg.sender, _approved, _tokenId);
     }
 
@@ -150,7 +162,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
 
     function getApproved(uint256 _tokenId) external view returns (address) {
         require(_tokenId < birdies.length, "Token doesn't exist");
-        return _Approval[_tokenId];
+        return _approval[_tokenId];
     }
 
     function isApprovedForAll(address _owner, address _operator) external view returns (bool) {
@@ -158,11 +170,47 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
     }
 
     function transferFrom(address _from, address _to, uint256 _tokenId) external {
-        require(_from == msg.sender || _Approval[_tokenId] == msg.sender || address(this == msg.sender, "You are not authorized to use this function");
+        require(_from == msg.sender || _approval[_tokenId] == msg.sender || _operatorApprovals[_from][_to], "You are not authorized to use this function");
         require(birdOwner[_tokenId] == _from, "Owner incorrect.");
         require(_to != address(0), "Error: Operation would delete this token permanently");
         require(_tokenId < birdies.length, "Token doesn't exist");
         _transfer(_from, _to, _tokenId);
+    }
+    function _safeTransfer(address _from, address _to, uint256 _tokenId, bytes memory _data) internal {
+        require(_checkERC721Support(_from, _to, _tokenId, _data));
+        _transfer(_from, _to, _tokenId);
+    }
+    
+    function _checkERC721Support(address _from, address _to, uint256 _tokenId, bytes memory _data) internal returns(bool) {
+        if(!_isContract(_to)) {
+            return true;
+        }
+
+        bytes4 returnData = IERC721Receiver(_to).onERC721Received(msg.sender, _from, _tokenId, _data);
+        //Call onERC721Received in the _to contract
+        return returnData == _ERC721Checksum;
+        //Check return value
+    }
+
+    function _isContract(address _to) internal view returns (bool) {
+        uint32 size;
+        assembly{
+            size := extcodesize(_to)
+        }
+        return size > 0;
+        //check if code size > 0; wallets have 0 size.
+    }
+
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory _data) public {
+        require(_from == msg.sender || _approval[_tokenId] == msg.sender || _operatorApprovals[_from][_to], "You are not authorized to use this function");
+        require(birdOwner[_tokenId] == _from, "Owner incorrect.");
+        require(_to != address(0), "Error: Operation would delete this token permanently");
+        require(_tokenId < birdies.length, "Token doesn't exist");
+        _safeTransfer(_from, _to, _tokenId, _data);
+    }
+
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId) public {
+        safeTransferFrom(_from, _to, _tokenId, "");
     }
 
 }

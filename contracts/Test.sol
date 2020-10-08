@@ -1,6 +1,6 @@
 import "./AngryBirds.sol";
 
-pragma solidity 0.5.12;
+pragma solidity ^0.5.12;
 
 contract Test is AngryBirds {
 
