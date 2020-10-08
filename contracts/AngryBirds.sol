@@ -29,10 +29,11 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
     mapping(address => uint256) ownsNumberOfTokens;
     mapping(uint256 => address) public _Approval;//which bird is approved to be transfered by an address other than the owner
     mapping(address => mapping (address => bool)) private _operatorApprovals;//approval to handle all tokens of an address by another
-    //_operatorApprovals[myaddress][operatoraddress] = true/false;
+    //_operatorApprovals[owneraddress][operatoraddress] = true/false;
 
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
     event Birth(address owner, uint256 birdId, uint256 mumId, uint256 dadId, uint256 genes);
 
     constructor(string memory name, string memory symbol) public {
@@ -129,8 +130,39 @@ contract AngryBirds is Ownable, Destroyable, IERC721 {
         
         if (_from != address(0)) {
             ownsNumberOfTokens[_from] = ownsNumberOfTokens[_from].sub(1);
+            delete _Approval[_tokenId];//when owner changes, approval must be removed.
         }
 
         emit Transfer(_from, _to, _tokenId);
     }
+
+    function approve(address _approved, uint256 _tokenId) external {
+        require(birdOwner[_tokenId] == msg.sender || _operatorApprovals[birdOwner[_tokenId]][msg.sender] == true, "You are not authorized to access this function.");
+        _Approval[_tokenId] = _approved;
+        emit Approval(msg.sender, _approved, _tokenId);
+    }
+
+    function setApprovalForAll(address _operator, bool _approved) external {
+        require(_operator != msg.sender);
+        _operatorApprovals[msg.sender][_operator] = _approved;
+        emit ApprovalForAll(msg.sender, _operator, _approved);
+    }
+
+    function getApproved(uint256 _tokenId) external view returns (address) {
+        require(_tokenId < birdies.length, "Token doesn't exist");
+        return _Approval[_tokenId];
+    }
+
+    function isApprovedForAll(address _owner, address _operator) external view returns (bool) {
+        return _operatorApprovals[_owner][_operator];
+    }
+
+    function transferFrom(address _from, address _to, uint256 _tokenId) external {
+        require(_from == msg.sender || _Approval[_tokenId] == msg.sender || address(this == msg.sender, "You are not authorized to use this function");
+        require(birdOwner[_tokenId] == _from, "Owner incorrect.");
+        require(_to != address(0), "Error: Operation would delete this token permanently");
+        require(_tokenId < birdies.length, "Token doesn't exist");
+        _transfer(_from, _to, _tokenId);
+    }
+
 }
