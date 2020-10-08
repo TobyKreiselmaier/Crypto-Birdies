@@ -12611,12 +12611,12 @@
         }
       },
       "links": {},
-      "address": "0x744335B15B0ECb41747Eb8B2C5a5016d7C1B7EE0",
-      "transactionHash": "0x83ce547c381cd24b409bf970deb7b6caec8d39398053c1254e7caa68445f3f85"
+      "address": "0xA295f700624CBf5Fc6853EB7c2dD5A80DA9312E4",
+      "transactionHash": "0xe98de446c828d6fe05c397eed03846cc3cfcc353f30d52c989ff35a21db182df"
     }
   },
   "schemaVersion": "3.2.0",
-  "updatedAt": "2020-10-07T13:03:48.903Z",
+  "updatedAt": "2020-10-07T19:29:25.062Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

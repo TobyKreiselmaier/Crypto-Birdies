@@ -120,15 +120,6 @@
 	position: relative;
 }
 
-.eye_right .eye_highlight {
-	background: white;
-	border-radius: 100%;
-	height: 10em;
-	position: relative;
-	width: 10em;
-	z-index: 6
-}
-
 .eye {
 	background: #dddddd;
 	border: 0.9em black solid;
@@ -136,7 +127,7 @@
 	height: 10.7em;
 	position: absolute;
 	width: 10.7em;
-	z-index: 6
+	z-index: 6;
 }
 
 .pupil {

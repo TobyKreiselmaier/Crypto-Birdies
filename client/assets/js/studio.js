@@ -98,7 +98,6 @@ function basicEyes() {
     $('.eye_right .eyebrow').css('left', '-1em');
     $('.eye_left .eyebrow').css('left', '-3em');
     $('.eye .eyebrow').css('top', '-3em');
-    $('.pupil').css('top', '3em');
     $('.eye_right .pupil').css('left', '1.5em','top', '3em');
     $('.eye_left .pupil').css('left', '5em','top', '3em');
 }
@@ -321,6 +320,11 @@ function animationVariation(num) {
             $('#animationtext').html('Combi');
             animationType7();
             break;
+        case 8:    
+            resetAnimation();
+            $('#animationtext').html('Follow');
+            animationType8();
+            break;
         default:
             resetAnimation();
             $('#animationtext').html('None');
@@ -329,6 +333,11 @@ function animationVariation(num) {
 
 function resetAnimation() {
     $('*').removeClass('slowRotateBird floatingBird compressingBird upperSpeakingBird lowerSpeakingBird topWaggingTail middleWaggingTail bottomWaggingTail topAttention bottomAttention');
+    document.onmousemove = function(){};
+    $('.eye_right .pupil').css('left', '1.5em');
+    $('.eye_left .pupil').css('left', '5em');
+    $('.eye_right .pupil').css('top', '3em');
+    $('.eye_left .pupil').css('top', '3em');
 }
 
 function animationType1() {
@@ -368,4 +377,16 @@ function animationType7() {
     $('.tail_bottom').addClass('bottomWaggingTail');
     $('.feather_top').addClass('topAttention');
     $('.feather_bottom').addClass('bottomAttention');
+}
+
+function animationType8() {
+    basicEyes();
+    var eyeballs = document.getElementsByClassName("pupil");
+    document.onmousemove = function(event) {
+        var x = event.clientX * 100 / window.innerWidth + "%";
+        var y = event.clientY * 100 / window.innerHeight + "%";
+        for (let i = 0; i < 2; i++) {
+            eyeballs[i].style.left = x;
+            eyeballs[i].style.top = y;
+        }}
 }

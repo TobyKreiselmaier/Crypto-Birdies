@@ -5,7 +5,7 @@
 
 /* HTML Elements */
 body {
-	background: darkslategrey;
+	background: lightblue;
     font-family: Poppins;
     font-weight: 500;
     letter-spacing: 1px; 
@@ -21,18 +21,16 @@ footer {
 }
 
 h1 {
-    color: whitesmoke;
-    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    color: rgb(48, 46, 46);
 }
 
 html {
     box-sizing: border-box;
-    overflow-y: scroll;
+    color: rgb(48, 46, 46);overflow-y: scroll;
 }
 
 p {
-    color: whitesmoke;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: rgb(48, 46, 46);
 }
 
 /* Classes */
@@ -62,6 +60,17 @@ p {
     z-index: 1;
 }
 
+.catalogueBox {
+    background-color: #e2efff;
+    border-radius: 10px;
+    height: 30em;
+    left: 0.6em;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    z-index: 20;
+}
+
 .card-img-top {
     height: 200px;
 }
@@ -79,10 +88,11 @@ p {
 
 /* IDs */
 #backgroundPicture {
-    opacity: 50%;
+    opacity: 80%;
     width: 100%;
     z-index: -10;
 }
+
 #blockchainButton {
     border-radius: 5%;
     left: 26.1em;

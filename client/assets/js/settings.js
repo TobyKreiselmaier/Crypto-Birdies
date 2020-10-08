@@ -60,7 +60,7 @@ function setRandomDna(){
     "decorationColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
     "decorationMidColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
     "decorationSmallColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
-    "animation": Math.floor(Math.random()*8),// number from 0 to 7
+    "animation": Math.floor(Math.random()*9),// number from 0 to 8
     //this will always return 17 digits for the Dna of a bird.
     };
   renderBird(randomDna);
