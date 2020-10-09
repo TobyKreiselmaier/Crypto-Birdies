@@ -49,6 +49,19 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
         _symbol = symbol;
     }
 
+    function breed(uint256 _dadId, uint256 _mumId) public returns (uint256){
+        require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender);
+        uint256 _newDna = _mixDna(_dadId, _mumId);
+        uint256 _newGeneration;
+        if (birdies[_dadId].generation <= birdies[_mumId].generation) {
+            _newGeneration = birdies[_dadId].generation;
+        } else {
+            _newGeneration = birdies[_mumId].generation;
+        }
+        _newGeneration = _newGeneration.add(1);
+        return _createBird(_mumId, _dadId, _newGeneration, _newDna, msg.sender);
+    }
+
     function supportsInterface(bytes4 _interfaceId) external pure returns (bool) {
         return (_interfaceId == _InterfaceIdERC721 || _interfaceId == _InterfaceIdERC165);
     }
@@ -211,6 +224,15 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
 
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) public {
         safeTransferFrom(_from, _to, _tokenId, "");
+    }
+
+    function _mixDna(uint256 _dadDna, uint256 _mumDna) internal pure returns (uint256){
+        //11 22 33 44 55 66 77 88 (dad)
+        //88 77 66 55 44 33 22 11 (mum)
+
+        uint256 firstHalf = _dadDna / 100000000; //11 22 33 44
+        uint256 secondHalf = _mumDna % 100000000; //44 33 22 11
+        return (firstHalf * 100000000) + secondHalf; //11 22 33 44 44 33 22 11
     }
 
 }
