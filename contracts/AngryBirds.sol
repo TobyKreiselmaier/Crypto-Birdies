@@ -1,12 +1,13 @@
-import "./IERC721.sol";
-import "./IERC721Receiver.sol";
-import "./SafeMath.sol";
 import "./Ownable.sol";
 import "./Destroyable.sol";
+import "./IERC165.sol";
+import "./IERC721.sol";
+import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has... same goes if that variable is a contract. an interface is a way of abstracting those capabilities so the EVM knows what it does.
+import "./SafeMath.sol";
 
 pragma solidity ^0.5.12;
 
-contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
+contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
 
     using SafeMath for uint256;
 
@@ -35,13 +36,13 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
 
     mapping(uint256 => address) public birdOwner;
     mapping(address => uint256) ownsNumberOfTokens;
-    mapping(uint256 => address) public _approval;//which bird is approved to be transfered by an address other than the owner
+    mapping(uint256 => address) public approvalOneBird;//which bird is approved to be transfered by an address other than the owner
     mapping(address => mapping (address => bool)) private _operatorApprovals;//approval to handle all tokens of an address by another
     //_operatorApprovals[owneraddress][operatoraddress] = true/false;
 
-    event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
-    event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
-    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Birth(address owner, uint256 birdId, uint256 mumId, uint256 dadId, uint256 genes);
 
     constructor(string memory name, string memory symbol) public {
@@ -51,7 +52,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
 
     function breed(uint256 _dadId, uint256 _mumId) public returns (uint256){
         require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender);
-        uint256 _newDna = _mixDna(_dadId, _mumId);
+        uint256 _newDna = _advancedMixDna(_dadId, _mumId); //simplified alternative would be _mixDna
         uint256 _newGeneration;
         if (birdies[_dadId].generation <= birdies[_mumId].generation) {
             _newGeneration = birdies[_dadId].generation;
@@ -62,7 +63,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
         return _createBird(_mumId, _dadId, _newGeneration, _newDna, msg.sender);
     }
 
-    function supportsInterface(bytes4 _interfaceId) external pure returns (bool) {
+    function supportsInterface(bytes4 _interfaceId) external view returns (bool) {
         return (_interfaceId == _InterfaceIdERC721 || _interfaceId == _InterfaceIdERC165);
     }
 
@@ -129,11 +130,11 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
         return birdies.length;
     }
 
-    function name() public view returns (string memory){
+    function name() external view returns (string memory tokenName){
         return _name;
     }
 
-    function symbol() public view returns (string memory){
+    function symbol() external view returns (string memory tokenSymbol){
         return _symbol;
     }
 
@@ -155,7 +156,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
         
         if (_from != address(0)) {
             ownsNumberOfTokens[_from] = ownsNumberOfTokens[_from].sub(1);
-            delete _approval[_tokenId];//when owner changes, approval must be removed.
+            delete approvalOneBird[_tokenId];//when owner changes, approval must be removed.
         }
 
         emit Transfer(_from, _to, _tokenId);
@@ -163,7 +164,7 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
 
     function approve(address _approved, uint256 _tokenId) external {
         require(birdOwner[_tokenId] == msg.sender || _operatorApprovals[birdOwner[_tokenId]][msg.sender] == true, "You are not authorized to access this function.");
-        _approval[_tokenId] = _approved;
+        approvalOneBird[_tokenId] = _approved;
         emit Approval(msg.sender, _approved, _tokenId);
     }
 
@@ -175,20 +176,13 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
 
     function getApproved(uint256 _tokenId) external view returns (address) {
         require(_tokenId < birdies.length, "Token doesn't exist");
-        return _approval[_tokenId];
+        return approvalOneBird[_tokenId];
     }
 
     function isApprovedForAll(address _owner, address _operator) external view returns (bool) {
         return _operatorApprovals[_owner][_operator];
     }
 
-    function transferFrom(address _from, address _to, uint256 _tokenId) external {
-        require(_from == msg.sender || _approval[_tokenId] == msg.sender || _operatorApprovals[_from][_to], "You are not authorized to use this function");
-        require(birdOwner[_tokenId] == _from, "Owner incorrect.");
-        require(_to != address(0), "Error: Operation would delete this token permanently");
-        require(_tokenId < birdies.length, "Token doesn't exist");
-        _transfer(_from, _to, _tokenId);
-    }
     function _safeTransfer(address _from, address _to, uint256 _tokenId, bytes memory _data) internal {
         require(_checkERC721Support(_from, _to, _tokenId, _data));
         _transfer(_from, _to, _tokenId);
@@ -198,7 +192,6 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
         if(!_isContract(_to)) {
             return true;
         }
-
         bytes4 returnData = IERC721Receiver(_to).onERC721Received(msg.sender, _from, _tokenId, _data);
         //Call onERC721Received in the _to contract
         return returnData == _ERC721Checksum;
@@ -214,16 +207,27 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
         //check if code size > 0; wallets have 0 size.
     }
 
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory _data) public {
-        require(_from == msg.sender || _approval[_tokenId] == msg.sender || _operatorApprovals[_from][_to], "You are not authorized to use this function");
-        require(birdOwner[_tokenId] == _from, "Owner incorrect.");
+    function _isOwnerOrApproved(address _from, address _to, uint256 _tokenId) internal view returns (bool) {
+        require(_from == msg.sender || approvalOneBird[_tokenId] == msg.sender || _operatorApprovals[_from][_to], "You are not authorized to use this function");
+        require(birdOwner[_tokenId] == _from, "Owner incorrect");
         require(_to != address(0), "Error: Operation would delete this token permanently");
         require(_tokenId < birdies.length, "Token doesn't exist");
-        _safeTransfer(_from, _to, _tokenId, _data);
+        return true;
     }
 
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId) public {
-        safeTransferFrom(_from, _to, _tokenId, "");
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes calldata data) external {
+        _isOwnerOrApproved(_from, _to, _tokenId);
+        _safeTransfer(_from, _to, _tokenId, data);
+    }
+
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId) external {
+        _isOwnerOrApproved(_from, _to, _tokenId);
+        _safeTransfer(_from, _to, _tokenId, "");
+    }
+
+    function transferFrom(address _from, address _to, uint256 _tokenId) external {
+        _isOwnerOrApproved(_from, _to, _tokenId);
+        _transfer(_from, _to, _tokenId);
     }
 
     function _mixDna(uint256 _dadDna, uint256 _mumDna) internal pure returns (uint256){
@@ -235,4 +239,39 @@ contract AngryBirds is Ownable, Destroyable, IERC721, IERC721Receiver {
         return (firstHalf * 100000000) + secondHalf; //11 22 33 44 44 33 22 11
     }
 
+    function _advancedMixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
+        uint256[9] memory geneArray;
+        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is not needed
+                                         //this will return a number 0-255. e.g. 10111000
+        uint256 i;
+        uint256 counter = 7;              //we start on the right end
+
+        //DNA example: 11 22 33 44 55 66 77 88 9
+
+        geneArray[8] = uint8(_mumDna % 10); //this takes the 17th gene from mum.
+        _mumDna = _mumDna / 10;             //now reduce both DNAs so they have 16 digits
+        _dadDna = _dadDna / 10;
+
+        for (i = 1; i <= 128; i=i*2) {                           //1, 2 , 4, 8, 16, 32, 64 ,128
+            if(random & i == 0){                             //00000001
+                geneArray[counter] = uint8(_mumDna % 100);  //00000010 etc.
+            } else {                                        //11001011 &
+                geneArray[counter] = uint8(_dadDna % 100);  //00000001 will go through random number bitwise
+            }                                               //if(1) - dad gene
+            _mumDna = _mumDna / 100;                        //if(0) - mum gene
+            _dadDna = _dadDna / 100;                        //division by 100 removes last two digits from genes                                                
+            counter = counter - 1;                                                
+        }
+
+        uint256 newGene = 0;
+
+        //geneArray example: [11, 22, 33, 44, 55, 66, 77, 88, 9]
+
+        for (i = 0; i < 8; i++) {                       //8 is number of pairs in array
+            newGene = newGene * 100;                        //adds two digits to newGene; nothing the first time
+            newGene = newGene + geneArray[i];               //adds a pair of genes
+        }
+        newGene = newGene + geneArray[8];
+        return newGene;
+    }
 }
