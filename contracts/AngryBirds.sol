@@ -231,12 +231,12 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function _mixDna(uint256 _dadDna, uint256 _mumDna) internal pure returns (uint256){
-        //11 22 33 44 55 66 77 88 (dad)
-        //88 77 66 55 44 33 22 11 (mum)
+        //11 22 33 44 55 66 77 88 9 (dad)
+        //88 77 66 55 44 33 22 11 0 (mum)
 
-        uint256 firstHalf = _dadDna / 100000000; //11 22 33 44
-        uint256 secondHalf = _mumDna % 100000000; //44 33 22 11
-        return (firstHalf * 100000000) + secondHalf; //11 22 33 44 44 33 22 11
+        uint256 digitsOneThruEight = _dadDna / 100000000; //11 22 33 44
+        uint256 digitsNineThruSeventeen = _mumDna % 1000000000; //44 33 22 11 0
+        return (digitsOneThruEight * 100000000) + digitsNineThruSeventeen; //11 22 33 44 44 33 22 11 0
     }
 
     function _advancedMixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
