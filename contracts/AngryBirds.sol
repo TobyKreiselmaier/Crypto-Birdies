@@ -44,6 +44,7 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
     event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Birth(address owner, uint256 birdId, uint256 mumId, uint256 dadId, uint256 genes);
+    event Testmix(uint256 newGenes);
 
     constructor(string memory name, string memory symbol) public {
         _name = name;
@@ -51,13 +52,17 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function breed(uint256 _dadId, uint256 _mumId) public returns (uint256){
-        require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender);
-        uint256 _newDna = _advancedMixDna(_dadId, _mumId); //simplified alternative would be _mixDna
+        require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender, "You can't breed what you don't own");
+        
+        (uint256 _dadDna,,,, uint256 _dadGeneration) = getBird(_dadId);//discarding not needed data here
+        (uint256 _mumDna,,,, uint256 _mumGeneration) = getBird(_mumId);//discarding not needed data here
+        uint256 _newDna = _mixDna(_dadDna, _mumDna);
         uint256 _newGeneration;
-        if (birdies[_dadId].generation <= birdies[_mumId].generation) {
-            _newGeneration = birdies[_dadId].generation;
+
+        if (_dadGeneration <= _mumGeneration) {
+            _newGeneration = _dadGeneration;
         } else {
-            _newGeneration = birdies[_mumId].generation;
+            _newGeneration = _mumGeneration;
         }
         _newGeneration = _newGeneration.add(1);
         return _createBird(_mumId, _dadId, _newGeneration, _newDna, msg.sender);
@@ -93,7 +98,7 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
         return newBirdId;
     }
 
-    function getBird(uint256 tokenId) external view returns (
+    function getBird(uint256 tokenId) public view returns (
         uint256 genes,
         uint256 birthTime,
         uint256 mumId,
@@ -230,47 +235,41 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
         _transfer(_from, _to, _tokenId);
     }
 
-    function _mixDna(uint256 _dadDna, uint256 _mumDna) internal pure returns (uint256){
-        //11 22 33 44 55 66 77 88 9 (dad)
-        //88 77 66 55 44 33 22 11 0 (mum)
-
-        uint256 digitsOneThruEight = _dadDna / 100000000; //11 22 33 44
-        uint256 digitsNineThruSeventeen = _mumDna % 1000000000; //44 33 22 11 0
-        return (digitsOneThruEight * 100000000) + digitsNineThruSeventeen; //11 22 33 44 44 33 22 11 0
-    }
-
-    function _advancedMixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
+    function _mixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
         uint256[9] memory geneArray;
-        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is not needed
-                                         //this will return a number 0-255. e.g. 10111000
+        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is not needed. This will return a number 0-255. e.g. 10111000
+        uint8 randomSeventeenthDigit = uint8(now % 1);
         uint256 i;
-        uint256 counter = 7;              //we start on the right end
+        uint256 counter = 7;             // start on the right end
 
         //DNA example: 11 22 33 44 55 66 77 88 9
 
-        geneArray[8] = uint8(_mumDna % 10); //this takes the 17th gene from mum.
-        _mumDna = _mumDna / 10;             //now reduce both DNAs so they have 16 digits
-        _dadDna = _dadDna / 10;
-
-        for (i = 1; i <= 128; i=i*2) {                           //1, 2 , 4, 8, 16, 32, 64 ,128
-            if(random & i == 0){                             //00000001
+        for (i = 1; i <= 128; i=i*2) {                      //1, 2 , 4, 8, 16, 32, 64 ,128
+            if(random & i == 0){                            //00000001
                 geneArray[counter] = uint8(_mumDna % 100);  //00000010 etc.
             } else {                                        //11001011 &
                 geneArray[counter] = uint8(_dadDna % 100);  //00000001 will go through random number bitwise
             }                                               //if(1) - dad gene
             _mumDna = _mumDna / 100;                        //if(0) - mum gene
-            _dadDna = _dadDna / 100;                        //division by 100 removes last two digits from genes                                                
-            counter = counter - 1;                                                
+            _dadDna = _dadDna / 100;                        //division by 100 removes last two digits from genes
+            counter = counter - 1;
+        }
+
+        if(randomSeventeenthDigit == 0){
+            geneArray[8] = _mumDna; //this takes the 17th gene from mum.
+        } else {
+            geneArray[8] = _dadDna; //this takes the 17th gene from dad.
         }
 
         uint256 newGene = 0;
 
         //geneArray example: [11, 22, 33, 44, 55, 66, 77, 88, 9]
 
-        for (i = 0; i < 8; i++) {                       //8 is number of pairs in array
-            newGene = newGene * 100;                        //adds two digits to newGene; nothing the first time
+        for (i = 0; i < 8; i++) {                           //8 is number of pairs in array
+            newGene = newGene * 100;                        //adds two digits to newGene; no digits the first time
             newGene = newGene + geneArray[i];               //adds a pair of genes
         }
+        newGene = newGene * 10;                             //add seventeenth digit
         newGene = newGene + geneArray[8];
         return newGene;
     }

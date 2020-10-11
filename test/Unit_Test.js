@@ -128,7 +128,7 @@ contract("Birdcontract", (accounts) => {
       await instance.createBirdGen0(101);
       var testTransfer = await instance.transfer(accounts[1], 0);
       truffleAssert.eventEmitted(testTransfer, 'Transfer', (ev) => {
-        return ev._from == accounts[0] && ev._to == accounts[1] && ev._tokenId == 0;
+        return ev.from == accounts[0] && ev.to == accounts[1] && ev.tokenId == 0;
       }, "Transfer event should have been emitted with correct parameters");
     });
   
