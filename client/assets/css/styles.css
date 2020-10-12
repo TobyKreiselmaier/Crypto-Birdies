@@ -14,11 +14,9 @@ body {
 footer {
     background: whitesmoke;
     height: 30px;
-    left: 20em;
-    padding: 4vh;
-    padding-bottom: 60px;
+    padding: 2vh;
+    padding-bottom: 40px;
     position: relative;
-    width: 68%;
     border-radius: 5px;
 }
 
@@ -66,9 +64,6 @@ p {
     background-color: #e2efff;
     border-radius: 10px;
     height: 30em;
-    left: 0.6em;
-    padding-bottom: 10px;
-    padding-left: 30px;
     padding-right: 30px;
     z-index: 20;
 }
@@ -114,18 +109,42 @@ p {
     text-align: center;
 }
 
+#dameButton {
+    position: relative;
+    left: 13em;
+}
+
 #defaultButton {
     border-radius: 5%;
     left: 4.6em;
+}
+
+#incubatorHearts {
+    transform: scale(1.3);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 
 #logo {
     border-radius: 40%;
 }
 
+#privacyButton {
+    position: relative;
+    left: 23.5em;
+
+}
+
 #randomizeButton {
     border-radius: 5%;
     left: 0.8em;
+}
+
+#sireButton {
+    position: relative;
+    left: 36em;
 }
 
 #topCard {

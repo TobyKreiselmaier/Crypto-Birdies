@@ -1,0 +1,114 @@
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Incubator - Angry Birds on the Block</title>
+      <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
+      <script src="assets/js/web3.min.js"></script>
+      <script src="assets/js/abi.js"></script>
+      <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+      <script src="assets/bootstrap/js/popper.js"></script>
+      <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="assets/css/animations_red.css">
+      <link rel="stylesheet" href="assets/css/birds_red.css">
+      <link rel="stylesheet" href="assets/css/styles.css">
+    </head>
+    <body>
+        <div class="container p-5">
+
+          <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="./catalog.html">Catalog</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Incubator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./studio.html">Design Studio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./market.html">Market Place</a>
+                    </li>
+                  </ul>
+                </div>
+            </nav><br>
+
+          <!-- Headlines -->
+          <div class="container">
+            <div align="center">
+              <h1 class="c-white"><b>Love Birds Incubator</b></h1>
+              <p class="c-white">Breed your own birdies! Choose the parents for your new bird!</p>
+            </div><br>
+
+            <img id="incubatorHearts" src="/client/assets/media/hearts.png"><br>
+
+            <!-- Buttons -->
+            <button id="dameButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#dameModal">
+              Select Dame
+            </button>
+            <button id="sireButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#sireModal">
+              Select Sire
+            </button><br><br>
+            <button id="privacyButton" type="button" class="btn btn-danger">
+              Give your lovebirds some privacy
+            </button><br><br>
+
+            <!-- Dame Modal -->
+            <div class="modal fade" id="dameModal" tabindex="-1" aria-labelledby="dameModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="dameModalLabel">Select the Dame</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="container-fluid">
+                      <div class="row dameBox" style="flex-wrap: nowrap">
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><br>
+
+          <!-- Sire Modal -->
+          <div class="modal fade" id="sireModal" tabindex="-1" aria-labelledby="sireModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="sireModalLabel">Select the Sire</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="row sireBox" style="flex-wrap: nowrap">
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><br>
+          
+        <!-- Footer -->
+        <footer align="center">
+            Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
+        </footer>
+    </body>
+    <script src="assets/js/blockchain.js"></script>
+    <script src="assets/js/colors.js"></script>
+    <script src="assets/js/incubator.js"></script>
+</html>

@@ -5,6 +5,16 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     getBirdsOfOwner();
 });
 
+//Listeners for the two buttons
+$('#catalogBox').click(()=>{
+    console.log("dameBox clicked")
+    var birdId = $(this).attr('id');//extract id
+    console.log(birdId);
+    var id = parseInt(birdId.substring(7));
+    //render Dame
+  });
+
+
 function appendBird(dna, id) {
     var BirdyDna = birdDna(dna, id); //convert dna back into string
     birdBox(id); //build box in HTML
@@ -31,7 +41,7 @@ function birdDna(dna, id) {
 }
 
 function birdBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-2 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-sm-9 catalogBox light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -356,18 +366,18 @@ function decorationType7(id) {//Cross & Eyes
 }
 
 function decorationMainColor(color, code, id) {
-    $(`#BirdBox${id} .deco_3`, `#BirdBox${id} .deco_4`).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationAtEye' + id).html(code) //This updates the DNA that is displayed below the bird
+    $(`#BirdBox${id} .deco_3`, `#BirdBox${id} .deco_4`).css('background', '#' + color)
+    $('#dnaDecorationAtEye' + id).html(code)
 }
 
 function middleColor(color, code, id) {
-    $(`#BirdBox${id} .deco_2`).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationMid' + id).html(code) //This updates the DNA that is displayed below the bird
+    $(`#BirdBox${id} .deco_2`).css('background', '#' + color)
+    $('#dnaDecorationMid' + id).html(code)
 }
 
 function smallColor(color, code, id) {
-    $(`#BirdBox${id} .deco_1`).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationSmall' + id).html(code) //This updates the DNA that is displayed below the bird
+    $(`#BirdBox${id} .deco_1`).css('background', '#' + color)
+    $('#dnaDecorationSmall' + id).html(code)
 }
 
 function animationVariation(num, id) {
