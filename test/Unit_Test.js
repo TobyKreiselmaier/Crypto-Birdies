@@ -121,6 +121,9 @@ contract("Birdcontract", (accounts) => {
   
     it("should not allow transfer to the contract address", async () => {
       var contractAddress = await instance.address;
+      await instance.createBirdGen0(101);
+      var testOwner = await instance.ownerOf(0);
+      assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
       await truffleAssert.reverts(instance.transfer(contractAddress, 0));
     });
   
@@ -128,18 +131,24 @@ contract("Birdcontract", (accounts) => {
       await instance.createBirdGen0(101);
       var testTransfer = await instance.transfer(accounts[1], 0);
       truffleAssert.eventEmitted(testTransfer, 'Transfer', (ev) => {
-        return ev.from == accounts[0] && ev.to == accounts[1] && ev.tokenId == 0;
+      return ev.from == accounts[0] && ev.to == accounts[1] && ev.tokenId == 0;
       }, "Transfer event should have been emitted with correct parameters");
     });
   
     it("should transfer a token from one account to another", async () => {
-      var numberTokensSenderStart = await instance.balanceOf(accounts[0]);
-      var numberTokensRecipientStart = await instance.balanceOf(accounts[1]);
-      await truffleAssert.reverts(instance.transfer(accounts[1], 0));
-      var numberTokensSenderEnd = await instance.balanceOf(accounts[0]);
-      assert.equal(numberTokensSenderEnd, numberTokensSenderStart--, "Token balance sender is not updated correctly");
-      var numberTokensRecipientEnd = await instance.balanceOf(accounts[1]);
-      assert.equal(numberTokensRecipientEnd, numberTokensRecipientStart++, "Token balance sender is not updated correctly");
+      await instance.createBirdGen0(101);
+
+      var numberTokensSender = await instance.balanceOf(accounts[0]);
+      assert.equal(numberTokensSender, 1, "Token balance is incorrect");
+      var numberTokensRecipient = await instance.balanceOf(accounts[1]);
+      assert.equal(numberTokensRecipient, 0, "Token balance is incorrect");
+
+      await instance.transfer(accounts[1], 0);
+
+      numberTokensSender = await instance.balanceOf(accounts[0]);
+      assert.equal(numberTokensSender, 0, "Token balance is incorrect");
+      numberTokensRecipient = await instance.balanceOf(accounts[1]);
+      assert.equal(numberTokensRecipient, 1, "Token balance is incorrect");
     });
   });
 })

@@ -239,6 +239,8 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
         uint256[9] memory geneArray;
         uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is not needed. This will return a number 0-255. e.g. 10111000
         uint8 randomSeventeenthDigit = uint8(now % 1);
+        uint8 randomPair = uint8(now % 7); //w9d3 assignment. number to select random pair.
+        uint8 randomNumberForRandomPair = uint8((now % 89) + 10);//value of random pair, making sure there's no leading '0'.
         uint256 i;
         uint256 counter = 7;             // start on the right end
 
@@ -260,6 +262,8 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
         } else {
             geneArray[8] = _dadDna; //this takes the 17th gene from dad.
         }
+
+        geneArray[randomPair] = randomNumberForRandomPair; //extra randomness for random pair.
 
         uint256 newGene = 0;
 
