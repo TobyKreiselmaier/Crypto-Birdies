@@ -120,7 +120,7 @@ contract("Birdcontract", (accounts) => {
     });
   
     it("should not allow transfer to the contract address", async () => {
-      var contractAddress = await instance.address;
+      const contractAddress = await instance.address;
       await instance.createBirdGen0(101);
       var testOwner = await instance.ownerOf(0);
       assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
