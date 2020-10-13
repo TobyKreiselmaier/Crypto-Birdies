@@ -1,6 +1,6 @@
 var colors = Object.values(allColors());
 var dameId = -1;
-var sireId = 0;
+var sireId = -1;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
