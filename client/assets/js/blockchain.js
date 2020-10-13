@@ -51,3 +51,11 @@ async function getBirdsOfOwner() {
     }
     return birdy;
 };
+
+async function breedBird(mumId, dadId) {
+    await instance.methods.breed().send({mumId, dadId}, function(error, txHash){
+        if(error) {
+            alert(error);
+        }
+    })
+};

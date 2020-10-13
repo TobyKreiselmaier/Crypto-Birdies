@@ -51,11 +51,11 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
         _symbol = symbol;
     }
 
-    function breed(uint256 _dadId, uint256 _mumId) public returns (uint256){
+    function breed(uint256 _dadId, uint256 _mumId) external returns (uint256){
         require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender, "You can't breed what you don't own");
         
-        (uint256 _dadDna,,,, uint256 _dadGeneration) = getBird(_dadId);//discarding not needed data here
-        (uint256 _mumDna,,,, uint256 _mumGeneration) = getBird(_mumId);//discarding not needed data here
+        (uint256 _dadDna,,,, uint256 _dadGeneration) = getBird(_dadId);//discarding redundant data here
+        (uint256 _mumDna,,,, uint256 _mumGeneration) = getBird(_mumId);//discarding redundant data here
         uint256 _newDna = _mixDna(_dadDna, _mumDna);
         uint256 _newGeneration;
 
@@ -237,7 +237,7 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
 
     function _mixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
         uint256[9] memory geneArray;
-        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is not needed. This will return a number 0-255. e.g. 10111000
+        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is redundant. This will return a number 0-255. e.g. 10111000
         uint8 randomSeventeenthDigit = uint8(now % 1);
         uint256 i;
         uint256 counter = 7;             // start on the right end

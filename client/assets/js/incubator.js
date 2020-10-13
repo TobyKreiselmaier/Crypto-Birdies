@@ -1,18 +1,25 @@
 var colors = Object.values(allColors());
+var dameId;
+var sireId;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     getBirdsOfOwner();
 });
 
-//Listeners for the two buttons
-$('#catalogBox').click(()=>{
-    console.log("dameBox clicked")
-    var birdId = $(this).attr('id');//extract id
+//Listeners for the incubator buttons
+$('.dameBox').click(()=>{
+    console.log("button clicked");
+    var birdId = $('.dameBox').children(4).attr('id');//extract id
     console.log(birdId);
     var id = parseInt(birdId.substring(7));
+    console.log(id)
     //render Dame
-  });
+});
+
+$('#privacyButton').click(async ()=>{
+    await breedBird(0, 3);
+})
 
 
 function appendBird(dna, id) {
