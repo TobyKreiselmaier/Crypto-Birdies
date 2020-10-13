@@ -2,7 +2,7 @@ var web3 = new Web3(Web3.givenProvider);//Wallet will inject the selected networ
 
 var instance;
 var user;
-var contractAddress = "0xba3A121a6C25A1E05e730BDe14ab89129CB01987";//update after contract is deployed
+var contractAddress = "0x238D340939C8DF3CA5AcC7a6Ade3178Fcd6C362E";//update after contract is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -53,7 +53,7 @@ async function getBirdsOfOwner() {
 };
 
 async function breedBird(mumId, dadId) {
-    await instance.methods.breed().send({mumId, dadId}, function(error, txHash){
+    await instance.methods.breed(mumId, dadId).send({}, function(error, txHash){
         if(error) {
             alert(error);
         }

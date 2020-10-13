@@ -136,8 +136,7 @@ function bottomBeakColor(color, code, id) {//works
 
 function eyesVariation(num, id) {
     $('#dnaEyesShape' + id).html(num)
-    var test = parseInt(num)
-    switch (test) {
+    switch (num) {
         case 0:
             basicEyes(id);
             $('#bottomeyetext' + id).html('Basic Eyes');
