@@ -4,7 +4,7 @@ var sireId = 0;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
-    getBirdsOfOwner();//calls appendBird
+    getBirdsOfOwner();//calls appendBird with all ids of owner.
 });
 
 //Listener for the privacy button
@@ -21,9 +21,9 @@ function appendBird(dna, id) {//add bird to list
     var BirdyDna = birdDna(dna, id); //convert dna back into string
     var boxDiv;
     boxDiv = dameBox(id); //build box in HTML for dame
-    $('.dame .row').append(boxDiv);
+    $('.damerow').append(boxDiv);
     boxDiv = sireBox(id);
-    $('.sire .row').append(boxDiv);
+    $('.sirerow').append(boxDiv);
     renderBird(BirdyDna, id);
     
     $(`#dameBox${id}`).click(()=>{
@@ -172,7 +172,6 @@ function sireBox(id) {//build sireBox
                             </b>
                         </div>
                     </div>`
-    $('.sireBox .row').append(boxDiv);
 }
 
 //all rendering functions are taken from catalog.js
