@@ -13,11 +13,11 @@ body {
 
 footer {
     background: whitesmoke;
+    border-radius: 5px;
     height: 30px;
     padding: 2vh;
     padding-bottom: 40px;
     position: relative;
-    border-radius: 5px;
 }
 
 h1 {
@@ -101,9 +101,9 @@ p {
 /* IDs */
 #backgroundPicture {
     opacity: 80%;
+    position: relative;
     width: 100%;
     z-index: -10;
-    position: relative;
 }
 
 #blockchainButton {
@@ -111,7 +111,9 @@ p {
 }
 
 #breedButton {
-    left: 30em;
+    left: 13em;
+    position: relative;
+    top: -9em;
 }
 
 #cardButton {
@@ -124,14 +126,17 @@ p {
 }
 
 #dameButton {
+    left: 7em;
     position: relative;
-    left: 5em;
+    top: -9em;
 }
 
 #dameDisplay {
-    display: inline-block;
+    left: 25em;
+    opacity: 80%;
     position: relative;
-    left: 5em;
+    top: 16em;
+    width: 30em;
 }
 
 #defaultButton {
@@ -147,14 +152,23 @@ p {
 }
 
 #sireButton {
+    left: 42em;
     position: relative;
-    left: 55em;
+    top: -9em;
+}
+
+#sireDisplay {
+    left: 60em;
+    opacity: 80%;
+    position: relative;
+    top: 16em;
+    width: 30em;
 }
 
 #topCard {
+    background: transparent;
+    display: inline-block;
     left: 35%;
     position: relative;
-    display: inline-block;
-    background: transparent;
     z-index: 1;
 }

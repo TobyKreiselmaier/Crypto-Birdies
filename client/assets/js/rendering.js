@@ -1,13 +1,12 @@
 var colors = Object.values(allColors());
 
 function appendBird(dna, id) {
-    var BirdyDna = birdDna(dna, id); //convert dna back into string
-    birdBox(id); //build box in HTML
-    renderBird(BirdyDna, id);
+    birdBox(id);
+    renderBird(birdDna(dna, id), id);
 }
 
 function birdDna(dna, id) {
-    var internalDna = {
+    var dnaObject = {
         "topFeatherColor": dna.genes.substring(0, 2),
         "bodyFeatherColor": dna.genes.substring(2, 4),
         "topBeakColor": dna.genes.substring(4, 6),
@@ -22,7 +21,7 @@ function birdDna(dna, id) {
         "mum": dna.mumId,
         "dad": dna.dadId
     }
-    return internalDna;
+    return dnaObject;
 }
 
 function birdBox(id) {
@@ -108,23 +107,23 @@ function renderBird(dna, id){
     printDad(dna.dad, id);
 }
 
-function topFeatherColor(color, code, id) {//works
-$(`#BirdBox${id} .feather_top`).css('background', '#' + color) //This changes the color of the bird
-$(`#BirdBox${id} .feather_bottom`).css('background', '#' + color) //This changes the color of the bird
-$('#dnaTopFeather' + id).html(code) //This updates the DNA line that is displayed below the bird
+function topFeatherColor(color, code, id) {
+$(`#BirdBox${id} .feather_top`).css('background', '#' + color)//This changes the color of the bird
+$(`#BirdBox${id} .feather_bottom`).css('background', '#' + color)//This changes the color of the bird
+$('#dnaTopFeather' + id).html(code)//This updates the DNA line that is displayed below the bird
 }
 
-function bodyFeatherColor(color, code, id) {//works
+function bodyFeatherColor(color, code, id) {
     $(`#BirdBox${id} .bird_body_inner`).css('background', '#' + color)
     $('#dnaBodyFeather' + id).html(code)
 }
 
-function topBeakColor(color, code, id) {//works
+function topBeakColor(color, code, id) {
     $(`#BirdBox${id} .beak_upper`).css('background', '#' + color)
     $('#dnaTopBeak' + id).html(code)
 }
 
-function bottomBeakColor(color, code, id) {//works
+function bottomBeakColor(color, code, id) {
     $(`#BirdBox${id} .beak_lower`).css('background', '#' + color)
     $('#dnaBottomBeak' + id).html(code)
 }
@@ -162,7 +161,7 @@ function eyesVariation(num, id) {
             eyesType5(id);
             break;    
         case 6:    
-            //basicEyes(id);
+            basicEyes(id);
             $('#bottomeyetext' + id).html('Eye Slits');
             eyesType6(id);
             break;    
@@ -350,18 +349,18 @@ function decorationType7(id) {//Cross & Eyes
 }
 
 function decorationMainColor(color, code, id) {
-    $(`#BirdBox${id} .deco_3`, `#BirdBox${id} .deco_4`).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationAtEye' + id).html(code) //This updates the DNA that is displayed below the bird
+    $(`#BirdBox${id} .deco_3`, `#BirdBox${id} .deco_4`).css('background', '#' + color)
+    $('#dnaDecorationAtEye' + id).html(code)
 }
 
 function middleColor(color, code, id) {
-    $(`#BirdBox${id} .deco_2`).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationMid' + id).html(code) //This updates the DNA that is displayed below the bird
+    $(`#BirdBox${id} .deco_2`).css('background', '#' + color)
+    $('#dnaDecorationMid' + id).html(code)
 }
 
 function smallColor(color, code, id) {
-    $(`#BirdBox${id} .deco_1`).css('background', '#' + color) //This changes the color of the bird
-    $('#dnaDecorationSmall' + id).html(code) //This updates the DNA that is displayed below the bird
+    $(`#BirdBox${id} .deco_1`).css('background', '#' + color)
+    $('#dnaDecorationSmall' + id).html(code)
 }
 
 function animationVariation(num, id) {
