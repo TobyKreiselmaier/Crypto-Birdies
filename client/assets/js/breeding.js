@@ -5,44 +5,66 @@ var arrayOfIds;
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
     await connectWallet(); //connect MetaMask (if not already connected)
     arrayOfIds = await getBirdsOfOwner(); //fill array with ids for all birds of this address
-    await buildBirdList(arrayOfIds); //iterates through array and returns full info from blockchain
+    if (arrayOfIds.length > 1) {//address must own at least two birds to continue
+        await buildBirdList(arrayOfIds); //iterates through array and returns full info from blockchain
+    } else {
+        alert("Please revisit this section once you own at least two birds.");
+        window.location.href = "./market.html";
+    }
+    
 });
 
 //Listeners for buttons
 $('#dameButton').click(()=>{
     $('#birdSelection').modal('show'); //open modal
-    selectDame(); //modal functionality when dame is selected
+    selectDame(); //modal functionality when dame is to be selected
 })
 
 $('#sireButton').click(()=>{
     $('#birdSelection').modal('show'); //open modal
-    selectSire();//modal functionality when sire is selected
+    selectSire();//modal functionality when sire is to be selected
 })
 
 $('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with request to breed child
-    if (dameId != sireId && dameId >= 0 && sireId >= 0) { //mum and dad need to be selected and different from each other
-        await breedBird(dameId, sireId);
+    if (dameId >= 0 && sireId >= 0) { //mum and dad need to be selected. They are automatically different from each other
+        if(await breedBird(dameId, sireId)){
+            alert("Bird successfully created on blockchain. Please allow up to a couple of minutes for it to appear in your catalog.");
+        };
         window.location.href = "./catalog.html"; //return to catalog site, ideally child is already displayed
     } else {
-        alert("Dame and Sire must be selected and may not be the same bird");
+        alert("Dame and Sire must be selected");
     }
 })
 
 //Listeners for selections
 function selectDame(){
-    $(`[id^='BirdBox']`).click(() =>{ //when element with id beginning with BirdBox... is clicked - works
-        dameId = parseInt($(`[id^='BirdBox']`).attr("id").substring(7)); // -doesn't work. always returns '0'. why?
-        delete arrayOfIds[dameId]; //tried all this: https://love2dev.com/blog/javascript-remove-from-array/, but couldn't delete element.
-        $('#birdSelection').modal('toggle'); //close modal
-        document.getElementsByClassName("row").innerHTML=""; //clear modal content - doesn't work. why?
-        buildBirdList(arrayOfIds); //build modal content with reduced array - doesn't work bc of above errors
-        dameBox(dameId); //draw box on breeding page - seems to work when tested with Bird0
-        renderBird(birdDna(getBirdDna(dameId), dameId));//draw bird inside box - seems to work when tested with Bird0
+    $(`[id^='BirdBox']`).click(async function() { //arrow function ES6 doesn't work with $(this)
+        debugger;
+        if (dameId == -1) {//no dame selected yet
+            dameId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
+            arrayOfIds.splice(dameId,1); //remove selected bird from array
+            $('#birdSelection').modal('toggle'); //close modal
+            $('.row').empty(); //clear modal content
+            await buildBirdList(arrayOfIds); //work on this
+            dameBox(dameId);//render box
+            renderBird(birdDna(await getBirdDna(dameId), dameId));//render bird
+        } else {//a dame was selected before
+            dameId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
+            arrayOfIds.splice(dameId,1); //remove selected bird from array
+            $('#birdSelection').modal('toggle'); //close modal
+            $('.row').empty(); //clear modal content
+            var dameBoxId = parseInt($('.dameBox').attr("id").substring(7));
+            $('.dameDisplay').empty();//clear dameBox
+            arrayOfIds.push(dameBoxId);//previously selected bird is returned to list when replaced
+            await buildBirdList(arrayOfIds);//work on this
+            dameBox(dameId);
+            renderBird(birdDna(await getBirdDna(dameId), dameId));
+        }
     });
 }
 
 function selectSire(){
-//add code once selectDame() works.
+// code later when selectDame() works
 }
 
 //dynamic elements for breeding page
@@ -110,6 +132,7 @@ function dameBox(id) {
                             </b>
                         </div>
                     </div>`
+    $('#dameDisplay').empty();
     $('#dameDisplay').append(boxDiv);
 }
 
@@ -177,5 +200,6 @@ function sireBox(id) {
                             </b>
                         </div>
                     </div>`
+    $('#sireDisplay').empty();
     $('#sireDisplay').append(boxDiv);
 }
