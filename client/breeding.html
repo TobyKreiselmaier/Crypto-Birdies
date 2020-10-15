@@ -12,6 +12,7 @@
       <link rel="stylesheet" href="assets/css/animations_red.css">
       <link rel="stylesheet" href="assets/css/birds_red.css">
       <link rel="stylesheet" href="assets/css/styles.css">
+      <link rel="stylesheet" href="assets/css/background.css">
     </head>
     <body>
         <div class="container p-5">
@@ -43,31 +44,21 @@
                 </div>
             </nav><br>
 
-          <!-- Headlines -->
+          <!-- Container -->
           <div class="container">
             <div align="center">
+              
+              <!-- Headlines -->
               <h1 class="c-white"><b>Breed your own birdies!</b></h1>
               <p class="c-white">Choose the parents for your new bird</p>
             </div><br>
 
-            <img id="incubatorHearts" src="/client/assets/media/hearts.png"><br>
-
-            <div class="container breedBox" align="center">
-              <div id="breedDiv">
-                  <div class="col-lg-6">
-                      <div class="featureBox pointer" data-toggle="modal" data-target="#birdSelection">
-                        <div id="dameDisplay"></div>
-                        <button id="dameButton" type="button" class="btn btn-primary" data-dismiss="modal">Select Dame</button>
-                      </div>
-                  </div>
-                  <div class="col-lg-6">
-                      <div class="featureBox pointer" data-toggle="modal" data-target="#birdSelection">
-                        <div id="sireDisplay"></div>
-                        <button id="sireButton" type="button" class="btn btn-primary" data-dismiss="modal">Select Sire</button>
-                    </div>
-                  </div>
-              </div>
-              <button class="btn btn-danger" id="breedButton">Breed a new bird!</button><br><br>
+            <!-- Background, Lovebirds & Buttons -->
+            <div id="dameDisplay"></div>
+            <div id="sireDisplay"></div>
+            <button id="dameButton" type="button" class="btn btn-primary">Select Dame</button>
+            <button id="sireButton" type="button" class="btn btn-primary">Select Sire</button>
+            <button id="breedButton" type="button" class="btn btn-danger">Breed a new bird!</button><br><br>
           </div>
        
           <!-- Modal box -->

@@ -64,8 +64,14 @@ p {
     background-color: #e2efff;
     border-radius: 10px;
     height: 30em;
+    min-width: 21em;
     padding-right: 30px;
     z-index: 20;
+}
+
+.dameBox {
+    left: -25em;
+    top: -21em;
 }
 
 .card-img-top {
@@ -87,6 +93,11 @@ p {
     border-radius: 5px;
 }
 
+.sireBox {
+    left: 22em;
+    top: -82em;
+}
+
 /* IDs */
 #backgroundPicture {
     opacity: 80%;
@@ -99,6 +110,10 @@ p {
     left: 26.1em;
 }
 
+#breedButton {
+    left: 30em;
+}
+
 #cardButton {
     left: 2em;
     position: relative;
@@ -109,20 +124,18 @@ p {
 }
 
 #dameButton {
-    position: absolute;
-    left: -13em;
+    position: relative;
+    left: 5em;
+}
+
+#dameDisplay {
+    display: inline-block;
+    position: relative;
+    left: 5em;
 }
 
 #defaultButton {
     left: 4.6em;
-}
-
-#incubatorHearts {
-    transform: scale(1.3);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
 }
 
 #logo {
@@ -135,7 +148,7 @@ p {
 
 #sireButton {
     position: relative;
-    left: 26em;
+    left: 55em;
 }
 
 #topCard {

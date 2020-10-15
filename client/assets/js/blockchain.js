@@ -44,13 +44,16 @@ async function getBirdsOfOwner() {
     } catch (error) {
         console.log(error);
     }
+    return arrayOfIds;
+};
+
+async function buildBirdList(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await instance.methods.getBird(arrayOfIds[i]).call();
         console.log(bird);
-        appendBird(bird, i)
+        appendBird(bird, arrayOfIds[i])
     }
-    return arrayOfIds;
-};
+}
 
 async function getBirdDna(id) {
     return await instance.methods.getBird(id).call();

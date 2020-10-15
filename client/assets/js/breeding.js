@@ -1,19 +1,21 @@
 var dameId = -1;
 var sireId = -1;
-var id;
 var arrayofIds;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     arrayofIds = await getBirdsOfOwner();
+    await buildBirdList(arrayofIds);
 });
 
 //Listeners for buttons
 $('#dameButton').click(()=>{
+    $('#birdSelection').modal('show'); //open modal
     selectDame();
 })
 
 $('#sireButton').click(()=>{
+    $('#birdSelection').modal('show'); //open modal
     selectSire();
 })
 
@@ -28,31 +30,28 @@ $('#breedButton').click(async ()=>{
 
 //Listeners for selections
 function selectDame(){
-    document.querySelector('.row').addEventListener('click', function(event) {
-        if (event.target.tagName == `BirdBox${id}`) {
-            dameId = id; //selected bird becomes dame
-            arrayofIds.splice(i,1); //remove this bird from array
-            $('#birdSelection').hide(); //close modal
-            dameBox(id); //draw box on breeding page
-            renderBird(birdDna(getBirdDna(id), id));//draw bird on breeding page
-        }
+    $(`[id^='BirdBox']`).click(async() =>{
+        dameId = parseInt($(`[id^='BirdBox']`).attr("id").substring(7)); //selected bird becomes dame
+        arrayofIds.splice(dameId,1); //remove this bird from array
+        $('#birdSelection').modal('toggle'); //close modal
+        dameBox(dameId); //draw box on breeding page
+        renderBird(birdDna(await getBirdDna(dameId), dameId));//draw bird inside box
     });
 }
 
 function selectSire(){
-    document.querySelector('.row').addEventListener('click', function(event) {
-        if (event.target.tagName == `BirdBox${id}`) {
-            sireId = id; //selected bird becomes sire
-            arrayofIds.splice(i,1); //remove this bird from array
-            $('#birdSelection').hide(); //close modal
-            sireBox(id); //draw box on breeding page
-            renderBird(birdDna(getBirdDna(id), id));//draw bird on breeding page
-        }
+    $(`[id^='BirdBox']`).click(async() =>{
+        sireId = parseInt($(`[id^='BirdBox']`).attr("id").substring(7)); //selected bird becomes sire
+        arrayofIds.splice(sireId,1); //remove this bird from array
+        $('#birdSelection').modal('toggle'); //close modal
+        sireBox(sireId); //draw box on breeding page
+        renderBird(birdDna(await getBirdDna(sireId), sireId));//draw bird inside box
     });
 }
 
+//dynamic elements for breeding page
 function dameBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-4 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-6 dameBox catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -119,7 +118,7 @@ function dameBox(id) {
 }
 
 function sireBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-4 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-4 sireBox catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
