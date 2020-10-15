@@ -2,7 +2,7 @@ var web3 = new Web3(Web3.givenProvider);//Wallet will inject the selected networ
 
 var instance;
 var user;
-var contractAddress = "0x24899ED2768b026FFeA1Cc369151703B5c613E54";//update after contract is deployed
+var contractAddress = "0xf2AFcEb59f87488127e5302a388CaB496D184DA2";//update after contract is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -37,7 +37,7 @@ async function sendBirdToBlockchain() {
 
 async function getBirdsOfOwner() {
     var arrayOfIds = [];
-    var birdy;
+    var bird;
     try {
         arrayOfIds = await instance.methods.getAllBirdsOfOwner(user).call();
         console.log(arrayOfIds);
@@ -45,11 +45,11 @@ async function getBirdsOfOwner() {
         console.log(error);
     }
     for (let i = 0; i < arrayOfIds.length; i++) {
-        birdy = await instance.methods.getBird(arrayOfIds[i]).call();
-        console.log(birdy);
-        appendBird(birdy, i)
+        bird = await instance.methods.getBird(arrayOfIds[i]).call();
+        console.log(bird);
+        appendBird(bird, i)
     }
-    return birdy;
+    return bird;
 };
 
 async function breedBird(mumId, dadId) {

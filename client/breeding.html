@@ -31,7 +31,7 @@
                       <a class="nav-link" href="./catalog.html">Catalog</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Incubator</a>
+                      <a class="nav-link" href="#">Breeding</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./studio.html">Design Studio</a>
@@ -46,65 +46,45 @@
           <!-- Headlines -->
           <div class="container">
             <div align="center">
-              <h1 class="c-white"><b>Love Birds Incubator</b></h1>
-              <p class="c-white">Breed your own birdies! Choose the parents for your new bird!</p>
+              <h1 class="c-white"><b>Breed your own birdies!</b></h1>
+              <p class="c-white">Choose the parents for your new bird</p>
             </div><br>
 
             <img id="incubatorHearts" src="/client/assets/media/hearts.png"><br>
 
-            <div id="dame"></div>
-            <div id="sire"></div>
-
-            <!-- Buttons -->
-            <button id="dameButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#dameModal">
-              Select Dame
-            </button>
-            <button id="sireButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#sireModal">
-              Select Sire
-            </button><br><br>
-            <button id="privacyButton" type="button" class="btn btn-danger">
-              Give your lovebirds some privacy
-            </button><br><br>
-
-            <!-- Dame Modal -->
-            <div class="modal fade" id="dameModal" tabindex="-1" aria-labelledby="dameModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="dameModalLabel">Select the Dame</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="container-fluid">
-                      <div class="damerow" style="flex-wrap: nowrap">
+            <div class="container breedBox" align="center">
+              <div id="breedDiv">
+                  <div class="col-lg-6">
+                      <div class="featureBox pointer" data-toggle="modal" data-target="#birdSelection">
+                        <button id="dameButton" type="button" class="btn btn-primary" data-dismiss="modal">Select Dame</button>
                       </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div><br>
-
-          <!-- Sire Modal -->
-          <div class="modal fade" id="sireModal" tabindex="-1" aria-labelledby="sireModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="sireModalLabel">Select the Sire</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="container-fluid">
-                    <div class="sirerow" style="flex-wrap: nowrap">
+                  <div class="col-lg-6">
+                      <div class="featureBox pointer" data-toggle="modal" data-target="#birdSelection">
+                        <button id="sireButton" type="button" class="btn btn-primary" data-dismiss="modal">Select Sire</button>
                     </div>
-                </div>
+                  </div>
               </div>
-            </div>
+              <button class="btn btn-danger" id="breedButton">Breed a new bird!</button><br><br>
           </div>
-        </div><br>
+       
+          <!-- Modal box -->
+          <div class="modal" id="birdSelection" tabindex="-1" role="dialog">
+              <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title">My birds</h5>
+                      </div>
+                      <div class="modal-body">
+                          <p>Select one of your birds.</p>
+                          <div class="row"></div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
           
         <!-- Footer -->
         <footer align="center">
@@ -113,7 +93,6 @@
     </body>
     <script src="assets/js/blockchain.js"></script>
     <script src="assets/js/colors.js"></script>
-    <script src="assets/js/catalog.js"></script>
-    <script src="assets/js/incubator.js"></script>
-
+    <script src="assets/js/breeding.js"></script>
+    <script src="assets/js/rendering.js"></script>
 </html>
