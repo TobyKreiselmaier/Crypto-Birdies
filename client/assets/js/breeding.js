@@ -32,7 +32,7 @@ $('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with r
 function selectDame(){
     $(`[id^='BirdBox']`).click(() =>{ //when element with id beginning with BirdBox... is clicked - works
         dameId = parseInt($(`[id^='BirdBox']`).attr("id").substring(7)); // -doesn't work. always returns '0'. why?
-        delete arrayOfIds[dameId]; //tried many approaches, but couldn't delete element.
+        delete arrayOfIds[dameId]; //tried all this: https://love2dev.com/blog/javascript-remove-from-array/, but couldn't delete element.
         $('#birdSelection').modal('toggle'); //close modal
         document.getElementsByClassName("row").innerHTML=""; //clear modal content - doesn't work. why?
         buildBirdList(arrayOfIds); //build modal content with reduced array - doesn't work bc of above errors
