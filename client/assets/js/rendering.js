@@ -26,7 +26,7 @@ function birdDna(dna, id) {
 }
 
 function birdBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-4 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>

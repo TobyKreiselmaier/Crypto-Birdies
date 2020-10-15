@@ -49,8 +49,12 @@ async function getBirdsOfOwner() {
         console.log(bird);
         appendBird(bird, i)
     }
-    return bird;
+    return arrayOfIds;
 };
+
+async function getBirdDna(id) {
+    return await instance.methods.getBird(id).call();
+}
 
 async function breedBird(mumId, dadId) {
     await instance.methods.breed(mumId, dadId).send({}, function(error, txHash){
