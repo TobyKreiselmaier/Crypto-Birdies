@@ -69,11 +69,6 @@ p {
     z-index: 20;
 }
 
-.dameBox {
-    left: -25em;
-    top: -21em;
-}
-
 .card-img-top {
     height: 200px;
 }
@@ -93,11 +88,6 @@ p {
     border-radius: 5px;
 }
 
-.sireBox {
-    left: 22em;
-    top: -82em;
-}
-
 /* IDs */
 #backgroundPicture {
     opacity: 80%;
@@ -111,9 +101,15 @@ p {
 }
 
 #breedButton {
-    left: 13em;
-    position: relative;
-    top: -9em;
+    left: 55em;
+    position: absolute;
+    top: 40em;
+}
+
+#breedFooter {
+    position: absolute;
+    width: 1044px;
+    top: 45em;
 }
 
 #cardButton {
@@ -126,16 +122,16 @@ p {
 }
 
 #dameButton {
-    left: 7em;
-    position: relative;
-    top: -9em;
+    left: 38em;
+    position: absolute;
+    top: 40em;
 }
 
 #dameDisplay {
-    left: 25em;
-    opacity: 80%;
-    position: relative;
-    top: 16em;
+    left: 31em;
+    opacity: 90%;
+    position: absolute;
+    top: 12em;
     width: 30em;
 }
 
@@ -152,16 +148,16 @@ p {
 }
 
 #sireButton {
-    left: 42em;
-    position: relative;
-    top: -9em;
+    left: 75em;
+    position: absolute;
+    top: 40em;
 }
 
 #sireDisplay {
-    left: 60em;
-    opacity: 80%;
+    left: 39em;
+    opacity: 90%;
     position: relative;
-    top: 16em;
+    top: -5em;
     width: 30em;
 }
 

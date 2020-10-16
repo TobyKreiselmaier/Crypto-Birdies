@@ -1,8 +1,8 @@
 var web3 = new Web3(Web3.givenProvider);//Wallet will inject the selected network
-
+ethereum.autoRefreshOnNetworkChange = false;
 var instance;
 var user;
-var contractAddress = "0xf2AFcEb59f87488127e5302a388CaB496D184DA2";//update after contract is deployed
+var contractAddress = "0x4ac4a8af13159e9cAb5a862a3b983F2730C6Ca60";//update after contract is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){

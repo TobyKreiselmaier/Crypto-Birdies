@@ -2,21 +2,21 @@ var colors = Object.values(allColors());
 
 function appendBird(dna, id) {
     birdBox(id);
-    renderBird(birdDna(dna, id), id);
+    renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }
 
-function birdDna(dna, id) {
+function birdDna(dna) {
     var dnaObject = {
         "topFeatherColor": dna.genes.substring(0, 2),
         "bodyFeatherColor": dna.genes.substring(2, 4),
         "topBeakColor": dna.genes.substring(4, 6),
         "bottomBeakColor": dna.genes.substring(6, 8),
-        "eyesShape": dna.genes.substring(8, 9),
-        "decorationPattern": dna.genes.substring(9, 10),
+        "eyesShape": parseInt(dna.genes.substring(8, 9)),
+        "decorationPattern": parseInt(dna.genes.substring(9, 10)),
         "decorationColor": dna.genes.substring(10, 12),
         "decorationMidColor": dna.genes.substring(12, 14),
         "decorationSmallColor": dna.genes.substring(14, 16),
-        "animation": dna.genes.substring(16, 17),
+        "animation": parseInt(dna.genes.substring(16, 17)),
         "generation": dna.generation,
         "mum": dna.mumId,
         "dad": dna.dadId
@@ -91,384 +91,384 @@ function birdBox(id) {
     $('.row').append(boxDiv);
 }
 
-function renderBird(dna, id){
-    topFeatherColor(colors[dna.topFeatherColor], dna.topFeatherColor, id);
-    bodyFeatherColor(colors[dna.bodyFeatherColor],dna.bodyFeatherColor, id);
-    topBeakColor(colors[dna.topBeakColor],dna.topBeakColor, id);
-    bottomBeakColor(colors[dna.bottomBeakColor],dna.bottomBeakColor, id);
-    eyesVariation(parseInt(dna.eyesShape), id);
-    decorationVariation(parseInt(dna.decorationPattern), id);
-    decorationMainColor(colors[dna.decorationColor],dna.decorationColor, id);
-    middleColor(colors[dna.decorationMidColor],dna.decorationMidColor, id);
-    smallColor(colors[dna.decorationSmallColor],dna.decorationSmallColor, id);
-    animationVariation(parseInt(dna.animation), id);
+function renderBird(boxId, dna, id){
+    topFeatherColor(boxId, colors[dna.topFeatherColor], dna.topFeatherColor, id);
+    bodyFeatherColor(boxId, colors[dna.bodyFeatherColor],dna.bodyFeatherColor, id);
+    topBeakColor(boxId, colors[dna.topBeakColor],dna.topBeakColor, id);
+    bottomBeakColor(boxId, colors[dna.bottomBeakColor],dna.bottomBeakColor, id);
+    eyesVariation(boxId, dna.eyesShape, id);
+    decorationVariation(boxId, dna.decorationPattern, id);
+    decorationMainColor(boxId, colors[dna.decorationColor],dna.decorationColor, id);
+    middleColor(boxId, colors[dna.decorationMidColor],dna.decorationMidColor, id);
+    smallColor(boxId, colors[dna.decorationSmallColor],dna.decorationSmallColor, id);
+    animationVariation(boxId, dna.animation, id);
     printGeneration(dna.generation, id);
     printMum(dna.mum, id);
     printDad(dna.dad, id);
 }
 
-function topFeatherColor(color, code, id) {
-$(`#BirdBox${id} .feather_top`).css('background', '#' + color)//This changes the color of the bird
-$(`#BirdBox${id} .feather_bottom`).css('background', '#' + color)//This changes the color of the bird
+function topFeatherColor(boxId, color, code, id) {
+$(`${boxId} .feather_top`).css('background', '#' + color)//This changes the color of the bird
+$(`${boxId} .feather_bottom`).css('background', '#' + color)//This changes the color of the bird
 $('#dnaTopFeather' + id).html(code)//This updates the DNA line that is displayed below the bird
 }
 
-function bodyFeatherColor(color, code, id) {
-    $(`#BirdBox${id} .bird_body_inner`).css('background', '#' + color)
+function bodyFeatherColor(boxId, color, code, id) {
+    $(`${boxId} .bird_body_inner`).css('background', '#' + color)
     $('#dnaBodyFeather' + id).html(code)
 }
 
-function topBeakColor(color, code, id) {
-    $(`#BirdBox${id} .beak_upper`).css('background', '#' + color)
+function topBeakColor(boxId, color, code, id) {
+    $(`${boxId} .beak_upper`).css('background', '#' + color)
     $('#dnaTopBeak' + id).html(code)
 }
 
-function bottomBeakColor(color, code, id) {
-    $(`#BirdBox${id} .beak_lower`).css('background', '#' + color)
+function bottomBeakColor(boxId, color, code, id) {
+    $(`${boxId} .beak_lower`).css('background', '#' + color)
     $('#dnaBottomBeak' + id).html(code)
 }
 
-function eyesVariation(num, id) {
+function eyesVariation(boxId, num, id) {
     $('#dnaEyesShape' + id).html(num)
     switch (num) {
         case 0:
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Basic Eyes');
             break;
         case 1:    
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Chilled Eyes');
-            eyesType1(id);
+            eyesType1(boxId);
             break;
         case 2:    
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Eyes Turned Upwards');
-            eyesType2(id);
+            eyesType2(boxId);
             break;
         case 3:    
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Eyes Turned Right');
-            eyesType3(id);
+            eyesType3(boxId);
             break;    
         case 4:    
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Eyes Turned Left');
-            eyesType4(id);
+            eyesType4(boxId);
             break;    
         case 5:    
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Dazzled Eyes');
-            eyesType5(id);
+            eyesType5(boxId);
             break;    
         case 6:    
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Eye Slits');
-            eyesType6(id);
+            eyesType6(boxId);
             break;    
         case 7:    
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Masked Eyes');
-            eyesType7(id);
+            eyesType7(boxId);
             break;    
         default:
-            basicEyes(id);
+            basicEyes(boxId);
             $('#bottomeyetext' + id).html('Basic Eyes');
     }
 }
 
-function basicEyes(id) {
-    $(`#BirdBox${id} .eye`).css('border-top', 'none');
-    $(`#BirdBox${id} .eye`).css('border-bottom', 'none');
-    $(`#BirdBox${id} .eye`).css('border-left', 'none');
-    $(`#BirdBox${id} .eye`).css('border-right', 'none');
-    $(`#BirdBox${id} .eye`).css('border', '0.9em black solid');
-    $(`#BirdBox${id} .eye_right .eyebrow`).css('left', '-1em');
-    $(`#BirdBox${id} .eye_left .eyebrow`).css('left', '-3em');
-    $(`#BirdBox${id} .eye .eyebrow`).css('top', '-3em');
-    $(`#BirdBox${id} .pupil`).css('top', '3em');
-    $(`#BirdBox${id} .eye_right .pupil`).css('left', '1.5em','top', '3em');
-    $(`#BirdBox${id} .eye_left .pupil`).css('left', '5em','top', '3em');
+function basicEyes(boxId) {
+    $(`${boxId} .eye`).css('border-top', 'none');
+    $(`${boxId} .eye`).css('border-bottom', 'none');
+    $(`${boxId} .eye`).css('border-left', 'none');
+    $(`${boxId} .eye`).css('border-right', 'none');
+    $(`${boxId} .eye`).css('border', '0.9em black solid');
+    $(`${boxId} .eye_right .eyebrow`).css('left', '-1em');
+    $(`${boxId} .eye_left .eyebrow`).css('left', '-3em');
+    $(`${boxId} .eye .eyebrow`).css('top', '-3em');
+    $(`${boxId} .pupil`).css('top', '3em');
+    $(`${boxId} .eye_right .pupil`).css('left', '1.5em','top', '3em');
+    $(`${boxId} .eye_left .pupil`).css('left', '5em','top', '3em');
 }
 
-function eyesType1(id) {//Chilled
-    $(`#BirdBox${id} .eye`).css('border-top', '4em solid');
-    $(`#BirdBox${id} .eye .eyebrow`).css('top', '-5em');
+function eyesType1(boxId) {//Chilled
+    $(`${boxId} .eye`).css('border-top', '4em solid');
+    $(`${boxId} .eye .eyebrow`).css('top', '-5em');
 }
 
-function eyesType2(id) {//Up
-    $(`#BirdBox${id} .eye`).css('border-bottom', '4em solid');
-    $(`#BirdBox${id} .eye .eyebrow`).css('top', '-4em');
-    $(`#BirdBox${id} .pupil`).css('top', '1em');
+function eyesType2(boxId) {//Up
+    $(`${boxId} .eye`).css('border-bottom', '4em solid');
+    $(`${boxId} .eye .eyebrow`).css('top', '-4em');
+    $(`${boxId} .pupil`).css('top', '1em');
 }
 
-function eyesType3(id) {//Right
-    $(`#BirdBox${id} .eye`).css('border-left', '2.5em solid');
-    $(`#BirdBox${id} .eye_right .pupil`).css('left', '4em');
-    $(`#BirdBox${id} .eye_left .pupil`).css('left', '4em');
+function eyesType3(boxId) {//Right
+    $(`${boxId} .eye`).css('border-left', '2.5em solid');
+    $(`${boxId} .eye_right .pupil`).css('left', '4em');
+    $(`${boxId} .eye_left .pupil`).css('left', '4em');
 }
 
-function eyesType4(id) {//Left
-    $(`#BirdBox${id} .eye`).css('border-right', '2.5em solid');
-    $(`#BirdBox${id} .pupil`).css('left', '-1.2em');
+function eyesType4(boxId) {//Left
+    $(`${boxId} .eye`).css('border-right', '2.5em solid');
+    $(`${boxId} .pupil`).css('left', '-1.2em');
 }
 
-function eyesType5(id) {//Dazzled
-    $(`#BirdBox${id} .eye`).css('border-top', '4em solid');
-    $(`#BirdBox${id} .eye`).css('border-bottom', '4em solid');
-    $(`#BirdBox${id} .pupil`).css('top', '0em');
-    $(`#BirdBox${id} .eye .eyebrow`).css('top', '-5em');
+function eyesType5(boxId) {//Dazzled
+    $(`${boxId} .eye`).css('border-top', '4em solid');
+    $(`${boxId} .eye`).css('border-bottom', '4em solid');
+    $(`${boxId} .pupil`).css('top', '0em');
+    $(`${boxId} .eye .eyebrow`).css('top', '-5em');
 }
 
-function eyesType6(id) {//Slit
-    $(`#BirdBox${id} .eye`).css('border-top', '4em solid');
-    $(`#BirdBox${id} .eye`).css('border-left', '4em solid');
-    $(`#BirdBox${id} .eye`).css('border-right', '4em solid');
-    $(`#BirdBox${id} .eye_right .pupil`).css('left', '0em','top', '-2em');
-    $(`#BirdBox${id} .eye_left .pupil`).css('left', '0em','top', '-2em');
-    $(`#BirdBox${id} .eye_right .eyebrow`).css('left', '-3em');
-    $(`#BirdBox${id} .eye_left .eyebrow`).css('left', '-5em');
-    $(`#BirdBox${id} .eye .eyebrow`).css('top', '-6em');
+function eyesType6(boxId) {//Slit
+    $(`${boxId} .eye`).css('border-top', '4em solid');
+    $(`${boxId} .eye`).css('border-left', '4em solid');
+    $(`${boxId} .eye`).css('border-right', '4em solid');
+    $(`${boxId} .eye_right .pupil`).css('left', '0em','top', '-2em');
+    $(`${boxId} .eye_left .pupil`).css('left', '0em','top', '-2em');
+    $(`${boxId} .eye_right .eyebrow`).css('left', '-3em');
+    $(`${boxId} .eye_left .eyebrow`).css('left', '-5em');
+    $(`${boxId} .eye .eyebrow`).css('top', '-6em');
 }
 
-function eyesType7(id) {//Mask
-    $(`#BirdBox${id} .eye`).css('border', '3em solid');
-    $(`#BirdBox${id} .pupil`).css('top', '1em');
-    $(`#BirdBox${id} .eye_right .pupil`).css('left', '1em');
-    $(`#BirdBox${id} .eye_left .pupil`).css('left', '1em');
-    $(`#BirdBox${id} .eye_right .eyebrow`).css('left', '-3em');
-    $(`#BirdBox${id} .eye_left .eyebrow`).css('left', '-5em');
-    $(`#BirdBox${id} .eye .eyebrow`).css('top', '-6em');
+function eyesType7(boxId) {//Mask
+    $(`${boxId} .eye`).css('border', '3em solid');
+    $(`${boxId} .pupil`).css('top', '1em');
+    $(`${boxId} .eye_right .pupil`).css('left', '1em');
+    $(`${boxId} .eye_left .pupil`).css('left', '1em');
+    $(`${boxId} .eye_right .eyebrow`).css('left', '-3em');
+    $(`${boxId} .eye_left .eyebrow`).css('left', '-5em');
+    $(`${boxId} .eye .eyebrow`).css('top', '-6em');
 }
 
-function decorationVariation(num, id) {
+function decorationVariation(boxId, num, id) {
     $('#dnaDecorationPattern' + id).html(num)
     switch (num) {
         case 0:
             $('#bottomdecorationpatterntext' + id).html('Basic Decoration');
-            resetDecoration(id);
+            resetDecoration(boxId);
             break;
         case 1:
-            resetDecoration(id);
+            resetDecoration(boxId);
             $('#bottomdecorationpatterntext' + id).html('Large Spots');
-            decorationType1(id);
+            decorationType1(boxId);
             break;
         case 2:
-            resetDecoration(id);
+            resetDecoration(boxId);
             $('#bottomdecorationpatterntext' + id).html('Maximum Spots');
-            decorationType2(id);
+            decorationType2(boxId);
             break;
         case 3:
-            resetDecoration(id);
+            resetDecoration(boxId);
             $('#bottomdecorationpatterntext' + id).html('Decoration only at Eyes');
-            decorationType3(id);
+            decorationType3(boxId);
             break;
         case 4:
-            resetDecoration(id);
+            resetDecoration(boxId);
             $('#bottomdecorationpatterntext' + id).html('Decoration on Back only');
-            decorationType4(id);
+            decorationType4(boxId);
             break;
         case 5:
             resetDecoration(id);
             $('#bottomdecorationpatterntext' + id).html('No Decoration');
-            decorationType5(id);
+            decorationType5(boxId);
             break;
         case 6:
-            resetDecoration(id);
+            resetDecoration(boxId);
             $('#bottomdecorationpatterntext' + id).html('Cross Decoration');
-            decorationType6(id);
+            decorationType6(boxId);
             break;
         case 7:
-            resetDecoration(id);
+            resetDecoration(boxId);
             $('#bottomdecorationpatterntext' + id).html('Cross & Eyes Decoration');
-            decorationType7(id);
+            decorationType7(boxId);
             break;
         default:
-            resetDecoration(id);
+            resetDecoration(boxId);
             $('#bottomdecorationpatterntext' + id).html('Basic Decoration');
     }
 }
 
-function resetDecoration(id) {
-    $(`#BirdBox${id} .deco_1`).css('display', 'initial');
-    $(`#BirdBox${id} .deco_2`).css('display', 'initial');
-    $(`#BirdBox${id} .deco_3`).css('display', 'initial');
-    $(`#BirdBox${id} .deco_4`).css('display', 'initial');
-    $(`#BirdBox${id} .deco_1`).css('transform', 'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)');
-    $(`#BirdBox${id} .deco_2`).css('transform', 'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)');
-    $(`#BirdBox${id} .deco_3`).css('transform', 'rotate(-10deg) scaleY(1) translateY(0em)');
-    $(`#BirdBox${id} .deco_4`).css('transform', 'rotate(-10deg) scaleY(1) translateY(0em)');
+function resetDecoration(boxId) {
+    $(`${boxId} .deco_1`).css('display', 'initial');
+    $(`${boxId} .deco_2`).css('display', 'initial');
+    $(`${boxId} .deco_3`).css('display', 'initial');
+    $(`${boxId} .deco_4`).css('display', 'initial');
+    $(`${boxId} .deco_1`).css('transform', 'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)');
+    $(`${boxId} .deco_2`).css('transform', 'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)');
+    $(`${boxId} .deco_3`).css('transform', 'rotate(-10deg) scaleY(1) translateY(0em)');
+    $(`${boxId} .deco_4`).css('transform', 'rotate(-10deg) scaleY(1) translateY(0em)');
 }
 
-function decorationType1(id) {//Large
-    $(`#BirdBox${id} .deco_1`).css('transform', 'rotate(-25deg) scaleY(2)');
-    $(`#BirdBox${id} .deco_2`).css('transform', 'rotate(-15deg) scaleY(2)');
-    $(`#BirdBox${id} .deco_3`).css('transform', 'rotate(-10deg) scaleY(2)');
-    $(`#BirdBox${id} .deco_4`).css('transform', 'rotate(-10deg) scaleY(2)');
+function decorationType1(boxId) {//Large
+    $(`${boxId} .deco_1`).css('transform', 'rotate(-25deg) scaleY(2)');
+    $(`${boxId} .deco_2`).css('transform', 'rotate(-15deg) scaleY(2)');
+    $(`${boxId} .deco_3`).css('transform', 'rotate(-10deg) scaleY(2)');
+    $(`${boxId} .deco_4`).css('transform', 'rotate(-10deg) scaleY(2)');
 }
 
-function decorationType2(id) {//Max
-    $(`#BirdBox${id} .deco_1`).css('transform', 'rotate(-25deg) scaleY(3) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_2`).css('transform', 'rotate(-15deg) scaleY(3) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_3`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_4`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-1.8em)');
+function decorationType2(boxId) {//Max
+    $(`${boxId} .deco_1`).css('transform', 'rotate(-25deg) scaleY(3) translateY(-2.5em)');
+    $(`${boxId} .deco_2`).css('transform', 'rotate(-15deg) scaleY(3) translateY(-2.5em)');
+    $(`${boxId} .deco_3`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-2.5em)');
+    $(`${boxId} .deco_4`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-1.8em)');
 }
 
-function decorationType3(id) {//Eyes Only
-    $(`#BirdBox${id} .deco_1`).css('display', 'none');
-    $(`#BirdBox${id} .deco_2`).css('display', 'none');
-    $(`#BirdBox${id} .deco_3`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_4`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-1.8em)');
+function decorationType3(boxId) {//Eyes Only
+    $(`${boxId} .deco_1`).css('display', 'none');
+    $(`${boxId} .deco_2`).css('display', 'none');
+    $(`${boxId} .deco_3`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-2.5em)');
+    $(`${boxId} .deco_4`).css('transform', 'rotate(-10deg) scaleY(3) translateY(-1.8em)');
 }
 
-function decorationType4(id) {//Back Only
-    $(`#BirdBox${id} .deco_1`).css('transform', 'rotate(-25deg) scaleY(3) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_2`).css('transform', 'rotate(-15deg) scaleY(3) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_3`).css('display', 'none');
-    $(`#BirdBox${id} .deco_4`).css('display', 'none');
+function decorationType4(boxId) {//Back Only
+    $(`${boxId} .deco_1`).css('transform', 'rotate(-25deg) scaleY(3) translateY(-2.5em)');
+    $(`${boxId} .deco_2`).css('transform', 'rotate(-15deg) scaleY(3) translateY(-2.5em)');
+    $(`${boxId} .deco_3`).css('display', 'none');
+    $(`${boxId} .deco_4`).css('display', 'none');
 }
 
-function decorationType5(id) {//None
-    $(`#BirdBox${id} .deco_1`).css('display', 'none');
-    $(`#BirdBox${id} .deco_2`).css('display', 'none');
-    $(`#BirdBox${id} .deco_3`).css('display', 'none');
-    $(`#BirdBox${id} .deco_4`).css('display', 'none');
+function decorationType5(boxId) {//None
+    $(`${boxId} .deco_1`).css('display', 'none');
+    $(`${boxId} .deco_2`).css('display', 'none');
+    $(`${boxId} .deco_3`).css('display', 'none');
+    $(`${boxId} .deco_4`).css('display', 'none');
 }
 
-function decorationType6(id) {//Cross
-    $(`#BirdBox${id} .deco_1`).css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
-    $(`#BirdBox${id} .deco_2`).css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_3`).css('display', 'none');
-    $(`#BirdBox${id} .deco_4`).css('display', 'none');
+function decorationType6(boxId) {//Cross
+    $(`${boxId} .deco_1`).css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
+    $(`${boxId} .deco_2`).css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
+    $(`${boxId} .deco_3`).css('display', 'none');
+    $(`${boxId} .deco_4`).css('display', 'none');
 }
 
-function decorationType7(id) {//Cross & Eyes
-    $(`#BirdBox${id} .deco_1`).css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
-    $(`#BirdBox${id} .deco_2`).css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
-    $(`#BirdBox${id} .deco_3`).css('transform', 'rotate(-10deg) scaleY(2)');
-    $(`#BirdBox${id} .deco_4`).css('transform', 'rotate(-10deg) scaleY(2)');
+function decorationType7(boxId) {//Cross & Eyes
+    $(`${boxId} .deco_1`).css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
+    $(`${boxId} .deco_2`).css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
+    $(`${boxId} .deco_3`).css('transform', 'rotate(-10deg) scaleY(2)');
+    $(`${boxId} .deco_4`).css('transform', 'rotate(-10deg) scaleY(2)');
 }
 
-function decorationMainColor(color, code, id) {
-    $(`#BirdBox${id} .deco_3`, `#BirdBox${id} .deco_4`).css('background', '#' + color)
+function decorationMainColor(boxId, color, code, id) {
+    $(`${boxId} .deco_3`, `${boxId} .deco_4`).css('background', '#' + color)
     $('#dnaDecorationAtEye' + id).html(code)
 }
 
-function middleColor(color, code, id) {
-    $(`#BirdBox${id} .deco_2`).css('background', '#' + color)
+function middleColor(boxId, color, code, id) {
+    $(`${boxId} .deco_2`).css('background', '#' + color)
     $('#dnaDecorationMid' + id).html(code)
 }
 
-function smallColor(color, code, id) {
-    $(`#BirdBox${id} .deco_1`).css('background', '#' + color)
+function smallColor(boxId, color, code, id) {
+    $(`${boxId} .deco_1`).css('background', '#' + color)
     $('#dnaDecorationSmall' + id).html(code)
 }
 
-function animationVariation(num, id) {
+function animationVariation(boxId, num, id) {
     $('#dnaAnimation' + id).html(num)
     switch (num) {
         case 0:
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('No animation');
             break;
         case 1:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Animation: Kick');
-            animationType1(id);
+            animationType1(boxId);
             break;
         case 2:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Animation: Float');
-            animationType2(id);
+            animationType2(boxId);
             break;
         case 3:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Animation: Compress');
-            animationType3(id);
+            animationType3(boxId);
             break;
         case 4:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Animation: Speak');
-            animationType4(id);
+            animationType4(boxId);
             break;
         case 5:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Animation: Wag');
-            animationType5(id);
+            animationType5(boxId);
             break;
         case 6:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Animation: Attention');
-            animationType6(id);
+            animationType6(boxId);
             break;
         case 7:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Combi Animation');
-            animationType7(id);
+            animationType7(boxId);
             break;
         case 8:    
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('Eyes Follow Mouse');
-            animationType8(id);
+            animationType8(boxId);
             break;
         default:
-            resetAnimation(id);
+            resetAnimation(boxId);
             $('#bottomanimationtext' + id).html('No animation');
     }
 }
 
-function resetAnimation(id) {
-    $(`#BirdBox${id} .angryBird_Red`).removeClass('slowRotateBird floatingBird compressingBird');
-    $(`#BirdBox${id} .beak_upper`).removeClass('upperSpeakingBird');
-    $(`#BirdBox${id} .beak_lower`).removeClass('lowerSpeakingBird');
-    $(`#BirdBox${id} .tail_top`).removeClass('topWaggingTail');
-    $(`#BirdBox${id} .tail_middle`).removeClass('middleWaggingTail');
-    $(`#BirdBox${id} .tail_bottom`).removeClass('bottomWaggingTail');
-    $(`#BirdBox${id} .feather_top`).removeClass('topAttention');
-    $(`#BirdBox${id} .feather_bottom`).removeClass('bottomAttention');
+function resetAnimation(boxId) {
+    $(`${boxId} .angryBird_Red`).removeClass('slowRotateBird floatingBird compressingBird');
+    $(`${boxId} .beak_upper`).removeClass('upperSpeakingBird');
+    $(`${boxId} .beak_lower`).removeClass('lowerSpeakingBird');
+    $(`${boxId} .tail_top`).removeClass('topWaggingTail');
+    $(`${boxId} .tail_middle`).removeClass('middleWaggingTail');
+    $(`${boxId} .tail_bottom`).removeClass('bottomWaggingTail');
+    $(`${boxId} .feather_top`).removeClass('topAttention');
+    $(`${boxId} .feather_bottom`).removeClass('bottomAttention');
 }
 
-function animationType1(id) {
-    $(`#BirdBox${id} .angryBird_Red`).addClass('slowRotateBird');
+function animationType1(boxId) {
+    $(`${boxId} .angryBird_Red`).addClass('slowRotateBird');
 }
 
-function animationType2(id) {
-    $(`#BirdBox${id} .angryBird_Red`).addClass('floatingBird');
+function animationType2(boxId) {
+    $(`${boxId} .angryBird_Red`).addClass('floatingBird');
 }
 
-function animationType3(id) {
-    $(`#BirdBox${id} .angryBird_Red`).addClass('compressingBird');
+function animationType3(boxId) {
+    $(`${boxId} .angryBird_Red`).addClass('compressingBird');
 }
 
-function animationType4(id) {
-    $(`#BirdBox${id} .beak_upper`).addClass('upperSpeakingBird');
-    $(`#BirdBox${id} .beak_lower`).addClass('lowerSpeakingBird');
+function animationType4(boxId) {
+    $(`${boxId} .beak_upper`).addClass('upperSpeakingBird');
+    $(`${boxId} .beak_lower`).addClass('lowerSpeakingBird');
 }
 
-function animationType5(id) {
-    $(`#BirdBox${id} .tail_top`).addClass('topWaggingTail');
-    $(`#BirdBox${id} .tail_middle`).addClass('middleWaggingTail');
-    $(`#BirdBox${id} .tail_bottom`).addClass('bottomWaggingTail');
+function animationType5(boxId) {
+    $(`${boxId} .tail_top`).addClass('topWaggingTail');
+    $(`${boxId} .tail_middle`).addClass('middleWaggingTail');
+    $(`${boxId} .tail_bottom`).addClass('bottomWaggingTail');
 }
 
-function animationType6(id) {
-    $(`#BirdBox${id} .feather_top`).addClass('topAttention');
-    $(`#BirdBox${id} .feather_bottom`).addClass('bottomAttention');
+function animationType6(boxId) {
+    $(`${boxId} .feather_top`).addClass('topAttention');
+    $(`${boxId} .feather_bottom`).addClass('bottomAttention');
 }
 
-function animationType7(id) {
-    $(`#BirdBox${id} .angryBird_Red`).addClass('floatingBird');
-    $(`#BirdBox${id} .beak_upper`).addClass('upperSpeakingBird');
-    $(`#BirdBox${id} .beak_lower`).addClass('lowerSpeakingBird');
-    $(`#BirdBox${id} .tail_top`).addClass('topWaggingTail');
-    $(`#BirdBox${id} .tail_middle`).addClass('middleWaggingTail');
-    $(`#BirdBox${id} .tail_bottom`).addClass('bottomWaggingTail');
-    $(`#BirdBox${id} .feather_top`).addClass('topAttention');
-    $(`#BirdBox${id} .feather_bottom`).addClass('bottomAttention');
+function animationType7(boxId) {
+    $(`${boxId} .angryBird_Red`).addClass('floatingBird');
+    $(`${boxId} .beak_upper`).addClass('upperSpeakingBird');
+    $(`${boxId} .beak_lower`).addClass('lowerSpeakingBird');
+    $(`${boxId} .tail_top`).addClass('topWaggingTail');
+    $(`${boxId} .tail_middle`).addClass('middleWaggingTail');
+    $(`${boxId} .tail_bottom`).addClass('bottomWaggingTail');
+    $(`${boxId} .feather_top`).addClass('topAttention');
+    $(`${boxId} .feather_bottom`).addClass('bottomAttention');
 }
 
-function animationType8(id) {
-    basicEyes(id);
-    var eyeballs = $(`#BirdBox${id} .pupil`);
+function animationType8(boxId) {
+    basicEyes(boxId);
+    var eyeballs = $(`${boxId} .pupil`);
     document.onmousemove = function(event) {
         var x = event.clientX * 65 / window.innerWidth + "%";
         var y = event.clientY * 65 / window.innerHeight + "%";

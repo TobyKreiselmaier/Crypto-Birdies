@@ -38,16 +38,17 @@ $('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with r
 
 //Listeners for selections
 function selectDame(){
-    $(`[id^='BirdBox']`).click(async function() { //arrow function ES6 doesn't work with $(this)
-        debugger;
+    $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
         if (dameId == -1) {//no dame selected yet
-            dameId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
+            dameId = parseInt($(this).attr("id").substring(7)); //extract bird ID from HTML.
             arrayOfIds.splice(dameId,1); //remove selected bird from array
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
-            await buildBirdList(arrayOfIds); //work on this
+            await buildBirdList(arrayOfIds); //repopulates modal with remaining birds
             dameBox(dameId);//render box
-            renderBird(birdDna(await getBirdDna(dameId), dameId));//render bird
+            var dna = await getBirdDna(dameId);//returns bird instance from blockchain
+            var obj = birdDna(dna, dameId);//creates dna object for rendering
+            renderBird(`#dameBox`, obj, dameId);//render bird
         } else {//a dame was selected before
             dameId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
             arrayOfIds.splice(dameId,1); //remove selected bird from array
@@ -57,19 +58,46 @@ function selectDame(){
             $('.dameDisplay').empty();//clear dameBox
             arrayOfIds.push(dameBoxId);//previously selected bird is returned to list when replaced
             await buildBirdList(arrayOfIds);//work on this
-            dameBox(dameId);
-            renderBird(birdDna(await getBirdDna(dameId), dameId));
+            dameBox(dameId);//render box
+            var dna = await getBirdDna(dameId)
+            var obj = birdDna(dna, dameId);
+            renderBird(`#dameBox`, obj, dameId);//render bird
         }
     });
 }
 
 function selectSire(){
-// code later when selectDame() works
+    $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
+        if (sireId == -1) {//no sire selected yet
+            sireId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
+            arrayOfIds.splice(sireId,1); //remove selected bird from array
+            $('#birdSelection').modal('toggle'); //close modal
+            $('.row').empty(); //clear modal content
+            await buildBirdList(arrayOfIds); //work on this
+            sireBox(sireId);//render box
+            var dna = await getBirdDna(sireId)
+            var obj = birdDna(dna, sireId);
+            renderBird(`#sireBox`, obj, sireId);//render bird
+        } else {//a sire was selected before
+            sireId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
+            arrayOfIds.splice(sireId,1); //remove selected bird from array
+            $('#birdSelection').modal('toggle'); //close modal
+            $('.row').empty(); //clear modal content
+            var sireBoxId = parseInt($('.sireBox').attr("id").substring(7));
+            $('.sireDisplay').empty();//clear sireBox
+            arrayOfIds.push(sireBoxId);//previously selected bird is returned to list when replaced
+            await buildBirdList(arrayOfIds);//work on this
+            sireBox(sireId);//render box
+            var dna = await getBirdDna(sireId)
+            var obj = birdDna(dna, sireId);
+            renderBird(`#sireBox`, obj, sireId);//render bird
+        }
+    });
 }
 
 //dynamic elements for breeding page
 function dameBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-6 dameBox catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7)" id="dameBox" class="col-lg-6 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -129,6 +157,7 @@ function dameBox(id) {
                                         <li><span id="bottomdecorationpatterntext` + id + `"></span></li>
                                         <li><span id="bottomanimationtext` + id + `"></span></li>
                                     </ul>
+                                <div align="center">DAME</div>
                             </b>
                         </div>
                     </div>`
@@ -137,7 +166,7 @@ function dameBox(id) {
 }
 
 function sireBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-4 sireBox catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7)" id="sireBox" class="col-lg-4 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -197,6 +226,7 @@ function sireBox(id) {
                                         <li><span id="bottomdecorationpatterntext` + id + `"></span></li>
                                         <li><span id="bottomanimationtext` + id + `"></span></li>
                                     </ul>
+                                    <div align="center">SIRE</div>
                             </b>
                         </div>
                     </div>`
