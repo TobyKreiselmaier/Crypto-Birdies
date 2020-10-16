@@ -41,7 +41,10 @@ function selectDame(){
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
         if (dameId == -1) {//no dame selected yet
             dameId = parseInt($(this).attr("id").substring(7)); //extract bird ID from HTML.
-            arrayOfIds.splice(dameId,1); //remove selected bird from array
+            var index = arrayOfIds.findIndex(bird => bird === dameId);
+            if (index >= 0) { //make sure element is in array
+                arrayOfIds.splice(index, 1); //remove selected bird from array
+            };
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
             await buildBirdList(arrayOfIds); //repopulates modal with remaining birds
@@ -51,7 +54,10 @@ function selectDame(){
             renderBird(`#dameBox`, obj, dameId);//render bird
         } else {//a dame was selected before
             dameId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
-            arrayOfIds.splice(dameId,1); //remove selected bird from array
+            index = arrayOfIds.findIndex(bird => bird === dameId);
+            if (index >= 0) { //make sure element is in array
+                arrayOfIds.splice(index, 1); //remove selected bird from array
+            };
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
             var dameBoxId = parseInt($(`[id^='dameBoxId']`).attr("id").substring(9));//return ID of previous bird
@@ -70,7 +76,10 @@ function selectSire(){
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
         if (sireId == -1) {//no sire selected yet
             sireId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
-            arrayOfIds.splice(sireId,1); //remove selected bird from array
+            var index = arrayOfIds.findIndex(bird => bird === sireId);
+            if (index >= 0) { //make sure element is in array
+                arrayOfIds.splice(index, 1); //remove selected bird from array
+            };
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
             await buildBirdList(arrayOfIds); //work on this
@@ -80,7 +89,10 @@ function selectSire(){
             renderBird(`#sireBox`, obj, sireId);//render bird
         } else {//a sire was selected before
             sireId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
-            arrayOfIds.splice(sireId,1); //remove selected bird from array
+            index = arrayOfIds.findIndex(bird => bird === dameId);
+            if (index >= 0) { //make sure element is in array
+                arrayOfIds.splice(index, 1); //remove selected bird from array
+            };
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
             var sireBoxId = parseInt($(`[id^='sireBoxId']`).attr("id").substring(9));//return ID of previous bird
