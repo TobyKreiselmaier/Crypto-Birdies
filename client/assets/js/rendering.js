@@ -63,6 +63,8 @@ function birdBox(id) {
                         <br>
                         <div class="dnaDiv">
                             <b>
+                                ID:
+                                <span>` + id + `</span><br>
                                 GEN:
                                 <span id="generation` + id + `"></span><br>
                                 MUM:

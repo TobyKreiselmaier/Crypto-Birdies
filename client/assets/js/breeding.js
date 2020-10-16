@@ -54,10 +54,10 @@ function selectDame(){
             arrayOfIds.splice(dameId,1); //remove selected bird from array
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
-            var dameBoxId = parseInt($('.dameBox').attr("id").substring(7));
+            var dameBoxId = parseInt($(`[id^='dameBoxId']`).attr("id").substring(9));//return ID of previous bird
             $('.dameDisplay').empty();//clear dameBox
-            arrayOfIds.push(dameBoxId);//previously selected bird is returned to list when replaced
-            await buildBirdList(arrayOfIds);//work on this
+            arrayOfIds.push(dameBoxId.toString());//previously selected bird is returned to list when replaced
+            await buildBirdList(arrayOfIds);//build modal with new array
             dameBox(dameId);//render box
             var dna = await getBirdDna(dameId)
             var obj = birdDna(dna, dameId);
@@ -83,10 +83,10 @@ function selectSire(){
             arrayOfIds.splice(sireId,1); //remove selected bird from array
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
-            var sireBoxId = parseInt($('.sireBox').attr("id").substring(7));
+            var sireBoxId = parseInt($(`[id^='sireBoxId']`).attr("id").substring(9));//return ID of previous bird
             $('.sireDisplay').empty();//clear sireBox
-            arrayOfIds.push(sireBoxId);//previously selected bird is returned to list when replaced
-            await buildBirdList(arrayOfIds);//work on this
+            arrayOfIds.push(sireBoxId.toString());//previously selected bird is returned to list when replaced
+            await buildBirdList(arrayOfIds);//build modal with new array
             sireBox(sireId);//render box
             var dna = await getBirdDna(sireId)
             var obj = birdDna(dna, sireId);
@@ -135,6 +135,8 @@ function dameBox(id) {
                         <br>
                         <div class="dnaDiv">
                             <b>
+                                ID:
+                                <span id="dameBoxId` + id + `">` + id + `</span><br>
                                 GEN:
                                 <span id="generation` + id + `"></span><br>
                                 MUM:
@@ -204,6 +206,8 @@ function sireBox(id) {
                         <br>
                         <div class="dnaDiv">
                             <b>
+                                ID:
+                                <span id="sireBoxId` + id + `">` + id + `</span><br>
                                 GEN:
                                 <span id="generation` + id + `"></span><br>
                                 MUM:
