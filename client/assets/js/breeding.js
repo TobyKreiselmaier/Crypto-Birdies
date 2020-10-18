@@ -26,11 +26,8 @@ $('#sireButton').click(()=>{
 })
 
 $('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with request to breed child
-    if (dameId >= 0 && sireId >= 0) { //mum and dad need to be selected. They are automatically different from each other
-        if(await breedBird(dameId, sireId)){
-            alert("Bird successfully created on blockchain. Please allow up to a couple of minutes for it to appear in your catalog.");
-        };
-        window.location.href = "./catalog.html"; //return to catalog site, ideally child is already displayed
+    if (dameId >= 0 && sireId >= 0 && dameId != sireId) { //mum and dad need to be selected. They must be different from one another
+        await breedBird(sireId, dameId);
     } else {
         alert("Dame and Sire must be selected");
     }
@@ -40,7 +37,7 @@ $('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with r
 function selectDame(){
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
         if (dameId == -1) {//no dame selected yet
-            dameId = parseInt($(this).attr("id").substring(7)); //extract bird ID from HTML.
+            dameId = $(this).attr("id").substring(7); //extract bird ID from HTML.
             var index = arrayOfIds.findIndex(bird => bird === dameId);
             if (index >= 0) { //make sure element is in array
                 arrayOfIds.splice(index, 1); //remove selected bird from array
@@ -53,21 +50,25 @@ function selectDame(){
             var obj = birdDna(dna, dameId);//creates dna object for rendering
             renderBird(`#dameBox`, obj, dameId);//render bird
         } else {//a dame was selected before
-            dameId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
-            index = arrayOfIds.findIndex(bird => bird === dameId);
-            if (index >= 0) { //make sure element is in array
-                arrayOfIds.splice(index, 1); //remove selected bird from array
-            };
-            $('#birdSelection').modal('toggle'); //close modal
-            $('.row').empty(); //clear modal content
-            var dameBoxId = parseInt($(`[id^='dameBoxId']`).attr("id").substring(9));//return ID of previous bird
-            $('.dameDisplay').empty();//clear dameBox
-            arrayOfIds.push(dameBoxId.toString());//previously selected bird is returned to list when replaced
-            await buildBirdList(arrayOfIds);//build modal with new array
-            dameBox(dameId);//render box
-            var dna = await getBirdDna(dameId)
-            var obj = birdDna(dna, dameId);
-            renderBird(`#dameBox`, obj, dameId);//render bird
+            dameId = $(this).attr("id").substring(7); //works after removing arrow function.
+            if (dameId == sireId) {
+                alert("Please select a different bird");
+            } else {
+                index = arrayOfIds.findIndex(bird => bird === dameId);
+                if (index >= 0) { //make sure element is in array
+                    arrayOfIds.splice(index, 1); //remove selected bird from array
+                };
+                $('#birdSelection').modal('toggle'); //close modal
+                $('.row').empty(); //clear modal content
+                var dameBoxId = $(`[id^='dameBoxId']`).attr("id").substring(9);//return ID of previous bird
+                $('.dameDisplay').empty();//clear dameBox
+                arrayOfIds.push(dameBoxId);//previously selected bird is returned to list when replaced
+                await buildBirdList(arrayOfIds);//build modal with new array
+                dameBox(dameId);//render box
+                var dna = await getBirdDna(dameId)
+                var obj = birdDna(dna, dameId);
+                renderBird(`#dameBox`, obj, dameId);//render bird
+            }
         }
     });
 }
@@ -75,7 +76,7 @@ function selectDame(){
 function selectSire(){
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
         if (sireId == -1) {//no sire selected yet
-            sireId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
+            sireId = $(this).attr("id").substring(7); //works after removing arrow function.
             var index = arrayOfIds.findIndex(bird => bird === sireId);
             if (index >= 0) { //make sure element is in array
                 arrayOfIds.splice(index, 1); //remove selected bird from array
@@ -88,21 +89,25 @@ function selectSire(){
             var obj = birdDna(dna, sireId);
             renderBird(`#sireBox`, obj, sireId);//render bird
         } else {//a sire was selected before
-            sireId = parseInt($(this).attr("id").substring(7)); //works after removing arrow function.
-            index = arrayOfIds.findIndex(bird => bird === dameId);
-            if (index >= 0) { //make sure element is in array
-                arrayOfIds.splice(index, 1); //remove selected bird from array
-            };
-            $('#birdSelection').modal('toggle'); //close modal
-            $('.row').empty(); //clear modal content
-            var sireBoxId = parseInt($(`[id^='sireBoxId']`).attr("id").substring(9));//return ID of previous bird
-            $('.sireDisplay').empty();//clear sireBox
-            arrayOfIds.push(sireBoxId.toString());//previously selected bird is returned to list when replaced
-            await buildBirdList(arrayOfIds);//build modal with new array
-            sireBox(sireId);//render box
-            var dna = await getBirdDna(sireId)
-            var obj = birdDna(dna, sireId);
-            renderBird(`#sireBox`, obj, sireId);//render bird
+            sireId = $(this).attr("id").substring(7); //works after removing arrow function.
+            if (sireId == dameId) {
+                alert("Please select a different bird");
+            } else {
+                index = arrayOfIds.findIndex(bird => bird === sireId);
+                if (index >= 0) { //make sure element is in array
+                    arrayOfIds.splice(index, 1); //remove selected bird from array
+                };
+                $('#birdSelection').modal('toggle'); //close modal
+                $('.row').empty(); //clear modal content
+                var sireBoxId = $(`[id^='sireBoxId']`).attr("id").substring(9);//return ID of previous bird
+                $('.sireDisplay').empty();//clear sireBox
+                arrayOfIds.push(sireBoxId);//previously selected bird is returned to list when replaced
+                await buildBirdList(arrayOfIds);//build modal with new array
+                sireBox(sireId);//render box
+                var dna = await getBirdDna(sireId)
+                var obj = birdDna(dna, sireId);
+                renderBird(`#sireBox`, obj, sireId);//render bird
+            }
         }
     });
 }
