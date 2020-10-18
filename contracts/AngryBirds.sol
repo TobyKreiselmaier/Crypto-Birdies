@@ -1,11 +1,11 @@
+pragma solidity ^0.5.12;
+
 import "./Ownable.sol";
 import "./Destroyable.sol";
 import "./IERC165.sol";
 import "./IERC721.sol";
 import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has... same goes if that variable is a contract. an interface is a way of abstracting those capabilities so the EVM knows what it does.
 import "./SafeMath.sol";
-
-pragma solidity ^0.5.12;
 
 contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
 
@@ -44,11 +44,11 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
     event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Birth(address owner, uint256 birdId, uint256 mumId, uint256 dadId, uint256 genes);
-    event Testmix(uint256 newGenes);
 
     constructor(string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
+        _createBird(0, 0, 0, uint256(-1), address(0));//Bird 0 doesn't do anything, but it exists in the mappings and arrays to avoid issues in the market place
     }
 
     function breed(uint256 _dadId, uint256 _mumId) public returns (uint256){
