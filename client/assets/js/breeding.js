@@ -1,5 +1,5 @@
-var dameId = -1; //must be set to 0 or higher in order to allow breeding
-var sireId = -1; //must be set to 0 or higher in order to allow breeding
+var dameId = -1; //must be set to 0 or higher by user interaction in order to allow breeding
+var sireId = -1; //must be set to 0 or higher by user interaction in order to allow breeding
 var arrayOfIds;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain

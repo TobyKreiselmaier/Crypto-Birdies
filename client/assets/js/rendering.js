@@ -179,67 +179,71 @@ function eyesVariation(boxId, num, id) {
 }
 
 function basicEyes(boxId) {
-    $(`${boxId} .eye`).css('border-top', 'none');
-    $(`${boxId} .eye`).css('border-bottom', 'none');
-    $(`${boxId} .eye`).css('border-left', 'none');
-    $(`${boxId} .eye`).css('border-right', 'none');
+    $(`${boxId} .eye`).css({'border-top': 'none', 'border-bottom': 'none', 'border-left': 'none', 'border-right': 'none'});
     $(`${boxId} .eye`).css('border', '0.9em black solid');
-    $(`${boxId} .eye_right .eyebrow`).css('left', '-1em');
-    $(`${boxId} .eye_left .eyebrow`).css('left', '-3em');
-    $(`${boxId} .eye .eyebrow`).css('top', '-3em');
-    $(`${boxId} .pupil`).css('top', '3em');
-    $(`${boxId} .eye_right .pupil`).css('left', '1.5em','top', '3em');
-    $(`${boxId} .eye_left .pupil`).css('left', '5em','top', '3em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-1em', 'top': '-1.5em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-3em', 'top': '-1.5em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '1.5em', 'top': '3em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '5em', 'top': '3em'});
 }
 
 function eyesType1(boxId) {//Chilled
     $(`${boxId} .eye`).css('border-top', '4em solid');
-    $(`${boxId} .eye .eyebrow`).css('top', '-5em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-1em', 'top': '-4.5em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-3em', 'top': '-4.5em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '1.5em', 'top': '1em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '5em', 'top': '1em'});
 }
 
 function eyesType2(boxId) {//Up
     $(`${boxId} .eye`).css('border-bottom', '4em solid');
-    $(`${boxId} .eye .eyebrow`).css('top', '-4em');
-    $(`${boxId} .pupil`).css('top', '1em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-1em', 'top': '-2em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-3em', 'top': '-2em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '1.5em', 'top': '2em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '5em', 'top': '2em'});
 }
 
 function eyesType3(boxId) {//Right
     $(`${boxId} .eye`).css('border-left', '2.5em solid');
-    $(`${boxId} .eye_right .pupil`).css('left', '4em');
-    $(`${boxId} .eye_left .pupil`).css('left', '4em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-1em', 'top': '-1.5em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-3em', 'top': '-1.5em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '5em', 'top': '3em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '5em', 'top': '3em'});
 }
 
 function eyesType4(boxId) {//Left
     $(`${boxId} .eye`).css('border-right', '2.5em solid');
-    $(`${boxId} .pupil`).css('left', '-1.2em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-1em', 'top': '-1.5em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-3em', 'top': '-1.5em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '0em', 'top': '3em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '0em', 'top': '3em'});
 }
 
 function eyesType5(boxId) {//Dazzled
     $(`${boxId} .eye`).css('border-top', '4em solid');
     $(`${boxId} .eye`).css('border-bottom', '4em solid');
-    $(`${boxId} .pupil`).css('top', '0em');
-    $(`${boxId} .eye .eyebrow`).css('top', '-5em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-1em', 'top': '-5.5em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-3em', 'top': '-5.5em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '3em', 'top': '0em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '3em', 'top': '0em'});
 }
 
 function eyesType6(boxId) {//Slit
     $(`${boxId} .eye`).css('border-top', '4em solid');
     $(`${boxId} .eye`).css('border-left', '4em solid');
     $(`${boxId} .eye`).css('border-right', '4em solid');
-    $(`${boxId} .eye_right .pupil`).css('left', '0em','top', '-2em');
-    $(`${boxId} .eye_left .pupil`).css('left', '0em','top', '-2em');
-    $(`${boxId} .eye_right .eyebrow`).css('left', '-3em');
-    $(`${boxId} .eye_left .eyebrow`).css('left', '-5em');
-    $(`${boxId} .eye .eyebrow`).css('top', '-6em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-4em', 'top': '-5em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-6em', 'top': '-5em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '-0.1em', 'top': '1em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '-0.1em', 'top': '1em'});
 }
 
 function eyesType7(boxId) {//Mask
     $(`${boxId} .eye`).css('border', '3em solid');
-    $(`${boxId} .pupil`).css('top', '1em');
-    $(`${boxId} .eye_right .pupil`).css('left', '1em');
-    $(`${boxId} .eye_left .pupil`).css('left', '1em');
-    $(`${boxId} .eye_right .eyebrow`).css('left', '-3em');
-    $(`${boxId} .eye_left .eyebrow`).css('left', '-5em');
-    $(`${boxId} .eye .eyebrow`).css('top', '-6em');
+    $(`${boxId} .eye_right .eyebrow`).css({'left': '-3em', 'top': '-5em'});
+    $(`${boxId} .eye_left .eyebrow`).css({'left': '-5em', 'top': '-5em'});
+    $(`${boxId} .eye_right .pupil`).css({'left': '1em', 'top': '1em'});
+    $(`${boxId} .eye_left .pupil`).css({'left': '1em', 'top': '1em'});
 }
 
 function decorationVariation(boxId, num, id) {

@@ -60,7 +60,7 @@ async function getBirdDna(id) {
 }
 
 async function breedBird(mumId, dadId) {
-    await instance.methods.breed(mumId, dadId).send({}, function(error, txHash){
+    await instance.methods.breed(dadId, mumId).send({}, function(error, txHash){
         if(error) {
             alert(error);
         }

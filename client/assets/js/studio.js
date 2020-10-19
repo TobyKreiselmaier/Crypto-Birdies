@@ -75,66 +75,71 @@ function eyesVariation(num) {
 }
 
 function basicEyes() {
-    $('.eye').css('border-top', 'none');
-    $('.eye').css('border-bottom', 'none');
-    $('.eye').css('border-left', 'none');
-    $('.eye').css('border-right', 'none');
+    $('.eye').css({'border-top': 'none', 'border-bottom': 'none', 'border-left': 'none', 'border-right': 'none'});
     $('.eye').css('border', '0.9em black solid');
-    $('.eye_right .eyebrow').css('left', '-1em');
-    $('.eye_left .eyebrow').css('left', '-3em');
-    $('.eye .eyebrow').css('top', '-3em');
-    $('.eye_right .pupil').css('left', '1.5em','top', '3em');
-    $('.eye_left .pupil').css('left', '5em','top', '3em');
+    $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-1.5em'});
+    $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-1.5em'});
+    $('.eye_right .pupil').css({'left': '1.5em', 'top': '3em'});
+    $('.eye_left .pupil').css({'left': '5em', 'top': '3em'});
 }
 
 function eyesType1() {//Chilled
     $('.eye').css('border-top', '4em solid');
-    $('.eye .eyebrow').css('top', '-5em');
+    $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-4.5em'});
+    $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-4.5em'});
+    $('.eye_right .pupil').css({'left': '1.5em', 'top': '1em'});
+    $('.eye_left .pupil').css({'left': '5em', 'top': '1em'});
 }
 
 function eyesType2() {//Up
     $('.eye').css('border-bottom', '4em solid');
-    $('.eye .eyebrow').css('top', '-4em');
-    $('.pupil').css('top', '1em');
+    $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-2em'});
+    $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-2em'});
+    $('.eye_right .pupil').css({'left': '1.5em', 'top': '2em'});
+    $('.eye_left .pupil').css({'left': '5em', 'top': '2em'});
 }
 
 function eyesType3() {//Right
     $('.eye').css('border-left', '2.5em solid');
-    $('.eye_right .pupil').css('left', '4em');
-    $('.eye_left .pupil').css('left', '4em');
+    $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-1.5em'});
+    $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-1.5em'});
+    $('.eye_right .pupil').css({'left': '5em', 'top': '3em'});
+    $('.eye_left .pupil').css({'left': '5em', 'top': '3em'});
 }
 
 function eyesType4() {//Left
     $('.eye').css('border-right', '2.5em solid');
-    $('.pupil').css('left', '-1.2em');
+    $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-1.5em'});
+    $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-1.5em'});
+    $('.eye_right .pupil').css({'left': '0em', 'top': '3em'});
+    $('.eye_left .pupil').css({'left': '0em', 'top': '3em'});
 }
 
 function eyesType5() {//Dazzled
     $('.eye').css('border-top', '4em solid');
     $('.eye').css('border-bottom', '4em solid');
-    $('.pupil').css('top', '0em');
-    $('.eye .eyebrow').css('top', '-5em');
+    $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-5.5em'});
+    $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-5.5em'});
+    $('.eye_right .pupil').css({'left': '3em', 'top': '0em'});
+    $('.eye_left .pupil').css({'left': '3em', 'top': '0em'});
 }
 
 function eyesType6() {//Slit
     $('.eye').css('border-top', '4em solid');
     $('.eye').css('border-left', '4em solid');
     $('.eye').css('border-right', '4em solid');
-    $('.eye_right .pupil').css('left', '0em','top', '-2em');
-    $('.eye_left .pupil').css('left', '0em','top', '-2em');
-    $('.eye_right .eyebrow').css('left', '-3em');
-    $('.eye_left .eyebrow').css('left', '-5em');
-    $('.eye .eyebrow').css('top', '-6em');
+    $('.eye_right .eyebrow').css({'left': '-4em', 'top': '-5em'});
+    $('.eye_left .eyebrow').css({'left': '-6em', 'top': '-5em'});
+    $('.eye_right .pupil').css({'left': '-0.1em', 'top': '1em'});
+    $('.eye_left .pupil').css({'left': '-0.1em', 'top': '1em'});
 }
 
 function eyesType7() {//Mask
     $('.eye').css('border', '3em solid');
-    $('.pupil').css('top', '1em');
-    $('.eye_right .pupil').css('left', '1em');
-    $('.eye_left .pupil').css('left', '1em');
-    $('.eye_right .eyebrow').css('left', '-3em');
-    $('.eye_left .eyebrow').css('left', '-5em');
-    $('.eye .eyebrow').css('top', '-6em');
+    $('.eye_right .eyebrow').css({'left': '-3em', 'top': '-5em'});
+    $('.eye_left .eyebrow').css({'left': '-5em', 'top': '-5em'});
+    $('.eye_right .pupil').css({'left': '1em', 'top': '1em'});
+    $('.eye_left .pupil').css({'left': '1em', 'top': '1em'});
 }
 
 function decorationVariation(num) {
