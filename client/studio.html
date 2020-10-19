@@ -3,6 +3,10 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Design Studio - Angry Birds on the Block</title>
+      <link rel="apple-touch-icon" sizes="180x180" href="/client/assets/media/favicons/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/client/assets/media/favicons/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/client/assets/media/favicons/favicon-16x16.png">
+      <link rel="manifest" href="/client/assets/media/favicons/site.webmanifest">
       <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
       <script src="assets/js/web3.min.js"></script>
       <script src="assets/js/abi.js"></script>
@@ -18,7 +22,7 @@
         <div class="container p-5">
 
           <!-- Navbar -->
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -31,6 +35,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="./catalog.html">Catalog</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./breeding.html">Breeding</a>
+                  </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Design Studio</a>
                 </li>
@@ -151,15 +158,13 @@
                         <button type="button" id="blockchainButton" class="btn btn-success mr-5 tsp-1 m-1 light-b-shadow"><b>Send This Bird To The Blockchain</b></button>
                     </div><br>
                 </div>
-                <hr>
-                <div class="alert alert-success" role="alert" id="birdCreation" style="display: none">
-                </div>
-            </div>
+                <br>
+                <div class="alert alert-success" role="alert" id="birdCreation" style="display: none"></div>
+            </div><br>
+            <footer align="center">
+                Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
+            </footer>
         </div>
-        </div>
-        <footer align="center">
-            Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
-        </footer>
     </body>
     <script src="assets/js/blockchain.js"></script>
     <script src="assets/js/colors.js"></script>

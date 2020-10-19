@@ -3,6 +3,10 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Catalog - Angry Birds on the Block</title>
+      <link rel="apple-touch-icon" sizes="180x180" href="/client/assets/media/favicons/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/client/assets/media/favicons/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/client/assets/media/favicons/favicon-16x16.png">
+      <link rel="manifest" href="/client/assets/media/favicons/site.webmanifest">
       <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
       <script src="assets/js/web3.min.js"></script>
       <script src="assets/js/abi.js"></script>
@@ -14,31 +18,34 @@
       <link rel="stylesheet" href="assets/css/styles.css">
     </head>
     <body>
+      <div class="container p-5">
 
         <!-- Navbar -->
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./index.html">Home</a>
-                      </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Catalog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./studio.html">Design Studio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./market.html">Market Place</a>
-                    </li>
-                  </ul>
-                </div>
-            </nav><br><br>
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="./index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Catalog</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./breeding.html">Breeding</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./studio.html">Design Studio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./market.html">Market Place</a>
+                </li>
+              </ul>
+            </div>
+          </nav><br><br>
 
             <!-- Headline -->
             <div align="center">
@@ -47,14 +54,15 @@
 
             <!-- Bird Boxes -->
             <div class="row"></div>
-        </div>
 
             <!-- Footer -->
             <footer align="center">
             Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
-        </footer>
+            </footer>
+      </div>
     </body>
     <script src="assets/js/blockchain.js"></script>
     <script src="assets/js/colors.js"></script>
     <script src="assets/js/catalog.js"></script>
+    <script src="assets/js/rendering.js"></script>
 </html>

@@ -13,13 +13,11 @@ body {
 
 footer {
     background: whitesmoke;
-    height: 30px;
-    left: 20em;
-    padding: 4vh;
-    padding-bottom: 60px;
-    position: relative;
-    width: 68%;
     border-radius: 5px;
+    height: 30px;
+    padding: 2vh;
+    padding-bottom: 40px;
+    position: relative;
 }
 
 h1 {
@@ -66,9 +64,7 @@ p {
     background-color: #e2efff;
     border-radius: 10px;
     height: 30em;
-    left: 0.6em;
-    padding-bottom: 10px;
-    padding-left: 30px;
+    min-width: 21em;
     padding-right: 30px;
     z-index: 20;
 }
@@ -95,14 +91,25 @@ p {
 /* IDs */
 #backgroundPicture {
     opacity: 80%;
+    position: relative;
     width: 100%;
     z-index: -10;
-    position: relative;
 }
 
 #blockchainButton {
-    border-radius: 5%;
     left: 26.1em;
+}
+
+#breedButton {
+    left: 55em;
+    position: absolute;
+    top: 40em;
+}
+
+#breedFooter {
+    position: absolute;
+    width: 1044px;
+    top: 45em;
 }
 
 #cardButton {
@@ -114,8 +121,21 @@ p {
     text-align: center;
 }
 
+#dameButton {
+    left: 38em;
+    position: absolute;
+    top: 40em;
+}
+
+#dameDisplay {
+    left: 31em;
+    opacity: 90%;
+    position: absolute;
+    top: 12em;
+    width: 30em;
+}
+
 #defaultButton {
-    border-radius: 5%;
     left: 4.6em;
 }
 
@@ -124,14 +144,27 @@ p {
 }
 
 #randomizeButton {
-    border-radius: 5%;
     left: 0.8em;
 }
 
+#sireButton {
+    left: 75em;
+    position: absolute;
+    top: 40em;
+}
+
+#sireDisplay {
+    left: 39em;
+    opacity: 90%;
+    position: relative;
+    top: -5em;
+    width: 30em;
+}
+
 #topCard {
+    background: transparent;
+    display: inline-block;
     left: 35%;
     position: relative;
-    display: inline-block;
-    background: transparent;
     z-index: 1;
 }

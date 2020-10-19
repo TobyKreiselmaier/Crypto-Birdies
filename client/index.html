@@ -3,6 +3,10 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Angry Birds on the Block</title>
+      <link rel="apple-touch-icon" sizes="180x180" href="/client/assets/media/favicons/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/client/assets/media/favicons/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/client/assets/media/favicons/favicon-16x16.png">
+      <link rel="manifest" href="/client/assets/media/favicons/site.webmanifest">
       <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
       <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
       <script src="assets/bootstrap/js/popper.js"></script>
@@ -21,59 +25,62 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                  </li>
+                  <a class="nav-link" href="#">Home</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="./catalog.html">Catalog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./studio.html">Design Studio</a>
+                  <a class="nav-link" href="./breeding.html">Breeding</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./market.html">Market Place</a>
+                  <a class="nav-link" href="./studio.html">Design Studio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./market.html">Market Place</a>
                 </li>
               </ul>
             </div>
-        </nav><br>
+          </nav><br>
 
-            <!-- Green Action Card -->
-            <div id="topCard" class="card border-success mb-3 justify-content-center" style="max-width: 18rem;">
-                <div class="card-body text-success">
-                  <h5 id="cardTitle">Collect, breed, and trade your own birds!</h5>
-                  <button id="cardButton" class="btn btn-success my-2 my-sm-0" type="submit" onclick="window.location.href='./studio.html';">Design your own Bird</button>
-                </div>
+        <!-- Green Action Card -->
+        <div id="topCard" class="card border-success mb-3 justify-content-center" style="max-width: 18rem;">
+            <div class="card-body text-success">
+              <h5 id="cardTitle">Collect, breed, and trade your own birds!</h5>
+              <button id="cardButton" class="btn btn-success my-2 my-sm-0" type="submit" onclick="window.location.href='./studio.html';">Design your own Bird</button>
+            </div>
+          </div>
+
+        <!-- Background -->
+        <img id="backgroundPicture" src="assets/media/background.jpg">
+
+        <!-- Feature Cards -->
+        <div class="card-deck">
+            <div class="card">
+              <img src="assets/media/Eth.jpg" class="card-img-top" alt="crypto-currency">
+              <div class="card-body">
+                <h5 class="card-title">Trade Birds</h5>
+                <p class="card-text">Buy or sell birds in a market place using crypto currency! You can find the most exotic specimens here.</p>
               </div>
-
-            <!-- Background -->
-            <img id="backgroundPicture" src="assets/media/background.jpg">
-
-            <!-- Feature Cards -->
-            <div class="card-deck">
-                <div class="card">
-                  <img src="assets/media/Eth.jpg" class="card-img-top" alt="crypto-currency">
-                  <div class="card-body">
-                    <h5 class="card-title">Trade Birds</h5>
-                    <p class="card-text">Buy or sell birds in a market place using crypto currency! You can find the most exotic specimens here.</p>
-                  </div>
-                </div>
-                <div class="card">
-                  <img src="assets/media/Collections.png" class="card-img-top" alt="collections">
-                  <div class="card-body">
-                    <h5 class="card-title">Collect & earn rewards</h5>
-                    <p class="card-text">Collect all types of birds with unique attributes! Earn special birds through breeding.</p>
-                  </div>
-                </div>
-                <div class="card">
-                  <img src="assets/media/Breed.jpg" class="card-img-top" alt="breeding">
-                  <div class="card-body">
-                    <h5 class="card-title">Breed adorable birds & unlock uncommon traits</h5>
-                    <p class="card-text">Create new birds by pairing two parents. Fuse them to get the rarest birds!</p>
-                  </div>
-                </div>
+            </div>
+            <div class="card">
+              <img src="assets/media/Collections.png" class="card-img-top" alt="collections">
+              <div class="card-body">
+                <h5 class="card-title">Collect & earn rewards</h5>
+                <p class="card-text">Collect all types of birds with unique attributes! Earn special birds through breeding.</p>
               </div>
+            </div>
+            <div class="card">
+              <img src="assets/media/Breed.jpg" class="card-img-top" alt="breeding">
+              <div class="card-body">
+                <h5 class="card-title">Breed adorable birds & unlock uncommon traits</h5>
+                <p class="card-text">Create new birds by pairing two parents. Fuse them to get the rarest birds!</p>
+              </div>
+            </div>
+          </div>
+          <footer align="center">
+              Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
+          </footer>
         </div>
-        <footer align="center">
-            Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
-        </footer>
     </body>
 </html>
