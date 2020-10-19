@@ -213,7 +213,7 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function _isOwnerOrApproved(address _from, address _to, uint256 _tokenId) internal view returns (bool) {
-        require(_from == msg.sender || approvalOneBird[_tokenId] == msg.sender || _operatorApprovals[msg.sender][_to], "You are not authorized to use this function");
+        require(_from == msg.sender || approvalOneBird[_tokenId] == msg.sender || _operatorApprovals[_from][msg.sender], "You are not authorized to use this function");
         require(birdOwner[_tokenId] == _from, "Owner incorrect");
         require(_to != address(0), "Error: Operation would delete this token permanently");
         require(_tokenId < birdies.length, "Token doesn't exist");
