@@ -116,6 +116,7 @@ function eyesType4() {//Left
 }
 
 function eyesType5() {//Dazzled
+    debugger;
     $('.eye').css('border-top', '4em solid');
     $('.eye').css('border-bottom', '4em solid');
     $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-5.5em'});
@@ -125,6 +126,7 @@ function eyesType5() {//Dazzled
 }
 
 function eyesType6() {//Slit
+    debugger;
     $('.eye').css('border-top', '4em solid');
     $('.eye').css('border-left', '4em solid');
     $('.eye').css('border-right', '4em solid');
@@ -135,6 +137,7 @@ function eyesType6() {//Slit
 }
 
 function eyesType7() {//Mask
+    debugger;
     $('.eye').css('border', '3em solid');
     $('.eye_right .eyebrow').css({'left': '-3em', 'top': '-5em'});
     $('.eye_left .eyebrow').css({'left': '-5em', 'top': '-5em'});
@@ -324,10 +327,6 @@ function animationVariation(num) {
 function resetAnimation() {
     $('*').removeClass('slowRotateBird floatingBird compressingBird upperSpeakingBird lowerSpeakingBird topWaggingTail middleWaggingTail bottomWaggingTail topAttention bottomAttention');
     document.onmousemove = function(){};
-    $('.eye_right .pupil').css('left', '1.5em');
-    $('.eye_left .pupil').css('left', '5em');
-    $('.eye_right .pupil').css('top', '3em');
-    $('.eye_left .pupil').css('top', '3em');
 }
 
 function animationType1() {
