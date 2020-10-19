@@ -52,5 +52,5 @@ interface IMarketPlace {
     * Requirement: The msg.value needs to equal the price of _tokenId
     * Requirement: There must be an active offer for _tokenId
      */
-    function buyKitty(uint256 _tokenId) external payable;
+    function buyBird(uint256 _tokenId) external payable;
 }

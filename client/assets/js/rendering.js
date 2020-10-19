@@ -63,14 +63,22 @@ function birdBox(id) {
                         <br>
                         <div class="dnaDiv">
                             <b>
-                                ID:
-                                <span>` + id + `</span><br>
-                                GEN:
-                                <span id="generation` + id + `"></span><br>
-                                MUM:
-                                <span id="mum` + id + `"></span><br>
-                                DAD:
-                                <span id="dad` + id + `"></span><br>
+                                <div id="idData">
+                                    ID:
+                                    <span>` + id + `</span>
+                                </div>
+                                <div id="genData">
+                                    GEN:
+                                    <span id="generation` + id + `"></span>
+                                </div><br>
+                                <div id="mumData">
+                                    MUM:
+                                    <span id="mum` + id + `"></span>
+                                </div>
+                                <div id="dadData">
+                                    DAD:
+                                    <span align="right" id="dad` + id + `"></span><br>
+                                </div><br>    
                                 DNA:
                                         <span id="dnaTopFeather` + id + `"></span>
                                         <span id="dnaBodyFeather` + id + `"></span>
@@ -83,9 +91,9 @@ function birdBox(id) {
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                        <li><span id="bottomeyetext` + id + `"></span></li>
-                                        <li><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                        <li><span id="bottomanimationtext` + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
                                     </ul>
                             </b>
                         </div>

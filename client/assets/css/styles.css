@@ -135,6 +135,11 @@ p {
     width: 30em;
 }
 
+#offerAmount {
+    position: relative;
+    width: min-content;
+}
+
 #defaultButton {
     left: 4.6em;
 }
@@ -167,4 +172,24 @@ p {
     left: 35%;
     position: relative;
     z-index: 1;
+}
+
+#mumData {
+    float: left;
+}
+
+#dadData {
+    float: right;
+}
+
+.bottomList {
+    margin-left: -2.5em;
+}
+
+#idData {
+    float: left;
+}
+
+#genData {
+    float: right;
 }

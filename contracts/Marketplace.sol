@@ -74,7 +74,7 @@ contract MarketPlace is Ownable, IMarketPlace {
         require(tokenIdToOffer[_tokenId].active == false, "You already created an offer for this bird. Please remove it first before creating a new one.");
         require(_angryBirds.isApprovedForAll(msg.sender, address(this)), "MarketPlace contract must first be an approved operate for your birds");
 
-        Offer memory _offer = Offer({//set offer
+        Offer memory _currentOffer = Offer({//set offer
             seller: msg.sender,
             price: _price,
             index: offers.length,
@@ -82,8 +82,8 @@ contract MarketPlace is Ownable, IMarketPlace {
             active: true
         });
 
-        tokenIdToOffer[_tokenId] = _offer;//update mapping
-        offers.push(_offer);//update array
+        tokenIdToOffer[_tokenId] = _currentOffer;//update mapping
+        offers.push(_currentOffer);//update array
 
         emit MarketTransaction("Offer created", msg.sender, _tokenId);
     }
@@ -91,24 +91,26 @@ contract MarketPlace is Ownable, IMarketPlace {
     function removeOffer(uint256 _tokenId) public {
         require(tokenIdToOffer[_tokenId].seller == msg.sender, "Only the owner of the bird can withdraw the offer from the market place.");
 
-        delete tokenIdToOffer[_tokenId];//delete entry in mapping
         offers[tokenIdToOffer[_tokenId].index].active == false;//don't iterate through array, but simply set active to false.
+        delete tokenIdToOffer[_tokenId];//delete entry in mapping
 
         emit MarketTransaction("Offer removed", msg.sender, _tokenId);
     }
 
-    function buyKitty(uint256 _tokenId) public payable {
-        require(tokenIdToOffer[_tokenId].active, "There is currently no active offer for this bird");
-        require(msg.value == tokenIdToOffer[_tokenId].price, "The amount offered is not equal to the amount requested");
+    function buyBird(uint256 _tokenId) public payable {
+        Offer memory _currentOffer = tokenIdToOffer[_tokenId];
+
+        require(_currentOffer.active, "There is currently no active offer for this bird");
+        require(msg.value == _currentOffer.price, "The amount offered is not equal to the amount requested");
 
         delete tokenIdToOffer[_tokenId];//delete entry in mapping
-        offers[tokenIdToOffer[_tokenId].index].active == false;//don't iterate through array, but simply set active to false.
+        offers[_currentOffer.index].active == false;//don't iterate through array, but simply set active to false.
 
-        if (tokenIdToOffer[_tokenId].price > 0) {//project: change push into pull logic
-            tokenIdToOffer[_tokenId].seller.transfer(tokenIdToOffer[_tokenId].price);//send money to seller
+        if (_currentOffer.price > 0) {//project: change push into pull logic
+            _currentOffer.seller.transfer(_currentOffer.price);//send money to seller
         }
 
-        _angryBirds.transferFrom(tokenIdToOffer[_tokenId].seller, msg.sender, _tokenId);//ERC721 ownership transferred
+        _angryBirds.transferFrom(_currentOffer.seller, msg.sender, _tokenId);//ERC721 ownership transferred
 
         emit MarketTransaction("Bird successfully purchased", msg.sender, _tokenId);
     }
