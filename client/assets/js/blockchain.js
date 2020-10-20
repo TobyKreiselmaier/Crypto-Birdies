@@ -58,24 +58,16 @@ async function connectWallet() {
 
 async function initializeMarketplace() {
     var marketplaceApprovedAsOperator = await birdInstance.methods.isApprovedForAll(user, marketAddress).call();
-
-    if (marketplaceApprovedAsOperator) {
-        populateMarketplace();
-    } else {
+    if (marketplaceApprovedAsOperator == false) {
         await birdInstance.methods.setApprovalForAll(marketAddress, true).send({}, function(error, txHash){
             if (error) {
                 console.log(error);
             };
             if (txHash) {
-                populateMarketplace();
+                console.log(txHash);
             };
         });
     };
-}
-
-async function confirmOwner(id) {
-    var ownerAddress = await birdInstance.methods.ownerOf(id).call();
-    return (ownerAddress == user);
 }
 
 async function sellBird(price, id) {
@@ -121,7 +113,7 @@ async function buyBird(price, id) {
     })
 }
 
-async function checkIfForSale(id) {
+async function onSale(id) {
     var result;
     try {
         result = await marketInstance.methods.getOffer(id).call();
@@ -160,7 +152,7 @@ async function getBirdsOfOwner() {
 async function getBirdsOnSale() {
     var arrayOfIds = [];
     try {
-        arrayOfIds = await birdInstance.methods.getAllTokensOnSale().call();
+        arrayOfIds = await marketInstance.methods.getAllTokensOnSale().call();
         console.log(arrayOfIds);
     } catch (error) {
         console.log(error);
@@ -172,7 +164,7 @@ async function buildCatalog(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
         console.log(bird);
-        appendBirdToCatalog(bird, arrayOfIds[i])
+        appendBirdToCatalog(bird, arrayOfIds[i]);
     }
 }
 
@@ -180,7 +172,7 @@ async function buildModal(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
         console.log(bird);
-        appendBirdToModal(bird, arrayOfIds[i])
+        appendBirdToModal(bird, arrayOfIds[i]);
     }
 }
 
@@ -188,7 +180,7 @@ async function buildMarket(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
         console.log(bird);
-        appendBirdToMarket(bird, arrayOfIds[i])
+        await appendBirdToMarket(bird, arrayOfIds[i]);
     }
 }
 
@@ -196,7 +188,7 @@ async function buildOffers(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
         console.log(bird);
-        appendBirdToOffers(bird, arrayOfIds[i])
+        await appendBirdToOffers(bird, arrayOfIds[i]);
     }
 }
 
