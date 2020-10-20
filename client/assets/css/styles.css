@@ -63,7 +63,7 @@ p {
 .catalogBox {
     background-color: #e2efff;
     border-radius: 10px;
-    height: 30em;
+    height: 31em;
     min-width: 21em;
     padding-right: 30px;
     z-index: 20;
@@ -109,7 +109,7 @@ p {
 #breedFooter {
     position: absolute;
     width: 1044px;
-    top: 45em;
+    top: 54em;
 }
 
 #cardButton {
@@ -180,6 +180,7 @@ p {
 
 #dadData {
     float: right;
+    margin-right: 1em;
 }
 
 .bottomList {
@@ -192,4 +193,13 @@ p {
 
 #genData {
     float: right;
+    margin-right: 1em;
+}
+
+#offerButton {
+    margin-right: 1em;
+}
+
+.row {
+    margin-left: -0.4em;
 }

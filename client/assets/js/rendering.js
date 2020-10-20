@@ -24,8 +24,8 @@ function birdDna(dna) {
     return dnaObject;
 }
 
-function birdBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
+function birdBox(id) {//used in catalog
+    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -96,6 +96,12 @@ function birdBox(id) {
                                         <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
                                     </ul>
                             </b>
+                            <div class="input-group mb-3">
+                                <input id="birdPrice" type="text" class="form-control" placeholder="Amount in Ξ" aria-label="Amount in Ξ" aria-describedby="button-addon2">
+                                <div class="input-group-append">
+                                    <button id="offerButton" class="btn btn-success" type="button" id="button-addon2">Submit Offer</button>
+                                </div>
+                            </div>
                         </div>
                     </div>`
     $('.row').append(boxDiv);

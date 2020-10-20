@@ -43,12 +43,23 @@
                   </li>
                 </ul>
               </div>
-            </nav>
+            </nav><br>
 
             <!-- Headlines -->
             <div align="center">
-              <h1 class="c-white"><b>Angry Bird Market Place</b></h1>
-              <p class="c-white">Buy and Sell Birds!</p>
+
+              <!-- Market Boxes -->
+              <h1 class="c-white"><b>Market Offers</b></h1>
+              <p class="c-white">Buy Unusual and Rare Birds!</p>
+              <div class="alert alert-success" role="alert" id="birdPurchased" style="display: none"></div>
+              <div class="marketOffers"></div>
+              <hr>
+
+              <!-- Offer Boxes -->
+              <h3 class="c-white"><b>My Offers</b></h3>
+              <p class="c-white">Cancelling an offer will return the bird to your catalog</p>
+              <div class="alert alert-success" role="alert" id="offerRemoved" style="display: none"></div>
+              <div class="myOffers"></div>
             </div>
 
             <!-- Footer -->
@@ -60,4 +71,5 @@
     <script src="assets/js/blockchain.js"></script>
     <script src="assets/js/colors.js"></script>
     <script src="assets/js/market.js"></script>
+    <script src="assets/js/rendering.js"></script>
 </html>

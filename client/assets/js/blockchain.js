@@ -1,15 +1,21 @@
 var web3 = new Web3(Web3.givenProvider);//Wallet will inject the selected network
 ethereum.autoRefreshOnNetworkChange = false;
-var instance;
+
+var birdInstance;
+var marketInstance;
 var user;
 var contractAddress = "0x4ac4a8af13159e9cAb5a862a3b983F2730C6Ca60";//update after contract is deployed
+var marketAddress = "";//update after contract is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
         user = accounts[0];
-        instance = new web3.eth.Contract(abi, contractAddress, user, {from: user});
-        instance.events.Birth()
-            .on('data', function(event){
+
+        birdInstance = new web3.eth.Contract(abi.birdContract, contractAddress, user, {from: user});
+        marketInstance = new web3.eth.Contract(abi.marketContract, marketAddress, user, {from: user});
+
+        birdInstance.events.Birth()
+            .on('data', (event) => {
                 console.log(event);
                 let owner = event.returnValues.owner;
                 let birdId = event.returnValues.birdId;
@@ -17,18 +23,81 @@ async function connectWallet() {
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
                 $('#birdCreation').css("display", "block");
-                $('#birdCreation').text("Bird successfully created on the blockchain! Owner: " + owner 
+                $('#birdCreation').text("Bird successfully created! Owner: " + owner 
                                     + " | BirdID: " + birdId 
                                     + " | MumID: " + mumId 
                                     + " | DadID: " + dadId
                                     + " | Genes: " + genes);
             })
             .on('error', console.error);
+        
+        marketInstance.events.MarketTransaction()
+            .on('data', (event) => {
+                var eventType = event.returnValues.TxType;
+                var tokenId = event.returnValues.tokenId;
+                if (eventType == "Offer created") {
+                    $('#offerCreated').css("display", "block");
+                    $('#offerCreated').text("Offer successfully created! Owner: " + user 
+                                        + " BirdID: " + tokenId);
+                };
+                if (eventType == "Offer removed") {
+                    $('#offerRemoved').css("display", "block");
+                    $('#offerRemoved').text("Offer successfully removed! Owner: " + user 
+                                        + " BirdID: " + tokenId);
+                };
+                if (eventType == "Bird successfully purchased") {
+                    $('#birdPurchased').css("display", "block");
+                    $('#birdPurchased').text("Bird successfully purchased! Owner: " + user 
+                                        + " BirdID: " + tokenId);
+                };
+            })
+            .on('error', console.error);
     })
 };
 
+async function initializeMarketplace() {
+    var marketplaceApprovedAsOperator = await birdInstance.methods.isApprovedForAll(user, marketAddress).call();
+
+    if (marketplaceApprovedAsOperator) {
+        populateMarketplace();
+    } else {
+        await birdInstance.methods.setApprovalForAll(marketAddress, true).send({}, function(error, txHash){
+            console.log("Success: " + txHash);
+            console.log("Error: " + error);
+            if (txHash != '') {
+                populateMarketplace();
+            };
+        });
+    };
+}
+
+async function populateMarketplace() {
+    var idArray = await marketInstance.methods.getAllTokensOnSale().call();
+    console.log(idArray);
+    for (let i = 0; i < idArray.length; i++) {
+        if (idArray[i] != 0) {//avoid Bird0
+            appendBird(idArray[i]);//double check if this f() can be used.
+        };
+    }
+}
+
+async function confirmOwner(id) {
+    var ownerAddress = await birdInstance.methods.ownerOf(id).call();
+    return (ownerAddress == user);
+}
+
+async function sellBird(id) {
+    var price = $('#birdPrice').val();
+    if (price > 0) {
+        var inWei = web3.utils.toWei(price, "ether");
+    }
+    
+}
+
+
+
 async function sendBirdToBlockchain() {
-    await instance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
+    await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
         if(error) {
             alert(error);
         }
@@ -39,7 +108,7 @@ async function getBirdsOfOwner() {
     var arrayOfIds = [];
     var bird;
     try {
-        arrayOfIds = await instance.methods.getAllBirdsOfOwner(user).call();
+        arrayOfIds = await birdInstance.methods.getAllBirdsOfOwner(user).call();
         console.log(arrayOfIds);
     } catch (error) {
         console.log(error);
@@ -49,18 +118,18 @@ async function getBirdsOfOwner() {
 
 async function buildBirdList(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
-        bird = await instance.methods.getBird(arrayOfIds[i]).call();
+        bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
         console.log(bird);
         appendBird(bird, arrayOfIds[i])
     }
 }
 
 async function getBirdDna(id) {
-    return await instance.methods.getBird(id).call();
+    return await birdInstance.methods.getBird(id).call();
 }
 
 async function breedBird(mumId, dadId) {
-    await instance.methods.breed(dadId, mumId).send({}, function(error, txHash){
+    await birdInstance.methods.breed(dadId, mumId).send({}, function(error, txHash){
         if(error) {
             alert(error);
         }
