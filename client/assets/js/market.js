@@ -1,7 +1,39 @@
+var arrayOfIdsOfOwner;
+var arrayOfIdsOnSale;
+var arrayOfIdsToDisplayInMarket;
+var arrayOfIdsToDisplayInOffers;
+
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
-    //get birds that are on offer;
+    await initializeMarketplace();//make sure marketplace contract is approved as operator for user
+    await createArraysToDisplay();//create arrays for display
+    await buildMarket(arrayOfIdsToDisplayInMarket);//build market
+    await buildOffers(arrayOfIdsToDisplayInOffers);//build offers
 });
+
+async function createArraysToDisplay() {
+    arrayOfIdsOfOwner = await getBirdsOfOwner();
+    arrayOfIdsOnSale = await getBirdsOnSale();
+    for (let i = 0; i < arrayOfIdsOnSale.length; i++) {
+        for (let j = 0; j < arrayOfIdsOfOwner.length; j++) {
+            if (arrayOfIdsOnSale[i] == arrayOfIdsOfOwner[j]) {//turn flow around and work on pricing.
+                arrayOfIdsToDisplayInOffers.push(arrayOfIdsOnSale[i]);
+            } else {
+                arrayOfIdsToDisplayInMarket.push(arrayOfIdsOnSale[i]);
+            }
+        }
+    }
+}
+
+function appendBirdToMarket(dna, id) {
+    marketBox(id);
+    renderBird(`#BirdBox${id}`, birdDna(dna), id);
+}
+
+function appendBirdToOffers(dna, id) {
+    offerBox(id);
+    renderBird(`#BirdBox${id}`, birdDna(dna), id);
+}
 
 function marketBox(id) {//used for offers of other users
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
@@ -78,7 +110,7 @@ function marketBox(id) {//used for offers of other users
                             <div class="input-group mb-3">
                             Asking Price:` + Pricevariable + ` Ξ 
                                 <div class="input-group-append">
-                                    <button id="buyButton" class="btn btn-success" type="button" id="button-addon2">Buy Bird</button>
+                                    <button id="buyButton` + id + `" class="btn btn-success" type="button" id="button-addon2">Buy Bird</button>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +193,7 @@ function offerBox(id) {//used for offers of current user
                             <div class="input-group mb-3">
                             Asking Price:` + Pricevariable + ` Ξ 
                             <div class="input-group-append">
-                                <button id="cancelButton" class="btn btn-danger" type="button" id="button-addon2">Cancel Offer</button>
+                                <button id="cancelButton` + id + `" class="btn btn-danger" type="button" id="button-addon2">Cancel Offer</button>
                             </div>
                             </div>
                         </div>
@@ -169,3 +201,28 @@ function offerBox(id) {//used for offers of current user
     $('.myOffers').append(boxDiv);
 }
 
+//Listener for buy buttons
+$(`[id^='buyButton']`).on("click", async function() {
+    var id = $(this).attr("id").substring(9);//extract bird ID from HTML.
+    await cancelOffer(id);
+    var index = arrayOfIdsToDisplayInOffers.findIndex(bird => bird === id);
+    if (index >= 0) {//make sure element is in array
+        arrayOfIdsToDisplayInOffers.splice(index, 1);//remove selected bird from array
+    };
+    arrayOfIdsToDisplayInCatalog.push(id);
+    $('.myOffers').empty();//clear offer content
+    await buildOffers(arrayOfIdsToDisplayInOffers);//repopulate offers with all birds that are for sale
+});
+
+//Listener for cancel buttons
+$(`[id^='cancelButton']`).on("click", async function() {
+    var id = $(this).attr("id").substring(12);//extract bird ID from HTML.
+    await cancelOffer(id);
+    var index = arrayOfIdsToDisplayInOffers.findIndex(bird => bird === id);
+    if (index >= 0) {//make sure element is in array
+        arrayOfIdsToDisplayInOffers.splice(index, 1);//remove selected bird from array
+    };
+    arrayOfIdsToDisplayInCatalog.push(id);
+    $('.myOffers').empty();//clear offer content
+    await buildOffers(arrayOfIdsToDisplayInOffers);//repopulate offers with all birds that are for sale
+});

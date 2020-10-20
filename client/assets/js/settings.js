@@ -1,4 +1,4 @@
-var colors = Object.values(allColors())
+var colors = Object.values(allColors());
 
 const defaultDNA = {
     "topFeatherColor": 57,
@@ -11,7 +11,7 @@ const defaultDNA = {
     "decorationMidColor": 35,
     "decorationSmallColor": 35,
     "animation": 0,
-    }
+    };
 
 // populate default DNA and show Color Screen only when page loads
 $(document).ready(function() {
