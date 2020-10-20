@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var contractAddress = "0x4ac4a8af13159e9cAb5a862a3b983F2730C6Ca60";//update after contract is deployed
-var marketAddress = "";//update after contract is deployed
+var contractAddress = "0xE8433C8E647F1a017aB3489B29730E1f8CCB6b76";//update after contract is deployed
+var marketAddress = "0xc5937769c13134988B136c0Aca9c33a8f9043D07";//update after contract is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -33,6 +33,7 @@ async function connectWallet() {
         
         marketInstance.events.MarketTransaction()
             .on('data', (event) => {
+                console.log(event);
                 var eventType = event.returnValues.TxType;
                 var tokenId = event.returnValues.tokenId;
                 if (eventType == "Offer created") {
@@ -62,9 +63,10 @@ async function initializeMarketplace() {
         populateMarketplace();
     } else {
         await birdInstance.methods.setApprovalForAll(marketAddress, true).send({}, function(error, txHash){
-            console.log("Success: " + txHash);
-            console.log("Error: " + error);
-            if (txHash != '') {
+            if (error) {
+                console.log(error);
+            };
+            if (txHash) {
                 populateMarketplace();
             };
         });
@@ -88,19 +90,70 @@ async function confirmOwner(id) {
 
 async function sellBird(id) {
     var price = $('#birdPrice').val();
-    if (price > 0) {
+    if (parseInt(price) > 0) {
         var inWei = web3.utils.toWei(price, "ether");
-    }
-    
+    } else {
+        alert("Please enter a number")
+    };
+    await marketInstance.methods.setOffer(inWei, id).send({}, function(error, txHash){
+        if (error) {
+            console.log(error);
+        };
+        if (txHash) {
+            console.log(txHash);
+        };
+    })
 }
 
+async function cancelOffer(id) {
+    await marketInstance.methods.removeOffer(id).send({}, function(error, txHash){
+        if (error) {
+            console.log(error);
+        };
+        if (txHash) {
+            console.log(txHash);
+        };
+    })
+}
 
+async function buyBird(id, price) {
+    if (parseInt(price) > 0) {
+        var inWei = web3.utils.toWei(price, "ether");
+    } else {
+        alert("Please enter a number")
+    };
+    await marketInstance.methods.buyBird(id).send({ value: inWei }, function(error, txHash){
+        if (error) {
+            console.log(error);
+        };
+        if (txHash) {
+            console.log(txHash);
+        };
+    })
+}
+
+async function checkIfForSale(id) {
+    var result;
+    try {
+        result = await marketInstance.methods.getOffer(id).call();
+        if (result.price > 0 && result.active == true) {
+            ethPrice = web3.utils.fromWei(result.price, "ether");
+            return { seller: result.seller, price: ethPrice, onsale: result.active };
+        }
+    } catch (error) {
+        console.log(error);
+        return;
+    }
+}
 
 async function sendBirdToBlockchain() {
     await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
-        if(error) {
-            alert(error);
-        }
+        if (error) {
+            console.log(error);
+        };
+        if (txHash) {
+            console.log(txHash);
+        };
     })
 };
 
@@ -130,8 +183,11 @@ async function getBirdDna(id) {
 
 async function breedBird(mumId, dadId) {
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error, txHash){
-        if(error) {
-            alert(error);
-        }
+        if (error) {
+            console.log(error);
+        };
+        if (txHash) {
+            console.log(txHash);
+        };
     })
 };
