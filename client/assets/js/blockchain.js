@@ -127,7 +127,7 @@ async function onSale(id) {
     }
 }
 
-async function sendBirdToBlockchain() {
+async function createBird() {
     await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
         if (error) {
             console.log(error);

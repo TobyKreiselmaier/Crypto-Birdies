@@ -36,9 +36,9 @@ function renderBird(boxId, dna, id){
 }
 
 function topFeatherColor(boxId, color, code, id) {
-$(`${boxId} .feather_top`).css('background', '#' + color)//This changes the color of the bird
-$(`${boxId} .feather_bottom`).css('background', '#' + color)//This changes the color of the bird
-$('#dnaTopFeather' + id).html(code)//This updates the DNA line that is displayed below the bird
+    $(`${boxId} .feather_top`).css('background', '#' + color)//This changes the color of the bird
+    $(`${boxId} .feather_bottom`).css('background', '#' + color)//This changes the color of the bird
+    $('#dnaTopFeather' + id).html(code)//This updates the DNA line that is displayed below the bird
 }
 
 function bodyFeatherColor(boxId, color, code, id) {

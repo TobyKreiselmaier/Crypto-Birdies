@@ -42,7 +42,7 @@ p {
 }
 
 .birdBox {
-    background-color: #e2efff;
+    background-color: #f8f9fa;
     border-radius: 10px;
     left: 0.6em;
     padding-bottom: 10px;
@@ -61,7 +61,7 @@ p {
 }
 
 .catalogBox {
-    background-color: #e2efff;
+    background-color: #f8f9fa;
     border-radius: 10px;
     height: 31em;
     min-width: 21em;
@@ -96,8 +96,9 @@ p {
     z-index: -10;
 }
 
-#blockchainButton {
-    left: 26.1em;
+#createButton {
+    left: 36em;
+    border-radius: 5px;
 }
 
 #breedButton {
@@ -142,6 +143,7 @@ p {
 
 #defaultButton {
     left: 4.6em;
+    border-radius: 5px;
 }
 
 #logo {
@@ -150,6 +152,7 @@ p {
 
 #randomizeButton {
     left: 0.8em;
+    border-radius: 5px;
 }
 
 #sireButton {
@@ -196,7 +199,7 @@ p {
     margin-right: 1em;
 }
 
-#offerButton {
+.submitButton {
     margin-right: 1em;
 }
 

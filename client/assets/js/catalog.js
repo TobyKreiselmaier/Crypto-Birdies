@@ -84,7 +84,7 @@ function catalogBox(id) {//used in catalog
                             <div class="input-group mb-3">
                                 <input id="birdPrice` + id + `" type="text" class="form-control" placeholder="Amount in Ξ" aria-label="Amount in Ξ" aria-describedby="button-addon2">
                                 <div class="input-group-append">
-                                    <button id="offerButton` + id + `" class="btn btn-success" type="button" id="button-addon2">Submit Offer</button>
+                                    <button id="offerButton` + id + `" class="btn btn-success submitButton" type="button" id="button-addon2">Submit Offer</button>
                                 </div>
                             </div>
                         </div>
@@ -94,6 +94,7 @@ function catalogBox(id) {//used in catalog
 
 //Listener for offer buttons
 $(`[id^='offerButton']`).on("click", async function() {
+    debugger;
     var id = $(this).attr("id").substring(11);//extract bird ID from HTML.
     var price = $(`#birdPrice${id}`).val();//get price of the bird with the same id as the button
     await sellBird(price, id);
@@ -102,5 +103,5 @@ $(`[id^='offerButton']`).on("click", async function() {
         arrayOfIdsToDisplayInCatalog.splice(index, 1);//remove selected bird from array; which bird is for sale can be queried from blockchain
     };
     $('.row').empty();//clear catalog content
-    await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with all birds that are not for sale
+    await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
 });

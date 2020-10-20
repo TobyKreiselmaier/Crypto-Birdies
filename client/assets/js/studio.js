@@ -1,5 +1,166 @@
+var colors = Object.values(allColors());
+
+const defaultDNA = {
+    "topFeatherColor": 57,
+    "bodyFeatherColor": 57,
+    "topBeakColor": 83,
+    "bottomBeakColor": 73,
+    "eyesShape": 0,
+    "decorationPattern": 0,
+    "decorationColor": 35,
+    "decorationMidColor": 35,
+    "decorationSmallColor": 35,
+    "animation": 0
+    };
+
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
+    $('.colorscreen').show();
+    $('.attributes').hide();
+    setDefaultDna();
+});
+
+function setDefaultDna(){
+    $('#dnaTopFeather').html(defaultDNA.topFeatherColor);
+    $('#dnaBodyFeather').html(defaultDNA.bodyFeatherColor);
+    $('#dnaTopBeak').html(defaultDNA.topBeakColor);
+    $('#dnaBottomBeak').html(defaultDNA.bottomBeakColor);
+    $('#dnaEyesShape').html(defaultDNA.eyesShape);
+    $('#dnadecorationPattern').html(defaultDNA.decorationPattern);
+    $('#dnaDecorationAtEyes').html(defaultDNA.decorationColor);
+    $('#dnaDecorationMid').html(defaultDNA.decorationMidColor);
+    $('#dnaDecorationSmall').html(defaultDNA.decorationSmallColor);
+    $('#dnaAnimation').html(defaultDNA.animation);
+    renderBird(defaultDNA);
+}
+
+function renderBird(dna){
+    topFeatherColor(colors[dna.topFeatherColor],dna.topFeatherColor);
+    $('#topfeatherscolor').val(dna.topFeatherColor);
+    bodyFeatherColor(colors[dna.bodyFeatherColor],dna.bodyFeatherColor);
+    $('#bodyfeatherscolor').val(dna.bodyFeatherColor);
+    topBeakColor(colors[dna.topBeakColor],dna.topBeakColor);
+    $('#topbeakcolor').val(dna.topBeakColor);
+    bottomBeakColor(colors[dna.bottomBeakColor],dna.bottomBeakColor);
+    $('#bottombeakcolor').val(dna.bottomBeakColor);
+    eyesVariation(dna.eyesShape);
+    $('#eyesstyle').val(dna.eyesShape);
+    decorationVariation(dna.decorationPattern);
+    $('#decorationstyle').val(dna.decorationPattern);
+    decorationMainColor(colors[dna.decorationColor],dna.decorationColor);
+    $('#ateyescolor').val(dna.decorationColor);
+    middleColor(colors[dna.decorationMidColor],dna.decorationMidColor);
+    $('#middlecolor').val(dna.decorationMidColor);
+    smallColor(colors[dna.decorationSmallColor],dna.decorationSmallColor);
+    $('#smallcolor').val(dna.decorationSmallColor);
+    animationVariation(dna.animation);
+    $('#animationstyle').val(dna.animation);
+}
+
+function getDna(){//used when bird created on blockchain
+    var dna = '';
+    dna += $('#dnaTopFeather').html();
+    dna += $('#dnaBodyFeather').html();
+    dna += $('#dnaTopBeak').html();
+    dna += $('#dnaBottomBeak').html();
+    dna += $('#dnaEyesShape').html();
+    dna += $('#dnaDecorationPattern').html();
+    dna += $('#dnaDecorationAtEye').html();
+    dna += $('#dnaDecorationMid').html();
+    dna += $('#dnaDecorationSmall').html();
+    dna += $('#dnaAnimation').html();
+    return dna;
+}
+
+function setRandomDna(){
+  var randomDna = {
+    "topFeatherColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "bodyFeatherColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "topBeakColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "bottomBeakColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "eyesShape": Math.floor(Math.random()*8),// number from 0 to 7
+    "decorationPattern": Math.floor(Math.random()*8),// number from 0 to 7
+    "decorationColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "decorationMidColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "decorationSmallColor": Math.floor(Math.random()*90) + 10,// number from 10 to 99
+    "animation": Math.floor(Math.random()*9)// number from 0 to 8
+    };
+    renderBird(randomDna);//this will always return 17 digits for the Dna of a bird.
+}
+
+// Event listeners
+$('#colorsButton').click(()=>{
+    $('.colorscreen').show();
+    $('.attributes').hide();
+    $('.angryBird_Red').css('top', '15em');
+});
+
+$('#attributesButton').click(()=>{
+    $('.colorscreen').hide();
+    $('.attributes').show();
+    $('.angryBird_Red').css('top', '25em');
+});
+
+$('#topfeatherscolor').change(()=>{
+    var colorVal = $('#topfeatherscolor').val();
+    topFeatherColor(colors[colorVal],colorVal);
+});
+
+$('#bodyfeatherscolor').change(()=>{
+    var colorVal = $('#bodyfeatherscolor').val();
+    bodyFeatherColor(colors[colorVal],colorVal);
+});
+
+$('#topbeakcolor').change(()=>{
+    var colorVal = $('#topbeakcolor').val();
+    topBeakColor(colors[colorVal],colorVal);
+});
+
+$('#bottombeakcolor').change(()=>{
+    var colorVal = $('#bottombeakcolor').val();
+    bottomBeakColor(colors[colorVal],colorVal);
+});
+
+$('#eyesstyle').change(()=>{
+    var shape = parseInt($('#eyesstyle').val());
+    eyesVariation(shape);
+});
+
+$('#decorationstyle').change(()=>{
+    var shape = parseInt($('#decorationstyle').val());
+    decorationVariation(shape);
+});
+
+$('#ateyescolor').change(()=>{
+    var colorVal = $('#ateyescolor').val();
+    decorationMainColor(colors[colorVal],colorVal);
+});
+
+$('#middlecolor').change(()=>{
+    var colorVal = $('#middlecolor').val();
+    middleColor(colors[colorVal],colorVal);
+});
+
+$('#smallcolor').change(()=>{
+    var colorVal = $('#smallcolor').val();
+    smallColor(colors[colorVal],colorVal);
+});
+
+$('#animationstyle').change(()=>{
+    var variation = parseInt($('#animationstyle').val());
+    animationVariation(variation);
+});
+
+$('#randomizeButton').click(()=>{
+    setRandomDna();
+});
+
+$('#defaultButton').click(()=>{
+    setDefaultDna();
+});
+
+$('#createButton').click(()=>{
+    createBird();
 });
 
 function topFeatherColor(color,code) {
@@ -75,8 +236,7 @@ function eyesVariation(num) {
 }
 
 function basicEyes() {
-    $('.eye').css({'border-top': 'none', 'border-bottom': 'none', 'border-left': 'none', 'border-right': 'none'});
-    $('.eye').css('border', '0.9em black solid');
+    $('.eye').css({'border-top': 'none', 'border-bottom': 'none', 'border-left': 'none', 'border-right': 'none', 'border': '0.9em black solid'});
     $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-1.5em'});
     $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-1.5em'});
     $('.eye_right .pupil').css({'left': '1.5em', 'top': '3em'});
@@ -116,9 +276,7 @@ function eyesType4() {//Left
 }
 
 function eyesType5() {//Dazzled
-    debugger;
-    $('.eye').css('border-top', '4em solid');
-    $('.eye').css('border-bottom', '4em solid');
+    $('.eye').css({'border-top': '4em solid', 'border-bottom': '4em solid'});
     $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-5.5em'});
     $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-5.5em'});
     $('.eye_right .pupil').css({'left': '3em', 'top': '0em'});
@@ -126,10 +284,7 @@ function eyesType5() {//Dazzled
 }
 
 function eyesType6() {//Slit
-    debugger;
-    $('.eye').css('border-top', '4em solid');
-    $('.eye').css('border-left', '4em solid');
-    $('.eye').css('border-right', '4em solid');
+    $('.eye').css({'border-top': '4em solid', 'border-left': '4em solid', 'border-right': '4em solid'});
     $('.eye_right .eyebrow').css({'left': '-4em', 'top': '-5em'});
     $('.eye_left .eyebrow').css({'left': '-6em', 'top': '-5em'});
     $('.eye_right .pupil').css({'left': '-0.1em', 'top': '1em'});
@@ -137,7 +292,6 @@ function eyesType6() {//Slit
 }
 
 function eyesType7() {//Mask
-    debugger;
     $('.eye').css('border', '3em solid');
     $('.eye_right .eyebrow').css({'left': '-3em', 'top': '-5em'});
     $('.eye_left .eyebrow').css({'left': '-5em', 'top': '-5em'});
@@ -194,14 +348,10 @@ function decorationVariation(num) {
 }
 
 function basicDecoration() {
-    $('.bird_body .deco_1').css('display', 'initial');
-    $('.bird_body .deco_2').css('display', 'initial');
-    $('.bird_body .deco_3').css('display', 'initial');
-    $('.bird_body .deco_4').css('display', 'initial');
-    $('.bird_body .deco_1').css('transform', 'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)');
-    $('.bird_body .deco_2').css('transform', 'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)');
-    $('.bird_body .deco_3').css('transform', 'rotate(-10deg) scaleY(1) translateY(0em)');
-    $('.bird_body .deco_4').css('transform', 'rotate(-10deg) scaleY(1) translateY(0em)');
+    $('.bird_body .deco_1').css({'display': 'initial', 'transform': 'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)'});
+    $('.bird_body .deco_2').css({'display': 'initial', 'transform': 'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)'});
+    $('.bird_body .deco_3').css({'display': 'initial', 'transform': 'rotate(-10deg) scaleY(1) translateY(0em)'});
+    $('.bird_body .deco_4').css({'display': 'initial', 'transform': 'rotate(-10deg) scaleY(1) translateY(0em)'});
 }
 
 function decorationType1() {//Large
@@ -377,5 +527,6 @@ function animationType8() {
         for (let i = 0; i < 2; i++) {
             eyeballs[i].style.left = x;
             eyeballs[i].style.top = y;
-        }}
+        }
+    }
 }
