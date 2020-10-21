@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
     font-family: "Poppins";
     src: url("/client/assets/fonts/Poppins-Light.ttf");
@@ -51,6 +52,10 @@ p {
     z-index: 20;
 }
 
+.bottomList {
+    margin-left: -2.5em;
+}
+
 .card-deck{
     background: transparent;
     left: -8%;
@@ -60,6 +65,14 @@ p {
     z-index: 1;
 }
 
+.card-img-top {
+    height: 200px;
+}
+
+.card-text {
+    color: black;
+}
+
 .catalogBox {
     background-color: #f8f9fa;
     border-radius: 10px;
@@ -67,14 +80,6 @@ p {
     min-width: 21em;
     padding-right: 30px;
     z-index: 20;
-}
-
-.card-img-top {
-    height: 200px;
-}
-
-.card-text {
-    color: black;
 }
 
 .dnaDiv {
@@ -88,17 +93,20 @@ p {
     border-radius: 5px;
 }
 
+.row {
+    margin-left: -0.4em;
+}
+
+.submitButton {
+    margin-right: 1em;
+}
+
 /* IDs */
 #backgroundPicture {
     opacity: 80%;
     position: relative;
     width: 100%;
     z-index: -10;
-}
-
-#createButton {
-    left: 36em;
-    border-radius: 5px;
 }
 
 #breedButton {
@@ -122,6 +130,16 @@ p {
     text-align: center;
 }
 
+#createButton {
+    left: 36em;
+    border-radius: 5px;
+}
+
+#dadData {
+    float: right;
+    margin-right: 1em;
+}
+
 #dameButton {
     left: 38em;
     position: absolute;
@@ -136,23 +154,36 @@ p {
     width: 30em;
 }
 
-#offerAmount {
-    position: relative;
-    width: min-content;
+#defaultButton {
+    border-radius: 5px;
+    left: 4.6em;
 }
 
-#defaultButton {
-    left: 4.6em;
-    border-radius: 5px;
+#genData {
+    float: right;
+    margin-right: 1em;
 }
 
 #logo {
     border-radius: 40%;
 }
 
+#idData {
+    float: left;
+}
+
+#mumData {
+    float: left;
+}
+
+#offerAmount {
+    position: relative;
+    width: min-content;
+}
+
 #randomizeButton {
-    left: 0.8em;
     border-radius: 5px;
+    left: 0.8em;
 }
 
 #sireButton {
@@ -175,34 +206,4 @@ p {
     left: 35%;
     position: relative;
     z-index: 1;
-}
-
-#mumData {
-    float: left;
-}
-
-#dadData {
-    float: right;
-    margin-right: 1em;
-}
-
-.bottomList {
-    margin-left: -2.5em;
-}
-
-#idData {
-    float: left;
-}
-
-#genData {
-    float: right;
-    margin-right: 1em;
-}
-
-.submitButton {
-    margin-right: 1em;
-}
-
-.row {
-    margin-left: -0.4em;
 }

@@ -82,7 +82,7 @@ function catalogBox(id) {//used in catalog
                                     </ul>
                             </b>
                             <div class="input-group mb-3">
-                                <input id="birdPrice` + id + `" type="text" class="form-control" placeholder="Amount in Ξ" aria-label="Amount in Ξ" aria-describedby="button-addon2">
+                                <input id="birdPrice` + id + `" type="text" class="form-control" placeholder="Amount in ETH" aria-label="Amount in ETH" aria-describedby="button-addon2">
                                 <div class="input-group-append">
                                     <button id="offerButton` + id + `" class="btn btn-success submitButton" type="button" id="button-addon2">Submit Offer</button>
                                 </div>
@@ -94,7 +94,6 @@ function catalogBox(id) {//used in catalog
 
 //Listener for offer buttons
 $(`[id^='offerButton']`).on("click", async function() {
-    debugger;
     var id = $(this).attr("id").substring(11);//extract bird ID from HTML.
     var price = $(`#birdPrice${id}`).val();//get price of the bird with the same id as the button
     await sellBird(price, id);
@@ -104,4 +103,4 @@ $(`[id^='offerButton']`).on("click", async function() {
     };
     $('.row').empty();//clear catalog content
     await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
-});
+})

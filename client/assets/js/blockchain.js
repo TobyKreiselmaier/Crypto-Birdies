@@ -4,14 +4,14 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var contractAddress = "0xE8433C8E647F1a017aB3489B29730E1f8CCB6b76";//update after contract is deployed
-var marketAddress = "0xc5937769c13134988B136c0Aca9c33a8f9043D07";//update after contract is deployed
+var birdAddress = "0x0b5a6dE204f7368C7B4EefB43bd8C0b5B9E37D87";//update after contract is deployed
+var marketAddress = "0x66c278619E3e8A017BdFCAec316dafcB8751D985";//update after contract is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
         user = accounts[0];
 
-        birdInstance = new web3.eth.Contract(abi.birdContract, contractAddress, user, {from: user});
+        birdInstance = new web3.eth.Contract(abi.birdContract, birdAddress, user, {from: user});
         marketInstance = new web3.eth.Contract(abi.marketContract, marketAddress, user, {from: user});
 
         birdInstance.events.Birth()
