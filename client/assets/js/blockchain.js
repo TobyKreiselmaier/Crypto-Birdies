@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0x0b5a6dE204f7368C7B4EefB43bd8C0b5B9E37D87";//update after contract is deployed
-var marketAddress = "0x66c278619E3e8A017BdFCAec316dafcB8751D985";//update after contract is deployed
+var birdAddress = "0x0b5a6dE204f7368C7B4EefB43bd8C0b5B9E37D87";//update after AngryBirds.sol is deployed
+var marketAddress = "0xeFc50111E4861EBCe3de8f2085f7884285DD2eA2";//update after Marketplace.sol is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -71,11 +71,8 @@ async function initializeMarketplace() {
 }
 
 async function sellBird(price, id) {
-    if (parseInt(price) > 0) {
-        var inWei = web3.utils.toWei(price, "ether");
-    } else {
-        alert("Please enter a number")
-    };
+    var inWei = web3.utils.toWei(price, "ether");
+    if (inWei < 0) {alert("Please enter a valid amount")};
     await marketInstance.methods.setOffer(inWei, id).send({}, function(error, txHash){
         if (error) {
             console.log(error);

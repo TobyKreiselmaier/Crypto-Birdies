@@ -2,6 +2,8 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     await connectWallet();
     var arrayOfIdsToDisplayInCatalog = await getBirdsOfOwner();//fill array with ids for all birds of this address
     await buildCatalog(arrayOfIdsToDisplayInCatalog);
+    await initializeMarketplace();//allow Marketplace contract to handle offers.
+    activateClickListener();//must be activated after all buttons are rendered.
 })
 
 function appendBirdToCatalog(dna, id) {
@@ -93,14 +95,17 @@ function catalogBox(id) {
 }
 
 //Listener for offer buttons
-$(`[id^='offerButton']`).on("click", async function() {
-    var id = $(this).attr("id").substring(11);//extract id from HTML.
-    var price = $(`#birdPrice${id}`).val();//get price of the bird with the same id as the button
-    await sellBird(price, id);
-    var index = arrayOfIdsToDisplayInCatalog.findIndex(bird => bird === id);
-    if (index >= 0) {//make sure element is in array
-        arrayOfIdsToDisplayInCatalog.splice(index, 1);//remove selected bird from array
-    };
-    $('.row').empty();//clear catalog content
-    await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
-})
+function activateClickListener() {
+    $(`[id^='offerButton']`).on("click", async function() {
+        debugger;
+        var id = $(this).attr("id").substring(11);//extract id from HTML.
+        var price = $(`#birdPrice${id}`).val();//get price of the bird with the same id as the button
+        await sellBird(price, id);
+        var index = arrayOfIdsToDisplayInCatalog.findIndex(bird => bird === id);
+        if (index >= 0) {//make sure element is in array
+            arrayOfIdsToDisplayInCatalog.splice(index, 1);//remove selected bird from array
+        };
+         $('.row').empty();//clear catalog content
+        await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
+    })
+}

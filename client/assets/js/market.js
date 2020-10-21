@@ -11,6 +11,18 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     await buildOffers(arrayOfIdsToDisplayInOffers);//build offers
 });
 
+
+//$(document).ready( async () => {//when page is loaded, get latest instance of blockchain
+//    await connectWallet();
+//    var arrayOfIdsToDisplayInCatalog = await getBirdsOfOwner();//fill array with ids for all birds of this address
+//    await buildCatalog(arrayOfIdsToDisplayInCatalog);
+//    await initializeMarketplace();//allow Marketplace contract to handle offers.
+//    activateClickListener();//must be activated after all buttons are rendered.
+//})
+
+
+
+
 async function createArraysToDisplay() {
     arrayOfIdsOfOwner = await getBirdsOfOwner();
     arrayOfIdsOnSale = await getBirdsOnSale();
