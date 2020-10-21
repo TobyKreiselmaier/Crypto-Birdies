@@ -2,7 +2,7 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     await connectWallet();
     var arrayOfIdsToDisplayInCatalog = await getBirdsOfOwner();//fill array with ids for all birds of this address
     await buildCatalog(arrayOfIdsToDisplayInCatalog);
-});
+})
 
 function appendBirdToCatalog(dna, id) {
     catalogBox(id);
