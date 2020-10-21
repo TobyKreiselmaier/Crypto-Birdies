@@ -9,7 +9,7 @@ function appendBirdToCatalog(dna, id) {
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }
 
-function catalogBox(id) {//used in catalog
+function catalogBox(id) {
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
@@ -94,12 +94,12 @@ function catalogBox(id) {//used in catalog
 
 //Listener for offer buttons
 $(`[id^='offerButton']`).on("click", async function() {
-    var id = $(this).attr("id").substring(11);//extract bird ID from HTML.
+    var id = $(this).attr("id").substring(11);//extract id from HTML.
     var price = $(`#birdPrice${id}`).val();//get price of the bird with the same id as the button
     await sellBird(price, id);
     var index = arrayOfIdsToDisplayInCatalog.findIndex(bird => bird === id);
     if (index >= 0) {//make sure element is in array
-        arrayOfIdsToDisplayInCatalog.splice(index, 1);//remove selected bird from array; which bird is for sale can be queried from blockchain
+        arrayOfIdsToDisplayInCatalog.splice(index, 1);//remove selected bird from array
     };
     $('.row').empty();//clear catalog content
     await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
