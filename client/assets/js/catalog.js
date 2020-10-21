@@ -1,8 +1,10 @@
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
-    var arrayOfIdsToDisplayInCatalog = await getBirdsOfOwner();//fill array with ids for all birds of this address
-    await buildCatalog(arrayOfIdsToDisplayInCatalog);
     await initializeMarketplace();//allow Marketplace contract to handle offers.
+    var arrayOfIdsOfOwner = await getBirdsOfOwner();
+    var arrayOfIdsOnSale = await getBirdsOnSale();
+    var arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
+    await buildCatalog(arrayOfIdsToDisplayInCatalog);
     activateClickListener();//must be activated after all buttons are rendered.
 })
 
@@ -97,15 +99,12 @@ function catalogBox(id) {
 //Listener for offer buttons
 function activateClickListener() {
     $(`[id^='offerButton']`).on("click", async function() {
-        debugger;
         var id = $(this).attr("id").substring(11);//extract id from HTML.
         var price = $(`#birdPrice${id}`).val();//get price of the bird with the same id as the button
         await sellBird(price, id);
-        var index = arrayOfIdsToDisplayInCatalog.findIndex(bird => bird === id);
-        if (index >= 0) {//make sure element is in array
-            arrayOfIdsToDisplayInCatalog.splice(index, 1);//remove selected bird from array
-        };
-         $('.row').empty();//clear catalog content
+        $('.row').empty();//clear catalog content
+        arrayOfIdsOnSale = await getBirdsOnSale();
+        arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
         await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
     })
 }

@@ -1,50 +1,23 @@
-var arrayOfIdsOfOwner = [];
-var arrayOfIdsOnSale = [];
-var arrayOfIdsToDisplayInMarket = [];
-var arrayOfIdsToDisplayInOffers = [];
-
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await initializeMarketplace();//make sure marketplace contract is approved as operator for user
-    await createArraysToDisplay();//create arrays to display
+    var arrayOfIdsOfOwner = await getBirdsOfOwner();
+    var arrayOfIdsOnSale = await getBirdsOnSale();
+    var arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
+    var arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
     await buildMarket(arrayOfIdsToDisplayInMarket);//build market
     await buildOffers(arrayOfIdsToDisplayInOffers);//build offers
+    activateClickListeners();//must be activated after all buttons are rendered.
 });
 
-
-//$(document).ready( async () => {//when page is loaded, get latest instance of blockchain
-//    await connectWallet();
-//    var arrayOfIdsToDisplayInCatalog = await getBirdsOfOwner();//fill array with ids for all birds of this address
-//    await buildCatalog(arrayOfIdsToDisplayInCatalog);
-//    await initializeMarketplace();//allow Marketplace contract to handle offers.
-//    activateClickListener();//must be activated after all buttons are rendered.
-//})
-
-
-
-
-async function createArraysToDisplay() {
-    arrayOfIdsOfOwner = await getBirdsOfOwner();
-    arrayOfIdsOnSale = await getBirdsOnSale();
-    for (let i = 0; i < arrayOfIdsOnSale.length; i++) {
-        for (let j = 0; j < arrayOfIdsOfOwner.length; j++) {
-            if (arrayOfIdsOnSale[i] != arrayOfIdsOfOwner[j]) {
-                arrayOfIdsToDisplayInMarket.push(arrayOfIdsOnSale[i]);
-            } else {
-                arrayOfIdsToDisplayInOffers.push(arrayOfIdsOnSale[i]);
-            }
-        }
-    }
-}
-
 async function appendBirdToMarket(dna, id) {
-    var price = await onSale(id).price;
+    var price = await getPrice(id);
     marketBox(price, id);
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }
 
 async function appendBirdToOffers(dna, id) {
-    var price = await onSale(id).price;
+    var price = await getPrice(id);
     offerBox(price, id);
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }
@@ -134,7 +107,7 @@ function marketBox(price, id) {//used for offers of other users
 }
 
 function offerBox(price, id) {//used for offers of current user
-    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 offerBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -204,11 +177,13 @@ function offerBox(price, id) {//used for offers of current user
                                         <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
                                         <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
                                     </ul>
-                                ASKING PRICE: ` + price + ` Ξ 
+                                <div align="center">
+                                    ASKING PRICE: ` + price + ` ETH
+                                </div>
                             </b>
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <button id="cancelButton` + id + `" class="btn btn-danger" type="button" id="button-addon2">Cancel Offer</button>
+                                    <button id="cancelButton` + id + `" class="btn btn-danger cancelButton" type="button" id="button-addon2">Cancel Offer</button>
                                 </div>
                             </div>
                         </div>
@@ -216,28 +191,28 @@ function offerBox(price, id) {//used for offers of current user
     $('.myOffers').append(boxDiv);
 }
 
-//Listener for buy buttons
-$(`[id^='buyButton']`).on("click", async function() {
-    var id = $(this).attr("id").substring(9);//extract bird ID from HTML
-    var price = $(`#price${id}`).val();
-    await buyBird(price, id);
-    await cancelOffer(id);//at this point user is owner and automatically cancels the offer
-    var index = arrayOfIdsToDisplayInMarket.findIndex(bird => bird === id);
-    if (index >= 0) {//make sure element is in array
-        arrayOfIdsToDisplayInMarket.splice(index, 1);//remove selected bird from array
-    };
-    $('.marketOffers').empty();//clear offer content
-    await buildMarket(arrayOfIdsToDisplayInMarket);//repopulate with the remaining birds that are for sale
-});
+//Listeners for buttons
+function activateClickListeners() {
+    $(`[id^='buyButton']`).on("click", async function() {
+        var id = $(this).attr("id").substring(9);//extract bird ID from HTML
+        var price = $(`#price${id}`).val();
+        await buyBird(price, id);
+        await cancelOffer(id);//at this point user is owner and automatically cancels the offer
+        $('.marketOffers').empty();//clear offer content
+        arrayOfIdsOfOwner = await getBirdsOfOwner();
+        arrayOfIdsOnSale = await getBirdsOnSale();
+        arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
+        await buildMarket(arrayOfIdsToDisplayInMarket);//repopulate with the remaining birds that are for sale
+    });
 
-//Listener for cancel buttons
-$(`[id^='cancelButton']`).on("click", async function() {
-    var id = $(this).attr("id").substring(12);//extract bird ID from HTML
-    await cancelOffer(id);
-    var index = arrayOfIdsToDisplayInOffers.findIndex(bird => bird === id);
-    if (index >= 0) {//make sure element is in array
-        arrayOfIdsToDisplayInOffers.splice(index, 1);//remove selected bird from array
-    };
-    $('.myOffers').empty();//clear offer content
-    await buildOffers(arrayOfIdsToDisplayInOffers);//repopulate offers with remaining birds of user that are for sale
-});
+    $(`[id^='cancelButton']`).on("click", async function() {
+        var id = $(this).attr("id").substring(12);//extract bird ID from HTML
+        await cancelOffer(id);
+        $('.myOffers').empty();//clear offer content
+        debugger;
+        arrayOfIdsOfOwner = await getBirdsOfOwner();
+        arrayOfIdsOnSale = await getBirdsOnSale();
+        arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
+        await buildOffers(arrayOfIdsToDisplayInOffers);//repopulate offers with remaining birds of user that are for sale
+    });
+}

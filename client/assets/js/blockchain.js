@@ -110,13 +110,13 @@ async function buyBird(price, id) {
     })
 }
 
-async function onSale(id) {
+async function getPrice(id) {
     var result;
     try {
         result = await marketInstance.methods.getOffer(id).call();
         if (result.price > 0 && result.active == true) {
             ethPrice = web3.utils.fromWei(result.price, "ether");
-            return { seller: result.seller, price: ethPrice, onsale: result.active };
+            return ethPrice;
         }
     } catch (error) {
         console.log(error);

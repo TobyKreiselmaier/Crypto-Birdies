@@ -91,7 +91,7 @@ contract MarketPlace is Ownable, IMarketPlace {
     function removeOffer(uint256 _tokenId) public {
         require(tokenIdToOffer[_tokenId].seller == msg.sender, "Only the owner of the bird can withdraw the offer from the market place.");
 
-        offers[tokenIdToOffer[_tokenId].index].active == false;//don't iterate through array, but simply set active to false.
+        offers[tokenIdToOffer[_tokenId].active] == false;//don't iterate through array, but simply set active to false.
         delete tokenIdToOffer[_tokenId];//delete entry in mapping
 
         emit MarketTransaction("Offer removed", msg.sender, _tokenId);

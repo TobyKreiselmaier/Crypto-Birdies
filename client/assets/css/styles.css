@@ -73,11 +73,17 @@ p {
     color: black;
 }
 
+.cancelButton {
+    border-radius: 5px;
+    margin-left: 5em;
+}
+
 .catalogBox {
     background-color: #f8f9fa;
     border-radius: 10px;
     height: 31em;
     min-width: 21em;
+    max-width: 21em;
     padding-right: 30px;
     z-index: 20;
 }
@@ -91,6 +97,16 @@ p {
 
 .navbar {
     border-radius: 5px;
+}
+
+.offerBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    height: 34em;
+    min-width: 20em;
+    max-width: 20em;
+    z-index: 20;
+    display: inline-flex;
 }
 
 .row {

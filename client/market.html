@@ -3,19 +3,19 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Market Place - Angry Birds on the Block</title>
-      <link rel="apple-touch-icon" sizes="180x180" href="/client/assets/media/favicons/apple-touch-icon.png">
+      <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/client/assets/media/favicons/apple-touch-icon.png">
       <link rel="icon" type="image/png" sizes="32x32" href="/client/assets/media/favicons/favicon-32x32.png">
       <link rel="icon" type="image/png" sizes="16x16" href="/client/assets/media/favicons/favicon-16x16.png">
       <link rel="manifest" href="/client/assets/media/favicons/site.webmanifest">
-      <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
-      <script src="assets/js/web3.min.js"></script>
-      <script src="assets/js/abi.js"></script>
       <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-      <script src="assets/bootstrap/js/popper.js"></script>
-      <script src="assets/bootstrap/js/bootstrap.min.js"></script>
       <link rel="stylesheet" href="assets/css/animations_red.css">
       <link rel="stylesheet" href="assets/css/birds_red.css">
       <link rel="stylesheet" href="assets/css/styles.css">
+      <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
+      <script type="text/javascript" src="assets/js/web3.min.js"></script>
+      <script type="text/javascript" src="assets/js/abi.js"></script>
+      <script type="text/javascript" src="assets/bootstrap/js/popper.js"></script>
+      <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container p-5">
@@ -47,22 +47,26 @@
               </div>
             </nav><br>
 
-            <!-- Headlines -->
+            <!-- Headlines & Receipt -->
             <div align="center">
-
-              <!-- Market Boxes -->
-              <h1 class="c-white"><b>Market Offers</b></h1>
-              <p class="c-white">Buy Rare and Unusual Birds!</p>
-              <div class="alert alert-success" role="alert" id="birdPurchased" style="display: none"></div>
-              <div class="marketOffers"></div>
-              <hr>
-
-              <!-- Offer Boxes -->
-              <h3 class="c-white"><b>My Offers</b></h3>
-              <p class="c-white">Cancelling an offer will return the bird to your catalog</p>
-              <div class="alert alert-success" role="alert" id="offerRemoved" style="display: none"></div>
-              <div class="myOffers"></div>
+                <h1 class="c-white"><b>Market Offers</b></h1>
+                <p class="c-white">Buy Rare and Unusual Birds!</p>
+                <div class="alert alert-success" role="alert" id="birdPurchased" style="display: none"></div>
             </div>
+
+            <!-- Market Boxes -->
+            <div class="marketOffers"></div>
+            <hr>
+
+            <!-- Headlines & Receipt -->
+            <div align="center">
+                <h3 class="c-white"><b>My Offers</b></h3>
+                <p class="c-white">Cancelling an offer will return the bird to your catalog</p>
+                <div class="alert alert-success" role="alert" id="offerRemoved" style="display: none"></div>
+            </div>
+
+            <!-- Offer Boxes -->
+            <div class="myOffers"></div>
 
             <!-- Footer -->
             <footer align="center">
@@ -72,6 +76,6 @@
     </body>
     <script src="assets/js/blockchain.js"></script>
     <script src="assets/js/colors.js"></script>
-    <script src="assets/js/market.js"></script>
     <script src="assets/js/rendering.js"></script>
+    <script src="assets/js/market.js"></script>
 </html>
