@@ -3,7 +3,9 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     await initializeMarketplace();//allow Marketplace contract to handle offers.
     var arrayOfIdsOfOwner = await getBirdsOfOwner();
     var arrayOfIdsOnSale = await getBirdsOnSale();
-    var arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
+    if (arrayOfIdsOfOwner > 0) {
+        var arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
+    }
     await buildCatalog(arrayOfIdsToDisplayInCatalog);
     activateClickListener();//must be activated after all buttons are rendered.
 })
