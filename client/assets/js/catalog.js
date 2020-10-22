@@ -5,6 +5,7 @@ var arrayOfIdsToDisplayInCatalog;
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await initializeMarketplace();//allow Marketplace contract to handle offers.
+    debugger;
     arrayOfIdsOfOwner = await getBirdsOfOwner();
     arrayOfIdsOnSale = await getBirdsOnSale();
     if (arrayOfIdsOfOwner == "") {

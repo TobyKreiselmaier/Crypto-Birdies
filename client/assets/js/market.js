@@ -201,9 +201,9 @@ function offerBox(price, id) {//used for offers of current user
 function activateClickListeners() {
     $(`[id^='buyButton']`).on("click", async function() {
         var id = $(this).attr("id").substring(9);//extract bird ID from HTML
-        var price = $(`#price${id}`).val();
+        var price = await getPrice(id);
         await buyBird(price, id);
-        await cancelOffer(id);//at this point user is owner and automatically cancels the offer
+        await removeOffer(id);//at this point user is owner and automatically cancels the offer
         $('.marketOffers').empty();//clear offer content
         arrayOfIdsOfOwner = await getBirdsOfOwner();
         arrayOfIdsOnSale = await getBirdsOnSale();
