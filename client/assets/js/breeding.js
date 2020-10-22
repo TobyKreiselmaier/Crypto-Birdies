@@ -74,6 +74,9 @@ function selectDame(){
                 var obj = birdDna(dna, dameId);
                 renderBird(`#dameBox`, obj, dameId);//render bird
             }
+        };
+        if (dameId > -1 && sireId > -1) {//show Breed Button if both dame and sire are selected
+            $('#breedButton').css("display", "block");
         }
     });
 }
@@ -113,6 +116,9 @@ function selectSire(){
                 var obj = birdDna(dna, sireId);
                 renderBird(`#sireBox`, obj, sireId);//render bird
             }
+        };
+        if (dameId > -1 && sireId > -1) {//show Breed Button if both dame and sire are selected
+            $('#breedButton').css("display", "block");
         }
     });
 }
