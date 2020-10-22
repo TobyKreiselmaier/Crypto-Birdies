@@ -71,6 +71,21 @@ p {
     margin-left: -2.5em;
 }
 
+.buyBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    height: 34em;
+    min-width: 20.7em;
+    max-width: 20.7em;
+    z-index: 20;
+    display: inline-flex;
+}
+
+.buyButton {
+    border-radius: 5px;
+    margin-left: 7em;
+}
+
 .card-deck{
     background: transparent;
     left: -8%;
@@ -118,8 +133,8 @@ p {
     background-color: #f8f9fa;
     border-radius: 10px;
     height: 34em;
-    min-width: 20em;
-    max-width: 20em;
+    min-width: 20.7em;
+    max-width: 20.7em;
     z-index: 20;
     display: inline-flex;
 }

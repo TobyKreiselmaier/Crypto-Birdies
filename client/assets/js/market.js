@@ -1,10 +1,15 @@
+var arrayOfIdsOfOwner;
+var arrayOfIdsOnSale;
+var arrayOfIdsToDisplayInMarket;
+var arrayOfIdsToDisplayInOffers;
+
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await initializeMarketplace();//make sure marketplace contract is approved as operator for user
-    var arrayOfIdsOfOwner = await getBirdsOfOwner();
-    var arrayOfIdsOnSale = await getBirdsOnSale();
-    var arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
-    var arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
+    arrayOfIdsOfOwner = await getBirdsOfOwner();
+    arrayOfIdsOnSale = await getBirdsOnSale();
+    arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
+    arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
     await buildMarket(arrayOfIdsToDisplayInMarket);//build market
     await buildOffers(arrayOfIdsToDisplayInOffers);//build offers
     activateClickListeners();//must be activated after all buttons are rendered.
@@ -23,7 +28,7 @@ async function appendBirdToOffers(dna, id) {
 }
 
 function marketBox(price, id) {//used for offers of other users
-    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 buyBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -93,12 +98,13 @@ function marketBox(price, id) {//used for offers of other users
                                         <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
                                         <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
                                     </ul>
-                                ASKING PRICE:
-                                    <span id="price` + id + `">` + price + `</span> Ξ 
+                                <div align="center">
+                                    ASKING PRICE: ` + price + ` ETH
+                                </div>
                             </b>
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <button id="buyButton` + id + `" class="btn btn-success" type="button" id="button-addon2">Buy Bird</button>
+                                    <button id="buyButton` + id + `" class="btn btn-success buyButton" type="button" id="button-addon2">Buy Bird</button>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +213,7 @@ function activateClickListeners() {
 
     $(`[id^='cancelButton']`).on("click", async function() {
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
-        await cancelOffer(id);
+        await removeOffer(id);
         $('.myOffers').empty();//clear offer content
         debugger;
         arrayOfIdsOfOwner = await getBirdsOfOwner();

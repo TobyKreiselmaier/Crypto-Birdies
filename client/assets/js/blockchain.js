@@ -83,7 +83,7 @@ async function sellBird(price, id) {
     })
 }
 
-async function cancelOffer(id) {
+async function removeOffer(id) {
     await marketInstance.methods.removeOffer(id).send({}, function(error, txHash){
         if (error) {
             console.log(error);
@@ -95,11 +95,7 @@ async function cancelOffer(id) {
 }
 
 async function buyBird(price, id) {
-    if (parseInt(price) > 0) {
-        var inWei = web3.utils.toWei(price, "ether");
-    } else {
-        alert("Please enter a number")
-    };
+    var inWei = web3.utils.toWei(price, "ether");
     await marketInstance.methods.buyBird(id).send({ value: inWei }, function(error, txHash){
         if (error) {
             console.log(error);

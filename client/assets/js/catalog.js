@@ -1,17 +1,20 @@
+var arrayOfIdsOfOwner;
+var arrayOfIdsOnSale;
+var arrayOfIdsToDisplayInCatalog;
+
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await initializeMarketplace();//allow Marketplace contract to handle offers.
-    debugger;
-    var arrayOfIdsOfOwner = await getBirdsOfOwner();
-    var arrayOfIdsOnSale = await getBirdsOnSale();
+    arrayOfIdsOfOwner = await getBirdsOfOwner();
+    arrayOfIdsOnSale = await getBirdsOnSale();
     if (arrayOfIdsOfOwner == "") {
         alert("You currently don't own any birds. Please get some in the market place.");
         window.location.href = "./market.html";
     } else {
         if (arrayOfIdsOnSale == "") {
-            var arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner;
+            arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner;
         } else {
-            var arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
+            arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
         }
         await buildCatalog(arrayOfIdsToDisplayInCatalog);
         activateClickListener();//must be activated after all buttons are rendered.
