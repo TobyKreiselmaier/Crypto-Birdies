@@ -93,8 +93,8 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
             generation: uint16(_generation)
         });
         uint256 newBirdId = birdies.push(_bird).sub(1);//want to start with zero.
-        emit Birth(_owner, newBirdId, _mumId, _dadId, _genes);
         _transfer(address(0), _owner, newBirdId);//transfer from nowhere. Creation event.
+        emit Birth(_owner, newBirdId, _mumId, _dadId, _genes);
         return newBirdId;
     }
 
