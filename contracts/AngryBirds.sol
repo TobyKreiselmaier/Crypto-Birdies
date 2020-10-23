@@ -51,6 +51,10 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
         _createBird(0, 0, 0, uint256(-1), address(0));//Bird 0 doesn't do anything, but it exists in the mappings and arrays to avoid issues in the market place
     }
 
+    function getContractOwner() external returns (address contractowner) {
+        return _owner;
+    }
+
     function breed(uint256 _dadId, uint256 _mumId) external returns (uint256){
         require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender, "You can't breed what you don't own");
         

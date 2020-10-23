@@ -37,8 +37,8 @@
                   <li class="nav-item">
                     <a class="nav-link" href="./breeding.html">Breeding</a>
                   </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="./studio.html">Design Studio</a>
+                  <li id="designStudio" class="nav-item">
+                    <a class="nav-link" href="./studio.html">Design Studio</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" href="#">Market Place</a>
@@ -49,6 +49,16 @@
 
             <!-- Headlines & Receipt -->
             <div align="center">
+              <h1 class="c-white"><b>My Offers</b></h1>
+              <p class="c-white">Cancelling an offer will return the bird to your catalog</p>
+              <div class="alert alert-success" role="alert" id="offerRemoved" style="display: none"></div>
+            </div>
+
+            <!-- Offer Boxes -->
+            <div class="myOffers"></div><hr>
+
+            <!-- Headlines & Receipt -->
+            <div align="center">
                 <h1 class="c-white"><b>Offers of other Players</b></h1>
                 <p class="c-white">Buy Rare and Unusual Birds!</p>
                 <div class="alert alert-success" role="alert" id="birdPurchased" style="display: none"></div>
@@ -56,17 +66,7 @@
 
             <!-- Market Boxes -->
             <div class="marketOffers"></div>
-            <hr>
 
-            <!-- Headlines & Receipt -->
-            <div align="center">
-                <h1 class="c-white"><b>My Offers</b></h1>
-                <p class="c-white">Cancelling an offer will return the bird to your catalog</p>
-                <div class="alert alert-success" role="alert" id="offerRemoved" style="display: none"></div>
-            </div>
-
-            <!-- Offer Boxes -->
-            <div class="myOffers"></div>
 
             <!-- Footer -->
             <footer align="center">

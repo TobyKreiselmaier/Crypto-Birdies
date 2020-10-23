@@ -6,26 +6,12 @@
 
 /* HTML Elements */
 body {
-
     font-family: Poppins;
     font-weight: 500;
     letter-spacing: 1px; 
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab );
-    background-size: 400% 400%;
-    animation: gradientBG 10s ease infinite;
+    background: url(/client/assets/media/nature.webp);
+    background-size: cover;
     }
-
-@keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
 
 footer {
     background: whitesmoke;
@@ -33,7 +19,7 @@ footer {
     height: 30px;
     padding: 2vh;
     padding-bottom: 40px;
-    position: relative;
+    width: auto;
 }
 
 h1 {
@@ -47,6 +33,7 @@ html {
 
 p {
     color: #f8f9fa;
+    height: 0.8em;
 }
 
 /* Classes */
@@ -86,12 +73,16 @@ p {
     margin-left: 7em;
 }
 
+.card-special {
+    background-color: seagreen;
+    height: 10em;
+}
+
 .card-deck{
     background: transparent;
-    left: -8%;
+    border-width: 5px;
     position: relative;
     top: 0em;
-    width: 120%;
     z-index: 1;
 }
 
@@ -101,6 +92,13 @@ p {
 
 .card-text {
     color: black;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-title {
+    font-weight: bold;
+    text-align: center;
 }
 
 .cancelButton {
@@ -127,6 +125,8 @@ p {
 
 .navbar {
     border-radius: 5px;
+    color: black;
+    font-weight: bold;
 }
 
 .offerBox {
@@ -145,6 +145,16 @@ p {
 
 .submitButton {
     margin-right: 1em;
+}
+
+.topCard {
+    background: seagreen;
+    border-width: 5px;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
 }
 
 /* IDs */
@@ -173,6 +183,7 @@ p {
 }
 
 #cardTitle {
+    color: #343a40;
     text-align: center;
 }
 
@@ -184,10 +195,6 @@ p {
 #dadData {
     float: right;
     margin-right: 1em;
-}
-
-#birdCreation {
-    top: -39em;
 }
 
 #dameButton {
@@ -215,7 +222,7 @@ p {
 }
 
 #sireButton {
-    left: 39em;
+    left: 37.5em;
     position: relative;
     top: -40em;
 }
@@ -258,13 +265,4 @@ p {
 #randomizeButton {
     border-radius: 5px;
     left: 0.8em;
-}
-
-
-#topCard {
-    background: transparent;
-    display: inline-block;
-    left: 35%;
-    position: relative;
-    z-index: 1;
 }

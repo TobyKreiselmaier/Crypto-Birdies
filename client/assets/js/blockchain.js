@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0xa3cAc4F85Dad40890E3FB3884FDca77B6Cd5D47d";//update after AngryBirds.sol is deployed
-var marketAddress = "0x4e2569A5182b0ECC4E90Cf8dC6f023f0eD6Fe7F0";//update after Marketplace.sol is deployed
+var birdAddress = "0x048088a3285ac27C5C5696feEBab830253346E8E";//update after AngryBirds is deployed
+var marketAddress = "0xa77F326A3329349D5F0bB0862B1419937d79fFC6";//update after Marketplace is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -68,6 +68,21 @@ async function initializeMarketplace() {
             };
         });
     };
+}
+
+async function studioAccess() {//limits access to contract owner
+    var owner = await birdInstance.methods.getContractOwner().call();
+    var currentUser = await web3.eth.getAccounts();
+    for (let i = 0; i < currentUser.length; i++) {
+        if (currentUser[i] == owner) {
+            $('#designStudio').show();
+        } else {
+            $('#designStudio').hide();
+            if (location.href.replace(location.origin,'') == "/client/studio.html") {
+                window.location.href = "./index.html";
+            }
+        }
+    }
 }
 
 async function sellBird(price, id) {
@@ -159,7 +174,7 @@ async function buildCatalog(arrayOfIds){
         console.log(bird);
         appendBirdToCatalog(bird, arrayOfIds[i]);
     }
-    activateClickListener();//must be activated after all buttons are rendered.
+    activateCatalogEventListeners();//must be activated after all buttons are rendered.
 }
 
 async function buildModal(arrayOfIds){
@@ -176,7 +191,7 @@ async function buildMarket(arrayOfIds){
         console.log(bird);
         await appendBirdToMarket(bird, arrayOfIds[i]);
     }
-    activateClickListeners();//must be activated after all buttons are rendered.
+    activateMarketClickListeners();//must be activated after all buttons are rendered.
 }
 
 async function buildOffers(arrayOfIds){
@@ -185,7 +200,6 @@ async function buildOffers(arrayOfIds){
         console.log(bird);
         await appendBirdToOffers(bird, arrayOfIds[i]);
     }
-    activateClickListeners();//must be activated after all buttons are rendered.
 }
 
 async function getBirdDna(id) {

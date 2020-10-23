@@ -4,6 +4,7 @@ var arrayOfIdsOfOwner;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
     await connectWallet(); //connect MetaMask (if not already connected)
+    await studioAccess();
     arrayOfIdsOfOwner = await getBirdsOfOwner(); //fill array with ids for all birds of this address
     if (arrayOfIdsOfOwner.length > 1) {//address must own at least two birds to continue
         await buildModal(arrayOfIdsOfOwner); //iterates through array and returns full info from blockchain
@@ -17,9 +18,6 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
         dna = await getBirdDna(sireId)
         obj = birdDna(dna, sireId);
         renderBird(`#sireBox`, obj, sireId);//render bird
-    } else {
-        alert("Please revisit this section once you own at least two birds.");
-        window.location.href = "./market.html";
     }
 });
 
@@ -94,7 +92,7 @@ function selectSire(){
 
 //dynamic elements for breeding page
 function dameBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7);display:block;" id="dameBox" class="col-lg-6 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div id="dameBox" class="col-lg-6 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -165,7 +163,7 @@ function dameBox(id) {
 }
 
 function sireBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7);display:block;" id="sireBox" class="col-lg-4 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div id="sireBox" class="col-lg-4 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>

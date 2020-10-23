@@ -113,7 +113,7 @@ contract MarketPlace is Ownable, IMarketPlace {
         delete tokenIdToOffer[_tokenId];//delete entry in mapping
         offers[_currentOffer.index].active = false;//don't iterate through array, but simply set active to false.
 
-        if (_currentOffer.price > 0) {//project: change push into pull logic
+        if (_currentOffer.price > 0) {
             _currentOffer.seller.transfer(_currentOffer.price);//send money to seller
         }
 

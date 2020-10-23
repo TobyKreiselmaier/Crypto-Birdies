@@ -5,8 +5,8 @@ var arrayOfIdsToDisplayInOffers;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
+    await studioAccess();
     await initializeMarketplace();//make sure marketplace contract is approved as operator for user
-    debugger;
     arrayOfIdsOfOwner = await getBirdsOfOwner();
     arrayOfIdsOnSale = await getBirdsOnSale();
     arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
@@ -105,7 +105,7 @@ function marketBox(price, id) {//used for offers of other users
                             </b>
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <button id="buyButton` + id + `" class="btn btn-success buyButton" type="button" id="button-addon2">Buy Bird</button>
+                                    <button id="buyButton` + id + `" class="btn btn-success buyButton rounded-lg" type="button" id="button-addon2">Buy Bird</button>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +190,7 @@ function offerBox(price, id) {//used for offers of current user
                             </b>
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <button id="cancelButton` + id + `" class="btn btn-danger cancelButton" type="button" id="button-addon2">Cancel Offer</button>
+                                    <button id="cancelButton` + id + `" class="btn btn-danger cancelButton rounded-lg" type="button" id="button-addon2">Cancel Offer</button>
                                 </div>
                             </div>
                         </div>
@@ -199,12 +199,11 @@ function offerBox(price, id) {//used for offers of current user
 }
 
 //Listeners for buttons
-function activateClickListeners() {
+function activateMarketClickListeners() {
     $(`[id^='buyButton']`).on("click", async function() {
         var id = $(this).attr("id").substring(9);//extract bird ID from HTML
         var price = await getPrice(id);
         await buyBird(price, id);
-        await removeOffer(id);//at this point user is owner and automatically cancels the offer
         $('.marketOffers').empty();//clear offer content
         arrayOfIdsOfOwner = await getBirdsOfOwner();
         arrayOfIdsOnSale = await getBirdsOnSale();

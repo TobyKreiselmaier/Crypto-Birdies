@@ -38,8 +38,8 @@
                     <li class="nav-item">
                       <a class="nav-link" href="#">Breeding</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./studio.html">Design Studio</a>
+                    <li id="designStudio" class="nav-item">
+                      <a class="nav-link" href="./studio.html">Design Studio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./market.html">Market Place</a>
@@ -54,7 +54,8 @@
               
               <!-- Headlines -->
               <h1 class="c-white"><b>Breed your own birdies!</b></h1>
-              <p class="c-white">Choose the parents for your new bird</p>
+              <p class="c-white">Choose the parents for your birdie once you own at least two adults</p>
+              <div class="alert alert-success" role="alert" id="birdCreation" style="display: none"></div><br>
             </div><br>
 
             <!-- Background, Lovebirds & Buttons -->
@@ -63,7 +64,6 @@
             <button id="dameButton" type="button" class="btn btn-primary">Change Dame</button>
             <button id="sireButton" type="button" class="btn btn-primary">Change Sire</button>
             <button id="breedButton" type="button" class="btn btn-danger">Breed a new bird!</button><br>
-            <div class="alert alert-success" role="alert" id="birdCreation" style="display: none"></div><br>
           </div>
 
           <!-- Modal box -->
@@ -85,6 +85,7 @@
           </div>
 
           <!-- Footer -->
+          <br>
           <footer align="center" id="breedFooter">
               Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
           </footer>
