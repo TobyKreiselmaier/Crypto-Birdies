@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0xAa52a9bd8C47EB7B37642BCed521F8926b2bd656";//update after AngryBirds.sol is deployed
-var marketAddress = "0xd466E3E537a5a3e32254071870eDac085215622C";//update after Marketplace.sol is deployed
+var birdAddress = "0xa3cAc4F85Dad40890E3FB3884FDca77B6Cd5D47d";//update after AngryBirds.sol is deployed
+var marketAddress = "0x4e2569A5182b0ECC4E90Cf8dC6f023f0eD6Fe7F0";//update after Marketplace.sol is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -159,6 +159,7 @@ async function buildCatalog(arrayOfIds){
         console.log(bird);
         appendBirdToCatalog(bird, arrayOfIds[i]);
     }
+    activateClickListener();//must be activated after all buttons are rendered.
 }
 
 async function buildModal(arrayOfIds){
@@ -175,6 +176,7 @@ async function buildMarket(arrayOfIds){
         console.log(bird);
         await appendBirdToMarket(bird, arrayOfIds[i]);
     }
+    activateClickListeners();//must be activated after all buttons are rendered.
 }
 
 async function buildOffers(arrayOfIds){
@@ -183,6 +185,7 @@ async function buildOffers(arrayOfIds){
         console.log(bird);
         await appendBirdToOffers(bird, arrayOfIds[i]);
     }
+    activateClickListeners();//must be activated after all buttons are rendered.
 }
 
 async function getBirdDna(id) {

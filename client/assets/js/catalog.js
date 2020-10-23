@@ -5,7 +5,6 @@ var arrayOfIdsToDisplayInCatalog;
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await initializeMarketplace();//allow Marketplace contract to handle offers.
-    debugger;
     arrayOfIdsOfOwner = await getBirdsOfOwner();
     arrayOfIdsOnSale = await getBirdsOnSale();
     if (arrayOfIdsOfOwner == "") {
@@ -18,7 +17,6 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
             arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
         }
         await buildCatalog(arrayOfIdsToDisplayInCatalog);
-        activateClickListener();//must be activated after all buttons are rendered.
     }
 })
 

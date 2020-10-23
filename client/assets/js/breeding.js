@@ -1,5 +1,5 @@
-var dameId = -1; //must be set to 0 or higher by user interaction in order to allow breeding
-var sireId = -1; //must be set to 0 or higher by user interaction in order to allow breeding
+var dameId;
+var sireId;
 var arrayOfIdsOfOwner;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
@@ -7,11 +7,20 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
     arrayOfIdsOfOwner = await getBirdsOfOwner(); //fill array with ids for all birds of this address
     if (arrayOfIdsOfOwner.length > 1) {//address must own at least two birds to continue
         await buildModal(arrayOfIdsOfOwner); //iterates through array and returns full info from blockchain
+        dameId = arrayOfIdsOfOwner[0];//automatically set to first bird in array
+        dameBox(dameId);
+        var dna = await getBirdDna(dameId);//returns bird instance from blockchain
+        var obj = birdDna(dna, dameId);//creates dna object for rendering
+        renderBird(`#dameBox`, obj, dameId);//render bird
+        sireId = arrayOfIdsOfOwner[1];
+        sireBox(sireId);
+        dna = await getBirdDna(sireId)
+        obj = birdDna(dna, sireId);
+        renderBird(`#sireBox`, obj, sireId);//render bird
     } else {
         alert("Please revisit this section once you own at least two birds.");
         window.location.href = "./market.html";
     }
-    
 });
 
 function appendBirdToModal(dna, id) {
@@ -31,101 +40,61 @@ $('#sireButton').click(()=>{
 })
 
 $('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with request to breed child
-    if (dameId >= 0 && sireId >= 0 && dameId != sireId) { //mum and dad need to be selected. They must be different from one another
-        await breedBird(sireId, dameId);
-    } else {
-        alert("Dame and Sire must be selected");
-    }
+    await breedBird(sireId, dameId);
 })
 
 //Listeners for selections
 function selectDame(){
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
-        if (dameId == -1) {//no dame selected yet
-            dameId = $(this).attr("id").substring(7); //extract bird ID from HTML.
-            var index = arrayOfIdsOfOwner.findIndex(bird => bird === dameId);
+        dameId = $(this).attr("id").substring(7); //works after removing arrow function.
+        if (dameId == sireId) {
+            alert("Dame and Sire can not be the same. Please select a different bird");
+        } else {
+            index = arrayOfIdsOfOwner.findIndex(bird => bird === dameId);
             if (index >= 0) { //make sure element is in array
                 arrayOfIdsOfOwner.splice(index, 1); //remove selected bird from array
             };
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
-            await buildModal(arrayOfIdsOfOwner); //repopulates modal with remaining birds
+            var dameBoxId = $(`[id^='dameBoxId']`).attr("id").substring(9);//return ID of previous bird
+            $('.dameDisplay').empty();//clear dameBox
+            arrayOfIdsOfOwner.push(dameBoxId);//previously selected bird is returned to list when replaced
+            await buildModal(arrayOfIdsOfOwner);//build modal with new array
             dameBox(dameId);//render box
-            var dna = await getBirdDna(dameId);//returns bird instance from blockchain
-            var obj = birdDna(dna, dameId);//creates dna object for rendering
+            var dna = await getBirdDna(dameId)
+            var obj = birdDna(dna, dameId);
             renderBird(`#dameBox`, obj, dameId);//render bird
-        } else {//a dame was selected before
-            dameId = $(this).attr("id").substring(7); //works after removing arrow function.
-            if (dameId == sireId) {
-                alert("Please select a different bird");
-            } else {
-                index = arrayOfIdsOfOwner.findIndex(bird => bird === dameId);
-                if (index >= 0) { //make sure element is in array
-                    arrayOfIdsOfOwner.splice(index, 1); //remove selected bird from array
-                };
-                $('#birdSelection').modal('toggle'); //close modal
-                $('.row').empty(); //clear modal content
-                var dameBoxId = $(`[id^='dameBoxId']`).attr("id").substring(9);//return ID of previous bird
-                $('.dameDisplay').empty();//clear dameBox
-                arrayOfIdsOfOwner.push(dameBoxId);//previously selected bird is returned to list when replaced
-                await buildModal(arrayOfIdsOfOwner);//build modal with new array
-                dameBox(dameId);//render box
-                var dna = await getBirdDna(dameId)
-                var obj = birdDna(dna, dameId);
-                renderBird(`#dameBox`, obj, dameId);//render bird
-            }
-        };
-        if (dameId > -1 && sireId > -1) {//show Breed Button if both dame and sire are selected
-            $('#breedButton').css("display", "block");
         }
     });
 }
 
 function selectSire(){
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
-        if (sireId == -1) {//no sire selected yet
-            sireId = $(this).attr("id").substring(7); //works after removing arrow function.
-            var index = arrayOfIdsOfOwner.findIndex(bird => bird === sireId);
+        sireId = $(this).attr("id").substring(7); //works after removing arrow function.
+        if (sireId == dameId) {
+            alert("Dame and Sire can not be the same. Please select a different bird");
+        } else {
+            index = arrayOfIdsOfOwner.findIndex(bird => bird === sireId);
             if (index >= 0) { //make sure element is in array
                 arrayOfIdsOfOwner.splice(index, 1); //remove selected bird from array
             };
             $('#birdSelection').modal('toggle'); //close modal
             $('.row').empty(); //clear modal content
-            await buildModal(arrayOfIdsOfOwner); //work on this
+            var sireBoxId = $(`[id^='sireBoxId']`).attr("id").substring(9);//return ID of previous bird
+            $('.sireDisplay').empty();//clear sireBox
+            arrayOfIdsOfOwner.push(sireBoxId);//previously selected bird is returned to list when replaced
+            await buildModal(arrayOfIdsOfOwner);//build modal with new array
             sireBox(sireId);//render box
             var dna = await getBirdDna(sireId)
             var obj = birdDna(dna, sireId);
             renderBird(`#sireBox`, obj, sireId);//render bird
-        } else {//a sire was selected before
-            sireId = $(this).attr("id").substring(7); //works after removing arrow function.
-            if (sireId == dameId) {
-                alert("Please select a different bird");
-            } else {
-                index = arrayOfIdsOfOwner.findIndex(bird => bird === sireId);
-                if (index >= 0) { //make sure element is in array
-                    arrayOfIdsOfOwner.splice(index, 1); //remove selected bird from array
-                };
-                $('#birdSelection').modal('toggle'); //close modal
-                $('.row').empty(); //clear modal content
-                var sireBoxId = $(`[id^='sireBoxId']`).attr("id").substring(9);//return ID of previous bird
-                $('.sireDisplay').empty();//clear sireBox
-                arrayOfIdsOfOwner.push(sireBoxId);//previously selected bird is returned to list when replaced
-                await buildModal(arrayOfIdsOfOwner);//build modal with new array
-                sireBox(sireId);//render box
-                var dna = await getBirdDna(sireId)
-                var obj = birdDna(dna, sireId);
-                renderBird(`#sireBox`, obj, sireId);//render bird
-            }
-        };
-        if (dameId > -1 && sireId > -1) {//show Breed Button if both dame and sire are selected
-            $('#breedButton').css("display", "block");
         }
     });
 }
 
 //dynamic elements for breeding page
 function dameBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="dameBox" class="col-lg-6 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7);display:block;" id="dameBox" class="col-lg-6 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -196,7 +165,7 @@ function dameBox(id) {
 }
 
 function sireBox(id) {
-    var boxDiv =    `<div style="transform:scale(0.7)" id="sireBox" class="col-lg-4 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div style="transform:scale(0.7);display:block;" id="sireBox" class="col-lg-4 catalogBox m-2 light-b-shadow">
                         <div class="angryBird_Red">
                             <div class="tail">
                                 <div class="tail_top"></div>

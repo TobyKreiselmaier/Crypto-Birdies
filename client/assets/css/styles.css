@@ -37,7 +37,7 @@ footer {
 }
 
 h1 {
-    color: rgb(48, 46, 46);
+    color: #f8f9fa;
 }
 
 html {
@@ -46,7 +46,7 @@ html {
 }
 
 p {
-    color: rgb(48, 46, 46);
+    color: #f8f9fa;
 }
 
 /* Classes */
@@ -90,7 +90,7 @@ p {
     background: transparent;
     left: -8%;
     position: relative;
-    top: -15em;
+    top: 0em;
     width: 120%;
     z-index: 1;
 }
@@ -157,13 +157,13 @@ p {
 
 #breedButton {
     position: relative;
-    left: 27.5em;
-    top: -22em;
+    left: 10em;
+    top: -55em;
 }
 
 #breedFooter {
-    position: absolute;
-    top: 44em;
+    position: relative;
+    top: -40em;
     width: 1044px;
 }
 
@@ -186,17 +186,45 @@ p {
     margin-right: 1em;
 }
 
+#birdCreation {
+    top: -39em;
+}
+
 #dameButton {
-    left: 38em;
-    position: absolute;
-    top: 40em;
+    left: 10em;
+    position: relative;
+    top: -40em;
 }
 
 #dameDisplay {
-    left: 31em;
+    left: 21em;
     opacity: 90%;
-    position: absolute;
-    top: 12em;
+    position: relative;
+    top: -5em;
+    width: 30em;
+}
+
+#dameBox {
+    top: 0em;
+    left: -18em;
+}
+
+#sireBox {
+    top: 0em;
+    left: 0em;
+}
+
+#sireButton {
+    left: 39em;
+    position: relative;
+    top: -40em;
+}
+
+#sireDisplay {
+    left: 39.5em;
+    opacity: 90%;
+    position: relative;
+    top: -36.5em;
     width: 30em;
 }
 
@@ -232,19 +260,6 @@ p {
     left: 0.8em;
 }
 
-#sireButton {
-    left: 75em;
-    position: absolute;
-    top: 40em;
-}
-
-#sireDisplay {
-    left: 39em;
-    opacity: 90%;
-    position: relative;
-    top: -5em;
-    width: 30em;
-}
 
 #topCard {
     background: transparent;

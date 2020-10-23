@@ -6,13 +6,14 @@ var arrayOfIdsToDisplayInOffers;
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await initializeMarketplace();//make sure marketplace contract is approved as operator for user
+    debugger;
     arrayOfIdsOfOwner = await getBirdsOfOwner();
     arrayOfIdsOnSale = await getBirdsOnSale();
     arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
+    arrayOfIdsToDisplayInMarket = arrayOfIdsToDisplayInMarket.filter(x => !["0"].includes(x));//remove Bird0
     arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
     await buildMarket(arrayOfIdsToDisplayInMarket);//build market
     await buildOffers(arrayOfIdsToDisplayInOffers);//build offers
-    activateClickListeners();//must be activated after all buttons are rendered.
 });
 
 async function appendBirdToMarket(dna, id) {
@@ -215,7 +216,6 @@ function activateClickListeners() {
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
         await removeOffer(id);
         $('.myOffers').empty();//clear offer content
-        debugger;
         arrayOfIdsOfOwner = await getBirdsOfOwner();
         arrayOfIdsOnSale = await getBirdsOnSale();
         arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
