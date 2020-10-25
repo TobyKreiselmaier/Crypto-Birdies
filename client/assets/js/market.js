@@ -5,7 +5,7 @@ var arrayOfIdsToDisplayInOffers;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
-    await studioAccess();
+    await accessStudio();
     await initializeMarketplace();//make sure marketplace contract is approved as operator for user
     arrayOfIdsOfOwner = await getBirdsOfOwner();
     arrayOfIdsOnSale = await getBirdsOnSale();
@@ -199,7 +199,7 @@ function offerBox(price, id) {//used for offers of current user
 }
 
 //Listeners for buttons
-function activateMarketClickListeners() {
+function activateBuyButtonListener() {
     $(`[id^='buyButton']`).on("click", async function() {
         var id = $(this).attr("id").substring(9);//extract bird ID from HTML
         var price = await getPrice(id);
@@ -210,7 +210,9 @@ function activateMarketClickListeners() {
         arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
         await buildMarket(arrayOfIdsToDisplayInMarket);//repopulate with the remaining birds that are for sale
     });
+}
 
+function activateCancelButtonListener() {
     $(`[id^='cancelButton']`).on("click", async function() {
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
         await removeOffer(id);

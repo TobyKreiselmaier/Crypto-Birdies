@@ -168,13 +168,12 @@ p {
 #breedButton {
     position: relative;
     left: 10em;
-    top: -55em;
+    top: -50em;
 }
 
 #breedFooter {
     position: relative;
-    top: -40em;
-    width: 1044px;
+    top: -33em;
 }
 
 #cardButton {
@@ -200,38 +199,28 @@ p {
 #dameButton {
     left: 10em;
     position: relative;
-    top: -40em;
+    top: -34em;
 }
 
 #dameDisplay {
-    left: 21em;
+    left: 3em;
     opacity: 90%;
     position: relative;
-    top: -5em;
+    top: -3em;
     width: 30em;
-}
-
-#dameBox {
-    top: 0em;
-    left: -18em;
-}
-
-#sireBox {
-    top: 0em;
-    left: 0em;
 }
 
 #sireButton {
     left: 37.5em;
     position: relative;
-    top: -40em;
+    top: -34em;
 }
 
 #sireDisplay {
     left: 39.5em;
     opacity: 90%;
     position: relative;
-    top: -36.5em;
+    top: -34.5em;
     width: 30em;
 }
 

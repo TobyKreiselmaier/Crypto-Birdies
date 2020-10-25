@@ -4,7 +4,7 @@ var arrayOfIdsOfOwner;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
     await connectWallet(); //connect MetaMask (if not already connected)
-    await studioAccess();
+    await accessStudio();
     arrayOfIdsOfOwner = await getBirdsOfOwner(); //fill array with ids for all birds of this address
     if (arrayOfIdsOfOwner.length > 1) {//address must own at least two birds to continue
         await buildModal(arrayOfIdsOfOwner); //iterates through array and returns full info from blockchain
@@ -12,16 +12,17 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
         dameBox(dameId);
         var dna = await getBirdDna(dameId);//returns bird instance from blockchain
         var obj = birdDna(dna, dameId);//creates dna object for rendering
-        renderBird(`#dameBox`, obj, dameId);//render bird
+        renderBird(`#dameBox`, obj, dameId);//renders bird
         sireId = arrayOfIdsOfOwner[1];
         sireBox(sireId);
         dna = await getBirdDna(sireId)
         obj = birdDna(dna, sireId);
-        renderBird(`#sireBox`, obj, sireId);//render bird
+        renderBird(`#sireBox`, obj, sireId);
     }
 });
 
 function appendBirdToModal(dna, id) {
+    debugger;
     modalBox(id);
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }

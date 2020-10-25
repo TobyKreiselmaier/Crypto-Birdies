@@ -23,7 +23,7 @@ async function connectWallet() {
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
                 $('#birdCreation').css("display", "block");
-                $('#birdCreation').text("Bird successfully created! Owner: " + owner 
+                $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. This may take up to a couple of minutes. Owner: " + owner 
                                     + " | BirdID: " + birdId 
                                     + " | MumID: " + mumId 
                                     + " | DadID: " + dadId
@@ -38,17 +38,17 @@ async function connectWallet() {
                 var tokenId = event.returnValues.tokenId;
                 if (eventType == "Offer created") {
                     $('#offerCreated').css("display", "block");
-                    $('#offerCreated').text("Offer successfully created! Owner: " + user 
+                    $('#offerCreated').text("Offer successfully created! After confirmation from the blockchain, your new offer will appear in the market place. This may take up to a couple of minutes. Owner: " + user 
                                         + " BirdID: " + tokenId);
                 };
                 if (eventType == "Offer removed") {
                     $('#offerRemoved').css("display", "block");
-                    $('#offerRemoved').text("Offer successfully removed! Owner: " + user 
+                    $('#offerRemoved').text("Offer successfully removed! After confirmation from the blockchain, your bird will again appear in the catalog. This may take up to a couple of minutes. Owner: " + user 
                                         + " BirdID: " + tokenId);
                 };
                 if (eventType == "Bird successfully purchased") {
                     $('#birdPurchased').css("display", "block");
-                    $('#birdPurchased').text("Bird successfully purchased! Owner: " + user 
+                    $('#birdPurchased').text("Bird successfully purchased! After confirmation from the blockchain, your new bird will appear in the catalog. This may take up to a couple of minutes. Owner: " + user 
                                         + " BirdID: " + tokenId);
                 };
             })
@@ -70,7 +70,7 @@ async function initializeMarketplace() {
     };
 }
 
-async function studioAccess() {//limits access to contract owner
+async function accessStudio() {//limits access to contract owner
     var owner = await birdInstance.methods.getContractOwner().call();
     var currentUser = await web3.eth.getAccounts();
     for (let i = 0; i < currentUser.length; i++) {
@@ -191,7 +191,7 @@ async function buildMarket(arrayOfIds){
         console.log(bird);
         await appendBirdToMarket(bird, arrayOfIds[i]);
     }
-    activateMarketClickListeners();//must be activated after all buttons are rendered.
+    activateBuyButtonListener();//must be activated after all buttons are rendered.
 }
 
 async function buildOffers(arrayOfIds){
@@ -200,6 +200,7 @@ async function buildOffers(arrayOfIds){
         console.log(bird);
         await appendBirdToOffers(bird, arrayOfIds[i]);
     }
+    activateCancelButtonListener();
 }
 
 async function getBirdDna(id) {
