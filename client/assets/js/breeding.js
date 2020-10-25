@@ -26,14 +26,29 @@ function appendBirdToModal(dna, id) {
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }
 
-//Listeners for buttons
-$('#dameButton').click(()=>{
+async function setUpModal() {
+    $('.row').empty(); //clear modal content
+    arrayOfIdsOfOwner = await getBirdsOfOwner(); //get a fresh array from the blockcahin
+    var index = arrayOfIdsOfOwner.findIndex(bird => bird == dameId); //search for dame
+    if (index >= 0) { //make sure element is in array
+        arrayOfIdsOfOwner.splice(index, 1); //remove current dame from array
+    };
+    index = arrayOfIdsOfOwner.findIndex(bird => bird == sireId);
+    if (index >= 0) { //make sure element is in array
+        arrayOfIdsOfOwner.splice(index, 1); //remove current sire from array
+    };
+    await buildModal(arrayOfIdsOfOwner); //iterates through array and returns full info from blockchain
     $('#birdSelection').modal('show'); //open modal
-    selectDame(); //modal functionality when dame is to be selected
+}
+
+//Listeners for buttons
+$('#dameButton').on("click", async function() {
+    await setUpModal();
+    selectDame(); //functionality when dame is to be selected
 })
 
-$('#sireButton').click(()=>{
-    $('#birdSelection').modal('show'); //open modal
+$('#sireButton').on("click", async function() {
+    await setUpModal();
     selectSire();//modal functionality when sire is to be selected
 })
 
@@ -43,50 +58,26 @@ $('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with r
 
 //Listeners for selections
 function selectDame(){
+    $(`[id^='BirdBox']`).off("click");
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
         dameId = $(this).attr("id").substring(7); //works after removing arrow function.
-        if (dameId == sireId) {
-            alert("Dame and Sire can not be the same. Please select a different bird");
-        } else {
-            index = arrayOfIdsOfOwner.findIndex(bird => bird === dameId);
-            if (index >= 0) { //make sure element is in array
-                arrayOfIdsOfOwner.splice(index, 1); //remove selected bird from array
-            };
-            $('#birdSelection').modal('toggle'); //close modal
-            $('.row').empty(); //clear modal content
-            var dameBoxId = $(`[id^='dameBoxId']`).attr("id").substring(9);//return ID of previous bird
-            $('.dameDisplay').empty();//clear dameBox
-            arrayOfIdsOfOwner.push(dameBoxId);//previously selected bird is returned to list when replaced
-            await buildModal(arrayOfIdsOfOwner);//build modal with new array
-            dameBox(dameId);//render box
-            var dna = await getBirdDna(dameId)
-            var obj = birdDna(dna, dameId);
-            renderBird(`#dameBox`, obj, dameId);//render bird
-        }
+        dameBox(dameId);//render box
+        var dna = await getBirdDna(dameId)
+        var obj = birdDna(dna, dameId);
+        renderBird(`#dameBox`, obj, dameId);//render bird
+        $('#birdSelection').modal('toggle'); //close modal
     });
 }
 
 function selectSire(){
+    $(`[id^='BirdBox']`).off("click");
     $(`[id^='BirdBox']`).on("click", async function() { //arrow function ES6 doesn't work with $(this)
         sireId = $(this).attr("id").substring(7); //works after removing arrow function.
-        if (sireId == dameId) {
-            alert("Dame and Sire can not be the same. Please select a different bird");
-        } else {
-            index = arrayOfIdsOfOwner.findIndex(bird => bird === sireId);
-            if (index >= 0) { //make sure element is in array
-                arrayOfIdsOfOwner.splice(index, 1); //remove selected bird from array
-            };
-            $('#birdSelection').modal('toggle'); //close modal
-            $('.row').empty(); //clear modal content
-            var sireBoxId = $(`[id^='sireBoxId']`).attr("id").substring(9);//return ID of previous bird
-            $('.sireDisplay').empty();//clear sireBox
-            arrayOfIdsOfOwner.push(sireBoxId);//previously selected bird is returned to list when replaced
-            await buildModal(arrayOfIdsOfOwner);//build modal with new array
             sireBox(sireId);//render box
             var dna = await getBirdDna(sireId)
             var obj = birdDna(dna, sireId);
             renderBird(`#sireBox`, obj, sireId);//render bird
-        }
+            $('#birdSelection').modal('toggle'); //close modal
     });
 }
 
