@@ -22,7 +22,6 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
 });
 
 function appendBirdToModal(dna, id) {
-    debugger;
     modalBox(id);
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }
