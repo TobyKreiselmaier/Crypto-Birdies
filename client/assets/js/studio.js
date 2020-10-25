@@ -1,8 +1,8 @@
 var colors = Object.values(allColors());
 
 const defaultDNA = {
-    "topFeatherColor": 57,
-    "bodyFeatherColor": 57,
+    "topFeatherColor": 23,
+    "bodyFeatherColor": 54,
     "topBeakColor": 83,
     "bottomBeakColor": 73,
     "eyesShape": 0,
