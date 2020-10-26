@@ -73,13 +73,13 @@ contract MarketPlace is Ownable, IMarketPlace {
     }
 
     function _ownsBird(address _address, uint256 _tokenId) internal view returns (bool) {
-        return (_angryBirds.ownerOf(_tokenId) == _address);
+        return (_cryptoBirdies.ownerOf(_tokenId) == _address);
     }
 
     function setOffer(uint256 _price, uint256 _tokenId) public {
         require(_ownsBird(msg.sender, _tokenId), "Only the owner of the bird can initialize an offer");
         require(tokenIdToOffer[_tokenId].active == false, "You already created an offer for this bird. Please remove it first before creating a new one.");
-        require(_angryBirds.isApprovedForAll(msg.sender, address(this)), "MarketPlace contract must first be an approved operate for your birds");
+        require(_cryptoBirdies.isApprovedForAll(msg.sender, address(this)), "MarketPlace contract must first be an approved operate for your birds");
 
         Offer memory _currentOffer = Offer({//set offer
             seller: msg.sender,
@@ -117,7 +117,7 @@ contract MarketPlace is Ownable, IMarketPlace {
             _currentOffer.seller.transfer(_currentOffer.price);//send money to seller
         }
 
-        _angryBirds.transferFrom(_currentOffer.seller, msg.sender, _tokenId);//ERC721 ownership transferred
+        _cryptoBirdies.transferFrom(_currentOffer.seller, msg.sender, _tokenId);//ERC721 ownership transferred
 
         emit MarketTransaction("Bird successfully purchased", msg.sender, _tokenId);
     }

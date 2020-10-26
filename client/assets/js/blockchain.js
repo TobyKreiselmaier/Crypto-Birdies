@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0x0c2b50E19Dc8fCb8CAE178d0E5B77Db6A7938779";//update after AngryBirds is deployed
-var marketAddress = "0x888D45ec3397a9C11B03fDB8B9b3Fcfe0030A759";//update after Marketplace is deployed
+var birdAddress = "0x9483cfF30323bAb36E91408D510309417F1AF24d";//update after AngryBirds is deployed
+var marketAddress = "0x426111f0c45F74c7CEE45D4E3f58df61DaC8e0b4";//update after Marketplace is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -15,15 +15,21 @@ async function connectWallet() {
         marketInstance = new web3.eth.Contract(abi.marketContract, marketAddress, user, {from: user});
 
         birdInstance.events.Birth()
-            .on('data', (event) => {
+            .on('data', async function (event) {
                 //console.log(event);
                 let owner = event.returnValues.owner;
                 let birdId = event.returnValues.birdId;
                 let mumId = event.returnValues.mumId;
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
+                $('.evolvingHeart').css("display", "block");
+                $('#breedButton').css("display", "none");
+                $('#dameButton').css("display", "none");
+                $('#sireButton').css("display", "none");
+                $('#swapButton').css("display", "none");
+                await timeout(6000);
                 $('#birdCreation').css("display", "block");
-                $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in a few moments. Owner: " + owner 
+                $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog in a few moments. Owner: " + owner 
                                     + " | BirdID: " + birdId 
                                     + " | MumID: " + mumId 
                                     + " | DadID: " + dadId
@@ -57,16 +63,17 @@ async function connectWallet() {
     })
 };
 
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function initializeMarketplace() {
     var marketplaceApprovedOperator = await birdInstance.methods.isApprovedForAll(user, marketAddress).call();
     if (marketplaceApprovedOperator == false) {
-        await birdInstance.methods.tApprovalForAll(marketAddress, true).send({}, function(error, txHash){
+        await birdInstance.methods.setApprovalForAll(marketAddress, true).send({}, function(error){
             if (error) {
                 console.log(error);
             };
-            //if (txHash) {
-            //    console.log(txHash);
-            //};
         });
     };
 }
@@ -89,36 +96,27 @@ async function accessStudio() {//limits access to contract owner
 async function sellBird(price, id) {
     var inWei = web3.utils.toWei(price, "ether");
     if (inWei < 0) {alert("Please enter a valid amount")};
-    await marketInstance.methods.setOffer(inWei, id).send({}, function(error, txHash){
+    await marketInstance.methods.setOffer(inWei, id).send({}, function(error){
         if (error) {
             console.log(error);
         };
-        //if (txHash) {
-        //    console.log(txHash);
-        //};
     })
 }
 
 async function removeOffer(id) {
-    await marketInstance.methods.removeOffer(id).send({}, function(error, txHash){
+    await marketInstance.methods.removeOffer(id).send({}, function(error){
         if (error) {
             console.log(error);
         };
-        //if (txHash) {
-        //    console.log(txHash);
-        //};
     })
 }
 
 async function buyBird(price, id) {
     var inWei = web3.utils.toWei(price, "ether");
-    await marketInstance.methods.buyBird(id).send({ value: inWei }, function(error, txHash){
+    await marketInstance.methods.buyBird(id).send({ value: inWei }, function(error){
         if (error) {
             console.log(error);
         };
-        //if (txHash) {
-        //    console.log(txHash);
-        //};
     })
 }
 
@@ -137,13 +135,10 @@ async function getPrice(id) {
 }
 
 async function createBird() {
-    await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error, txHash){
+    await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error){
         if (error) {
             console.log(error);
         };
-        //if (txHash) {
-        //    console.log(txHash);
-        //};
     })
 };
 
@@ -209,12 +204,9 @@ async function getBirdDna(id) {
 }
 
 async function breedBird(dadId, mumId) {
-    await birdInstance.methods.breed(dadId, mumId).send({}, function(error, txHash){
+    await birdInstance.methods.breed(dadId, mumId).send({}, function(error){
         if (error) {
             console.log(error);
         };
-        //if (txHash) {
-        //    console.log(txHash);
-        //};
     })
 };

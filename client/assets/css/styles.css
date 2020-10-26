@@ -123,6 +123,13 @@ p {
     position: absolute;
 }
 
+.evolvingHeart {
+    left: -20em;
+    position: relative;
+    top: -20em;
+}
+
+
 .navbar {
     border-radius: 5px;
     color: black;
@@ -202,12 +209,27 @@ p {
     top: -34em;
 }
 
+#swapButton {
+    left: 26.4em;
+    position: relative;
+    top: -49em;
+}
+
 #dameDisplay {
     left: 3em;
     opacity: 90%;
     position: relative;
     top: -3em;
     width: 30em;
+}
+
+#childDisplay {
+    left: 49em;
+    opacity: 90%;
+    position: absolute;
+    top: 21.7em;
+    width: 30em;
+    z-index: 50;
 }
 
 #sireButton {
@@ -223,6 +245,39 @@ p {
     top: -34.5em;
     width: 30em;
 }
+
+#dameBox {
+    background-color: #e277d4;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
+#sireBox {
+    background-color: #0d66be;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
+#childBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
+
+
 
 #defaultButton {
     border-radius: 5px;
