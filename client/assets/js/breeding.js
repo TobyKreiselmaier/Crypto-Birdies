@@ -262,8 +262,8 @@ function sireBox(id) {
 }
 
 function childBox(id) {
-    var boxDiv =    `<div id="childBox" class="col-lg-6 m-2 light-b-shadow">
-                        <div class="bird">
+    var boxDiv =    `<div style='transform: scaleX(0.8)' id="childBox" class="col-lg-6 m-2 light-b-shadow">
+                        <div style='transform: scale(0.8) scaleX(1.2)' class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
                                 <div class="tail_middle"></div>
