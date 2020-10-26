@@ -1,6 +1,6 @@
 pragma solidity ^0.5.12;
 
-import "./AngryBirds.sol";
+import "./CryptoBirdies.sol";
 import "./Ownable.sol";
 
 /*

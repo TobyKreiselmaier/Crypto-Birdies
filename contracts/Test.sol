@@ -1,8 +1,8 @@
 pragma solidity ^0.5.12;
 
-import "./AngryBirds.sol";
+import "./CryptoBirdies.sol";
 
-contract Test is AngryBirds {
+contract Test is CryptoBirdies {
 
     constructor(string memory name, string memory symbol) AngryBirds(name, symbol) public{}
 

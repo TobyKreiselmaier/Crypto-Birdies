@@ -16,39 +16,40 @@ async function connectWallet() {
 
         birdInstance.events.Birth()
             .on('data', (event) => {
-                console.log(event);
+                //console.log(event);
                 let owner = event.returnValues.owner;
                 let birdId = event.returnValues.birdId;
                 let mumId = event.returnValues.mumId;
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
                 $('#birdCreation').css("display", "block");
-                $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. This may take up to a couple of minutes. Owner: " + owner 
+                $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in a few moments. Owner: " + owner 
                                     + " | BirdID: " + birdId 
                                     + " | MumID: " + mumId 
                                     + " | DadID: " + dadId
                                     + " | Genes: " + genes);
+                await renderChild(birdId);
             })
             .on('error', console.error);
         
         marketInstance.events.MarketTransaction()
             .on('data', (event) => {
-                console.log(event);
+                //console.log(event);
                 var eventType = event.returnValues.TxType;
                 var tokenId = event.returnValues.tokenId;
                 if (eventType == "Offer created") {
                     $('#offerCreated').css("display", "block");
-                    $('#offerCreated').text("Offer successfully created! After confirmation from the blockchain, your new offer will appear in the market place. This may take up to a couple of minutes. Owner: " + user 
+                    $('#offerCreated').text("Offer successfully created! After confirmation from the blockchain, your new offer will appear in the market place. Owner: " + user 
                                         + " BirdID: " + tokenId);
                 };
                 if (eventType == "Offer removed") {
                     $('#offerRemoved').css("display", "block");
-                    $('#offerRemoved').text("Offer successfully removed! After confirmation from the blockchain, your bird will again appear in the catalog. This may take up to a couple of minutes. Owner: " + user 
+                    $('#offerRemoved').text("Offer successfully removed! After confirmation from the blockchain, your bird will again appear in the catalog. Owner: " + user 
                                         + " BirdID: " + tokenId);
                 };
                 if (eventType == "Bird successfully purchased") {
                     $('#birdPurchased').css("display", "block");
-                    $('#birdPurchased').text("Bird successfully purchased! After confirmation from the blockchain, your new bird will appear in the catalog. This may take up to a couple of minutes. Owner: " + user 
+                    $('#birdPurchased').text("Bird successfully purchased! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: " + user 
                                         + " BirdID: " + tokenId);
                 };
             })
@@ -57,15 +58,15 @@ async function connectWallet() {
 };
 
 async function initializeMarketplace() {
-    var marketplaceApprovedAsOperator = await birdInstance.methods.isApprovedForAll(user, marketAddress).call();
-    if (marketplaceApprovedAsOperator == false) {
-        await birdInstance.methods.setApprovalForAll(marketAddress, true).send({}, function(error, txHash){
+    var marketplaceApprovedOperator = await birdInstance.methods.isApprovedForAll(user, marketAddress).call();
+    if (marketplaceApprovedOperator == false) {
+        await birdInstance.methods.tApprovalForAll(marketAddress, true).send({}, function(error, txHash){
             if (error) {
                 console.log(error);
             };
-            if (txHash) {
-                console.log(txHash);
-            };
+            //if (txHash) {
+            //    console.log(txHash);
+            //};
         });
     };
 }
@@ -92,9 +93,9 @@ async function sellBird(price, id) {
         if (error) {
             console.log(error);
         };
-        if (txHash) {
-            console.log(txHash);
-        };
+        //if (txHash) {
+        //    console.log(txHash);
+        //};
     })
 }
 
@@ -103,9 +104,9 @@ async function removeOffer(id) {
         if (error) {
             console.log(error);
         };
-        if (txHash) {
-            console.log(txHash);
-        };
+        //if (txHash) {
+        //    console.log(txHash);
+        //};
     })
 }
 
@@ -115,9 +116,9 @@ async function buyBird(price, id) {
         if (error) {
             console.log(error);
         };
-        if (txHash) {
-            console.log(txHash);
-        };
+        //if (txHash) {
+        //    console.log(txHash);
+        //};
     })
 }
 
@@ -140,9 +141,9 @@ async function createBird() {
         if (error) {
             console.log(error);
         };
-        if (txHash) {
-            console.log(txHash);
-        };
+        //if (txHash) {
+        //    console.log(txHash);
+        //};
     })
 };
 
@@ -150,7 +151,7 @@ async function getBirdsOfOwner() {
     var arrayOfIds = [];
     try {
         arrayOfIds = await birdInstance.methods.getAllBirdsOfOwner(user).call();
-        console.log(arrayOfIds);
+        //console.log(arrayOfIds);
     } catch (error) {
         console.log(error);
     }
@@ -161,7 +162,7 @@ async function getBirdsOnSale() {
     var arrayOfIds = [];
     try {
         arrayOfIds = await marketInstance.methods.getAllTokensOnSale().call();
-        console.log(arrayOfIds);
+        //console.log(arrayOfIds);
     } catch (error) {
         console.log(error);
     }
@@ -171,7 +172,7 @@ async function getBirdsOnSale() {
 async function buildCatalog(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
-        console.log(bird);
+        //console.log(bird);
         appendBirdToCatalog(bird, arrayOfIds[i]);
     }
     activateCatalogEventListeners();//must be activated after all buttons are rendered.
@@ -180,7 +181,7 @@ async function buildCatalog(arrayOfIds){
 async function buildModal(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
-        console.log(bird);
+        //console.log(bird);
         appendBirdToModal(bird, arrayOfIds[i]);
     }
 }
@@ -188,7 +189,7 @@ async function buildModal(arrayOfIds){
 async function buildMarket(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
-        console.log(bird);
+        //console.log(bird);
         await appendBirdToMarket(bird, arrayOfIds[i]);
     }
     activateBuyButtonListener();//must be activated after all buttons are rendered.
@@ -197,7 +198,7 @@ async function buildMarket(arrayOfIds){
 async function buildOffers(arrayOfIds){
     for (let i = 0; i < arrayOfIds.length; i++) {
         bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
-        console.log(bird);
+        //console.log(bird);
         await appendBirdToOffers(bird, arrayOfIds[i]);
     }
     activateCancelButtonListener();
@@ -207,13 +208,13 @@ async function getBirdDna(id) {
     return await birdInstance.methods.getBird(id).call();
 }
 
-async function breedBird(mumId, dadId) {
+async function breedBird(dadId, mumId) {
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error, txHash){
         if (error) {
             console.log(error);
         };
-        if (txHash) {
-            console.log(txHash);
-        };
+        //if (txHash) {
+        //    console.log(txHash);
+        //};
     })
 };

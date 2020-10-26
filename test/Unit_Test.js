@@ -1,4 +1,4 @@
-const Birdcontract = artifacts.require("AngryBirds");
+const Birdcontract = artifacts.require("CryptoBirdies");
 const Testcontract = artifacts.require("Test");
 const Marketcontract = artifacts.require("MarketPlace");
 const assert = require("chai").assert;
@@ -9,7 +9,7 @@ var birdInstance;
 
 contract("Testcontract", (accounts) => {
   
-  beforeEach(async () => {testInstance = await Testcontract.new("AngryBirdsontheBlock", "ABBX")});
+  beforeEach(async () => {testInstance = await Testcontract.new("CryptoBird", "CBX")});
 
   describe("getAllBirdsOfOwner()", () =>{
     it("should return all birds owned by an address", async () => {
@@ -28,7 +28,7 @@ contract("Testcontract", (accounts) => {
 
 contract("Marketcontract", (accounts) => {
   
-  beforeEach(async () => {testInstance = await Testcontract.new("AngryBirdsontheBlock", "ABBX")});
+  beforeEach(async () => {testInstance = await Testcontract.new("CryptoBird", "CBX")});
   beforeEach(async () => {marketInstance = await Marketcontract.new()});
 
   describe("setOffer() and getOffer()", () =>{
@@ -89,19 +89,19 @@ contract("Marketcontract", (accounts) => {
 
 contract("Birdcontract", (accounts) => {
 
-  beforeEach(async () => {birdInstance = await Birdcontract.new("AngryBirdsontheBlock", "ABBX")});
+  beforeEach(async () => {birdInstance = await Birdcontract.new("CryptoBird", "CBX")});
 
   describe("name()", () =>{
-    it("should return the name of the native token 'AngryBirdsontheBlock'", async () => {
+    it("should return the name of the native token 'CryptoBird'", async () => {
       var testName = await birdInstance.name();
-      assert.equal(testName, "AngryBirdsontheBlock", "Token wasn't constructed correctly");
+      assert.equal(testName, "CryptoBird", "Token wasn't constructed correctly");
     });
   });
 
   describe("symbol()", () =>{
-    it("should return the ticker symbol 'ABBX'", async () => {
+    it("should return the ticker symbol 'CBX'", async () => {
       var testSymbol = await birdInstance.symbol();
-      assert.equal(testSymbol, "ABBX", "Symbol wasn't constructed correctly");
+      assert.equal(testSymbol, "CBX", "Symbol wasn't constructed correctly");
     });
   });
 

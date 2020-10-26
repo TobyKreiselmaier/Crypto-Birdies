@@ -1,6 +1,6 @@
 pragma solidity ^0.5.12;
 
-import "./AngryBirds.sol";
+import "./CryptoBirdies.sol";
 import "./Ownable.sol";
 import "./IMarketplace.sol";
 import "./SafeMath.sol";
@@ -13,7 +13,7 @@ import "./SafeMath.sol";
  */
 
 contract MarketPlace is Ownable, IMarketPlace {
-    AngryBirds private _angryBirds;
+    CryptoBirdies private _cryptoBirdies;
 
     using SafeMath for uint256;
 
@@ -32,7 +32,7 @@ contract MarketPlace is Ownable, IMarketPlace {
     event MarketTransaction(string TxType, address owner, uint256 tokenId);
 
     function setContract(address _contractAddress) onlyOwner public {
-        _angryBirds = AngryBirds(_contractAddress);
+        _cryptoBirdies = CryptoBirdies(_contractAddress);
     }
 
     constructor(address _contractAddress) public {

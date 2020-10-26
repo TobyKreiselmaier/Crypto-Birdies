@@ -30,7 +30,7 @@ async function appendBirdToOffers(dna, id) {
 
 function marketBox(price, id) {//used for offers of other users
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 buyBox m-2 light-b-shadow">
-                        <div class="angryBird_Red">
+                        <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
                                 <div class="tail_middle"></div>
@@ -115,7 +115,7 @@ function marketBox(price, id) {//used for offers of other users
 
 function offerBox(price, id) {//used for offers of current user
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 offerBox m-2 light-b-shadow">
-                        <div class="angryBird_Red">
+                        <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
                                 <div class="tail_middle"></div>

@@ -1,23 +1,25 @@
 var dameId;
 var sireId;
 var arrayOfIdsOfOwner;
+var swapDame = 0;
+var swapSire = 1
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
     await connectWallet(); //connect MetaMask (if not already connected)
     await accessStudio();
     arrayOfIdsOfOwner = await getBirdsOfOwner(); //fill array with ids for all birds of this address
-    if (arrayOfIdsOfOwner.length > 1) {//address must own at least two birds to continue
+    if (arrayOfIdsOfOwner.length == 2) { //user must own at least two birds to continue
+        renderDameAndSire(arrayOfIdsOfOwner[swapDame], arrayOfIdsOfOwner[swapSire]);
+        $('#switchButton').css("display", "block")
+        $('#switchButton').click( ()=>{ //swap dame and sire if only 2 birds in array
+            var helper = swapDame;
+            swapDame = swapSire;
+            swapSire = helper;
+            renderDameAndSire(arrayOfIdsOfOwner[swapDame], arrayOfIdsOfOwner[swapSire]);
+        })
+    } else if (arrayOfIdsOfOwner.length > 2) {
         await buildModal(arrayOfIdsOfOwner); //iterates through array and returns full info from blockchain
-        dameId = arrayOfIdsOfOwner[0];//automatically set to first bird in array
-        dameBox(dameId);
-        var dna = await getBirdDna(dameId);//returns bird instance from blockchain
-        var obj = birdDna(dna, dameId);//creates dna object for rendering
-        renderBird(`#dameBox`, obj, dameId);//renders bird
-        sireId = arrayOfIdsOfOwner[1];
-        sireBox(sireId);
-        dna = await getBirdDna(sireId)
-        obj = birdDna(dna, sireId);
-        renderBird(`#sireBox`, obj, sireId);
+        renderDameAndSire(arrayOfIdsOfOwner[0], arrayOfIdsOfOwner[1]);
     }
 });
 
@@ -41,6 +43,24 @@ async function setUpModal() {
     $('#birdSelection').modal('show'); //open modal
 }
 
+function renderDameAndSire(dameId, sireId) {
+    dameBox(dameId);
+    var dna = await getBirdDna(dameId);//returns bird instance from blockchain
+    var obj = birdDna(dna, dameId);//creates dna object for rendering
+    renderBird(`#dameBox`, obj, dameId);//renders bird
+    sireBox(sireId);
+    dna = await getBirdDna(sireId)
+    obj = birdDna(dna, sireId);
+    renderBird(`#sireBox`, obj, sireId);
+}
+
+async function renderChild(id) {
+    childBox(id);
+    var dna = await getBirdDna(id);
+    var obj = birdDna(dna, id);
+    renderBird(`#childBox`, obj, id);
+}
+
 //Listeners for buttons
 $('#dameButton').on("click", async function() {
     await setUpModal();
@@ -52,7 +72,7 @@ $('#sireButton').on("click", async function() {
     selectSire();//modal functionality when sire is to be selected
 })
 
-$('#breedButton').click(async ()=>{ //sends mum and dad IDs to blockchain with request to breed child
+$('#breedButton').click(async ()=>{ //sends parent IDs to blockchain with request to breed child
     await breedBird(sireId, dameId);
 })
 
@@ -223,6 +243,79 @@ function sireBox(id) {
     $('#sireDisplay').empty();
     $('#sireDisplay').append(boxDiv);
 }
+
+function childBox(id) {
+    var boxDiv =    `<div id="childBox" class="col-lg-6 catalogBox m-2 light-b-shadow">
+                        <div class="bird">
+                            <div class="tail">
+                                <div class="tail_top"></div>
+                                <div class="tail_middle"></div>
+                                <div class="tail_bottom"></div>
+                            </div>
+                            <div class="feather">
+                                <div class="feather_top"></div>
+                                <div class="feather_bottom"></div>
+                            </div>
+                            <div class="bird_body">
+                                <div class="bird_body bird_body_inner"></div>
+                                <div class="deco_1"></div>
+                                <div class="deco_2"></div>
+                                <div class="deco_3"></div>
+                                <div class="deco_4"></div>
+                            </div>
+                            <div class="belly"></div>
+                            <div class="face">
+                                <div class="eye eye_right">
+                                    <div class="eyebrow"></div>
+                                    <div class="pupil"></div>
+                                </div>
+                                <div class="eye eye_left">
+                                    <div class="eyebrow"></div>
+                                    <div class="pupil"></div>
+                                </div>
+                                <div class="beak">
+                                    <div class="beak_upper"></div>
+                                    <div class="beak_lower"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <div class="dnaDiv">
+                            <b>
+                                ID:
+                                <span id="dameBoxId` + id + `">` + id + `</span><br>
+                                GEN:
+                                <span id="generation` + id + `"></span><br>
+                                MUM:
+                                <span id="mum` + id + `"></span><br>
+                                DAD:
+                                <span id="dad` + id + `"></span><br>
+                                DNA:
+                                        <span id="dnaTopFeather` + id + `"></span>
+                                        <span id="dnaBodyFeather` + id + `"></span>
+                                        <span id="dnaTopBeak` + id + `"></span>
+                                        <span id="dnaBottomBeak` + id + `"></span>
+                                        <span id="dnaEyesShape` + id + `"></span>
+                                        <span id="dnaDecorationPattern` + id + `"></span>
+                                        <span id="dnaDecorationAtEye` + id + `"></span>
+                                        <span id="dnaDecorationMid` + id + `"></span>
+                                        <span id="dnaDecorationSmall` + id + `"></span>
+                                        <span id="dnaAnimation` + id + `"></span><br>
+                                    <ul class="ml-4">
+                                    <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                </ul>
+                                <div align="center">NEWBORN!</div>
+                            </b>
+                        </div>
+                    </div>`
+    $('#childDisplay').empty();
+    $('#childDisplay').append(boxDiv);
+}
+
+
 
 function modalBox(id) {
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">

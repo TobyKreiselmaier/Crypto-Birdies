@@ -23,7 +23,7 @@ function appendBirdToCatalog(dna, id) {
 
 function catalogBox(id) {
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
-                        <div class="angryBird_Red">
+                        <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
                                 <div class="tail_middle"></div>

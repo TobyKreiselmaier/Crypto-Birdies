@@ -7,7 +7,7 @@ import "./IERC721.sol";
 import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has... same goes if that variable is a contract. an interface is a way of abstracting those capabilities so the EVM knows what it does.
 import "./SafeMath.sol";
 
-contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
+contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
 
     using SafeMath for uint256;
 

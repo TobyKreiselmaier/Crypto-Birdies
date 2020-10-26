@@ -341,7 +341,7 @@ function animationVariation(boxId, num, id) {
 }
 
 function resetAnimation(boxId) {
-    $(`${boxId} .angryBird_Red`).removeClass('slowRotateBird floatingBird compressingBird');
+    $(`${boxId} .bird`).removeClass('slowRotateBird floatingBird compressingBird');
     $(`${boxId} .beak_upper`).removeClass('upperSpeakingBird');
     $(`${boxId} .beak_lower`).removeClass('lowerSpeakingBird');
     $(`${boxId} .tail_top`).removeClass('topWaggingTail');
@@ -352,15 +352,15 @@ function resetAnimation(boxId) {
 }
 
 function animationType1(boxId) {
-    $(`${boxId} .angryBird_Red`).addClass('slowRotateBird');
+    $(`${boxId} .bird`).addClass('slowRotateBird');
 }
 
 function animationType2(boxId) {
-    $(`${boxId} .angryBird_Red`).addClass('floatingBird');
+    $(`${boxId} .bird`).addClass('floatingBird');
 }
 
 function animationType3(boxId) {
-    $(`${boxId} .angryBird_Red`).addClass('compressingBird');
+    $(`${boxId} .bird`).addClass('compressingBird');
 }
 
 function animationType4(boxId) {
@@ -380,7 +380,7 @@ function animationType6(boxId) {
 }
 
 function animationType7(boxId) {
-    $(`${boxId} .angryBird_Red`).addClass('floatingBird');
+    $(`${boxId} .bird`).addClass('floatingBird');
     $(`${boxId} .beak_upper`).addClass('upperSpeakingBird');
     $(`${boxId} .beak_lower`).addClass('lowerSpeakingBird');
     $(`${boxId} .tail_top`).addClass('topWaggingTail');
