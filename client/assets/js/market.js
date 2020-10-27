@@ -1,19 +1,19 @@
-var arrayOfIdsOfOwner;
-var arrayOfIdsOnSale;
-var arrayOfIdsToDisplayInMarket;
-var arrayOfIdsToDisplayInOffers;
+var arrayOfIds;
+var arrayOnSale;
+var arrayInMarket;
+var arrayInOffers;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await accessStudio();
     await initializeMarketplace();//make sure marketplace contract is approved as operator for user
-    arrayOfIdsOfOwner = await getBirdsOfOwner();
-    arrayOfIdsOnSale = await getBirdsOnSale();
-    arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
-    arrayOfIdsToDisplayInMarket = arrayOfIdsToDisplayInMarket.filter(x => !["0"].includes(x));//remove Bird0
-    arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
-    await buildMarket(arrayOfIdsToDisplayInMarket);//build market
-    await buildOffers(arrayOfIdsToDisplayInOffers);//build offers
+    arrayOfIds = await getBirdsOfOwner();
+    arrayOnSale = await getBirdsOnSale();
+    arrayInMarket = arrayOnSale.filter(x => !arrayOfIds.includes(x));//offers of other users
+    arrayInMarket = arrayInMarket.filter(x => !["0"].includes(x));//remove Bird0
+    arrayInOffers = arrayOnSale.filter(x => arrayOfIds.includes(x));//user's offers
+    await buildMarket(arrayInMarket);//build market
+    await buildOffers(arrayInOffers);//build offers
 });
 
 async function appendBirdToMarket(dna, id) {
@@ -205,10 +205,10 @@ function activateBuyButtonListener() {
         var price = await getPrice(id);
         await buyBird(price, id);
         $('.marketOffers').empty();//clear offer content
-        arrayOfIdsOfOwner = await getBirdsOfOwner();
-        arrayOfIdsOnSale = await getBirdsOnSale();
-        arrayOfIdsToDisplayInMarket = arrayOfIdsOnSale.filter(x => !arrayOfIdsOfOwner.includes(x));//offers of other users
-        await buildMarket(arrayOfIdsToDisplayInMarket);//repopulate with the remaining birds that are for sale
+        arrayOfIds = await getBirdsOfOwner();
+        arrayOnSale = await getBirdsOnSale();
+        arrayInMarket = arrayOnSale.filter(x => !arrayOfIds.includes(x));//offers of other users
+        await buildMarket(arrayInMarket);//repopulate with the remaining birds that are for sale
     });
 }
 
@@ -217,9 +217,9 @@ function activateCancelButtonListener() {
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
         await removeOffer(id);
         $('.myOffers').empty();//clear offer content
-        arrayOfIdsOfOwner = await getBirdsOfOwner();
-        arrayOfIdsOnSale = await getBirdsOnSale();
-        arrayOfIdsToDisplayInOffers = arrayOfIdsOnSale.filter(x => arrayOfIdsOfOwner.includes(x));//user's offers
-        await buildOffers(arrayOfIdsToDisplayInOffers);//repopulate offers with remaining birds of user that are for sale
+        arrayOfIds = await getBirdsOfOwner();
+        arrayOnSale = await getBirdsOnSale();
+        arrayInOffers = arrayOnSale.filter(x => arrayOfIds.includes(x));//user's offers
+        await buildOffers(arrayInOffers);//repopulate offers with remaining birds of user that are for sale
     });
 }

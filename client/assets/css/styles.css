@@ -73,9 +73,9 @@ p {
     margin-left: 7em;
 }
 
-.card-special {
-    background-color: seagreen;
-    height: 10em;
+.cancelButton {
+    border-radius: 5px;
+    margin-left: 5em;
 }
 
 .card-deck{
@@ -90,6 +90,11 @@ p {
     height: 200px;
 }
 
+.card-special {
+    background-color: seagreen;
+    height: 10em;
+}
+
 .card-text {
     color: black;
     font-weight: bold;
@@ -99,11 +104,6 @@ p {
 .card-title {
     font-weight: bold;
     text-align: center;
-}
-
-.cancelButton {
-    border-radius: 5px;
-    margin-left: 5em;
 }
 
 .catalogBox {
@@ -128,7 +128,6 @@ p {
     position: relative;
     top: -20em;
 }
-
 
 .navbar {
     border-radius: 5px;
@@ -165,13 +164,6 @@ p {
 }
 
 /* IDs */
-#backgroundPicture {
-    opacity: 80%;
-    position: relative;
-    width: 100%;
-    z-index: -10;
-}
-
 #breedButton {
     position: relative;
     left: 10em;
@@ -193,6 +185,25 @@ p {
     text-align: center;
 }
 
+#childBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
+#childDisplay {
+    left: 21.3em;
+    opacity: 90%;
+    position: relative;
+    top: -66em;
+    width: 30em;
+    z-index: 50;
+}
+
 #createButton {
     left: 36em;
     border-radius: 5px;
@@ -203,16 +214,20 @@ p {
     margin-right: 1em;
 }
 
+#dameBox {
+    background-color: #fdb1f3;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
 #dameButton {
     left: 10em;
     position: relative;
     top: -34em;
-}
-
-#swapButton {
-    left: 26.4em;
-    position: relative;
-    top: -49em;
 }
 
 #dameDisplay {
@@ -223,13 +238,46 @@ p {
     width: 30em;
 }
 
-#childDisplay {
-    left: 49em;
-    opacity: 90%;
-    position: absolute;
-    top: 21.7em;
-    width: 30em;
-    z-index: 50;
+#defaultButton {
+    border-radius: 5px;
+    left: 4.6em;
+}
+
+#genData {
+    float: right;
+    margin-right: 1em;
+}
+
+#idData {
+    float: left;
+}
+
+#logo {
+    border-radius: 40%;
+}
+
+#mumData {
+    float: left;
+}
+
+#offerAmount {
+    position: relative;
+    width: min-content;
+}
+
+#randomizeButton {
+    border-radius: 5px;
+    left: 0.8em;
+}
+
+#sireBox {
+    background-color: #5caaf8;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
 }
 
 #sireButton {
@@ -246,64 +294,8 @@ p {
     width: 30em;
 }
 
-#dameBox {
-    background-color: #e277d4;
-    border-radius: 10px;
-    height: 31em;
-    min-width: 21em;
-    max-width: 21em;
-    padding-right: 30px;
-    z-index: 20;
-}
-
-#sireBox {
-    background-color: #0d66be;
-    border-radius: 10px;
-    height: 31em;
-    min-width: 21em;
-    max-width: 21em;
-    padding-right: 30px;
-    z-index: 20;
-}
-
-#childBox {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    height: 31em;
-    min-width: 21em;
-    max-width: 21em;
-    padding-right: 30px;
-    z-index: 20;
-}
-
-#defaultButton {
-    border-radius: 5px;
-    left: 4.6em;
-}
-
-#genData {
-    float: right;
-    margin-right: 1em;
-}
-
-#logo {
-    border-radius: 40%;
-}
-
-#idData {
-    float: left;
-}
-
-#mumData {
-    float: left;
-}
-
-#offerAmount {
+#swapButton {
+    left: 26.4em;
     position: relative;
-    width: min-content;
-}
-
-#randomizeButton {
-    border-radius: 5px;
-    left: 0.8em;
+    top: -49em;
 }

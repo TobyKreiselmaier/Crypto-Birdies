@@ -1,14 +1,14 @@
 var dameId;
 var sireId;
-var arrayOfIdsOfOwner;
+var arrayOfIds;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
     await connectWallet(); //connect MetaMask (if not already connected)
     await accessStudio();
-    arrayOfIdsOfOwner = await getBirdsOfOwner(); //fill array with ids for all birds of this address
-    dameId = arrayOfIdsOfOwner[0];
-    sireId = arrayOfIdsOfOwner[1];
-    if (arrayOfIdsOfOwner.length == 2) { //user must own at least two birds to continue
+    arrayOfIds = await getBirdsOfOwner(); //fill array with ids for all birds of this address
+    dameId = arrayOfIds[0];
+    sireId = arrayOfIds[1];
+    if (arrayOfIds.length == 2) { //user must own at least two birds to continue
         await renderDameAndSire(dameId, sireId);
         $('#swapButton').css("display", "block");
         $('#swapButton').click(async function() { //swap dame and sire if only 2 birds in array
@@ -17,10 +17,10 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
             sireId = helper;
             await renderDameAndSire(dameId, sireId);
         })
-    } else if (arrayOfIdsOfOwner.length > 2) {
+    } else if (arrayOfIds.length > 2) {
         $('#swapButton').css("display", "none");
-        await buildModal(arrayOfIdsOfOwner); //iterates through array and returns full info from blockchain
-        await renderDameAndSire(arrayOfIdsOfOwner[0], arrayOfIdsOfOwner[1]);
+        await buildModal(arrayOfIds); //iterates through array and returns full info from blockchain
+        await renderDameAndSire(arrayOfIds[0], arrayOfIds[1]);
     }
 });
 
@@ -31,16 +31,16 @@ function appendBirdToModal(dna, id) {
 
 async function setUpModal() {
     $('.row').empty(); //clear modal content
-    arrayOfIdsOfOwner = await getBirdsOfOwner(); //get a fresh array from the blockcahin
-    var index = arrayOfIdsOfOwner.findIndex(bird => bird == dameId); //search for dame
+    arrayOfIds = await getBirdsOfOwner(); //get a fresh array from the blockcahin
+    var index = arrayOfIds.findIndex(bird => bird == dameId); //search for dame
     if (index >= 0) { //make sure element is in array
-        arrayOfIdsOfOwner.splice(index, 1); //remove current dame from array
+        arrayOfIds.splice(index, 1); //remove current dame from array
     };
-    index = arrayOfIdsOfOwner.findIndex(bird => bird == sireId);
+    index = arrayOfIds.findIndex(bird => bird == sireId);
     if (index >= 0) { //make sure element is in array
-        arrayOfIdsOfOwner.splice(index, 1); //remove current sire from array
+        arrayOfIds.splice(index, 1); //remove current sire from array
     };
-    await buildModal(arrayOfIdsOfOwner); //iterates through array and returns full info from blockchain
+    await buildModal(arrayOfIds); //iterates through array and returns full info from blockchain
     $('#birdSelection').modal('show'); //open modal
 }
 

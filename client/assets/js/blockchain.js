@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0xD526E188b94615b682D9180a739992D83040122B";//update after AngryBirds is deployed
-var marketAddress = "0xb660186a657759764b450bE107F954F250ed1E93";//update after Marketplace is deployed
+var birdAddress = "0xD666b2c74EaD8Fb45208B86732C9eD61C4f5e5aC";//update after AngryBirds is deployed
+var marketAddress = "0xcd5fEB9CC97A2Fada429ac87094CaC90c248EC97";//update after Marketplace is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -22,22 +22,32 @@ async function connectWallet() {
                 let mumId = event.returnValues.mumId;
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
-                $('.evolvingHeart').css("display", "block");
-                $('#breedButton').css("display", "none");
-                $('#dameButton').css("display", "none");
-                $('#sireButton').css("display", "none");
-                $('#swapButton').css("display", "none");
-                await timeout(6000);
-                $('#birdCreation').css("display", "block");
-                $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog in a few moments. Owner: " + owner 
-                                    + " | BirdID: " + birdId 
-                                    + " | MumID: " + mumId 
-                                    + " | DadID: " + dadId
-                                    + " | Genes: " + genes);
-                await renderChild(birdId);
+                if (location.href.replace(location.origin,'') == "/client/breeding.html") {
+                    $('.evolvingHeart').css("display", "block");
+                    $('#breedButton').css("display", "none");
+                    $('#dameButton').css("display", "none");
+                    $('#sireButton').css("display", "none");
+                    $('#swapButton').css("display", "none");
+                    await timeout(6000);
+                    $('#birdCreation').css("display", "block");
+                    $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog in a few moments. Owner: " + owner 
+                                        + " | BirdID: " + birdId 
+                                        + " | MumID: " + mumId 
+                                        + " | DadID: " + dadId
+                                        + " | Genes: " + genes);
+                    await renderChild(birdId);
+                    $('#breedFooter').css("top", "-67em");
+                } else if (location.href.replace(location.origin,'') == "/client/studio.html") {
+                    $('#birdCreation').css("display", "block");
+                    $('#birdCreation').text("Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog in a few moments. Owner: " + owner 
+                                        + " | BirdID: " + birdId 
+                                        + " | MumID: " + mumId 
+                                        + " | DadID: " + dadId
+                                        + " | Genes: " + genes);
+                }
             })
             .on('error', console.error);
-        
+
         marketInstance.events.MarketTransaction()
             .on('data', (event) => {
                 //console.log(event);

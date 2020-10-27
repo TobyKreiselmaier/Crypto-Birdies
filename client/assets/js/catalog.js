@@ -1,19 +1,22 @@
-var arrayOfIdsOfOwner;
-var arrayOfIdsOnSale;
-var arrayOfIdsToDisplayInCatalog;
+var arrayOfIds;
+var arrayOnSale;
+var arrayToDisplay;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await accessStudio();
     await initializeMarketplace();//allow Marketplace contract to handle offers.
-    arrayOfIdsOfOwner = await getBirdsOfOwner();
-    arrayOfIdsOnSale = await getBirdsOnSale();
-    if (arrayOfIdsOnSale == "") {
-        arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner;
+    arrayOfIds
+ = await getBirdsOfOwner();
+    arrayOnSale = await getBirdsOnSale();
+    if (arrayOnSale == "") {
+        arrayToDisplay = arrayOfIds
+    ;
     } else {
-        arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
+        arrayToDisplay = arrayOfIds
+    .filter(x => !arrayOnSale.includes(x));//all birds of this user not on sale
     }
-    await buildCatalog(arrayOfIdsToDisplayInCatalog);
+    await buildCatalog(arrayToDisplay);
 })
 
 function appendBirdToCatalog(dna, id) {
@@ -117,9 +120,10 @@ function activateCatalogEventListeners() {
             } else{
                 await sellBird(price, id);
                 $('.row').empty();//clear catalog content
-                arrayOfIdsOnSale = await getBirdsOnSale();
-                arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
-                await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
+                arrayOnSale = await getBirdsOnSale();
+                arrayToDisplay = arrayOfIds
+            .filter(x => !arrayOnSale.includes(x));//all birds of this user not on sale
+                await buildCatalog(arrayToDisplay);//repopulate catalog with remaining birds
             }
         }
     })
@@ -134,9 +138,10 @@ function activateCatalogEventListeners() {
         } else{
             await sellBird(price, id);
             $('.row').empty();//clear catalog content
-            arrayOfIdsOnSale = await getBirdsOnSale();
-            arrayOfIdsToDisplayInCatalog = arrayOfIdsOfOwner.filter(x => !arrayOfIdsOnSale.includes(x));//all birds of this user not on sale
-            await buildCatalog(arrayOfIdsToDisplayInCatalog);//repopulate catalog with remaining birds
+            arrayOnSale = await getBirdsOnSale();
+            arrayToDisplay = arrayOfIds
+        .filter(x => !arrayOnSale.includes(x));//all birds of this user not on sale
+            await buildCatalog(arrayToDisplay);//repopulate catalog with remaining birds
         }
     })
 }
