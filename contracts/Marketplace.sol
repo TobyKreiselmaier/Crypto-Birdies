@@ -29,7 +29,7 @@ contract MarketPlace is Ownable, IMarketPlace {
 
     mapping(uint256 => Offer) tokenIdToOffer;
 
-    event MarketTransaction(string TxType, address owner, uint256 tokenId);
+    //one event. Already declared in interface.
 
     function setContract(address _contractAddress) onlyOwner public {
         _cryptoBirdies = CryptoBirdies(_contractAddress);
@@ -79,7 +79,7 @@ contract MarketPlace is Ownable, IMarketPlace {
     function setOffer(uint256 _price, uint256 _tokenId) public {
         require(_ownsBird(msg.sender, _tokenId), "Only the owner of the bird can initialize an offer");
         require(tokenIdToOffer[_tokenId].active == false, "You already created an offer for this bird. Please remove it first before creating a new one.");
-        require(_cryptoBirdies.isApprovedForAll(msg.sender, address(this)), "MarketPlace contract must first be an approved operate for your birds");
+        require(_cryptoBirdies.isApprovedForAll(msg.sender, address(this)), "MarketPlace contract must first be an approved operator for your birds");
 
         Offer memory _currentOffer = Offer({//set offer
             seller: msg.sender,

@@ -4,7 +4,9 @@ import "./Ownable.sol";
 import "./Destroyable.sol";
 import "./IERC165.sol";
 import "./IERC721.sol";
-import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has... same goes if that variable is a contract. an interface is a way of abstracting those capabilities so the EVM knows what it does.
+import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has... 
+                                //same goes if that variable is a contract. an interface is a way of abstracting
+                                //those capabilities so the EVM knows what it does.
 import "./SafeMath.sol";
 
 contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
@@ -36,27 +38,29 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
 
     mapping(uint256 => address) public birdOwner;
     mapping(address => uint256) ownsNumberOfTokens;
-    mapping(uint256 => address) public approvalOneBird;//which bird is approved to be transfered by an address other than the owner
-    mapping(address => mapping (address => bool)) private _operatorApprovals;//approval to handle all tokens of an address by another
+    mapping(uint256 => address) public approvalOneBird;//which bird is approved to be transfered
+                                                       //by an address other than the owner
+    mapping(address => mapping (address => bool)) private _operatorApprovals;
+    //approval to handle all tokens of an address by another
     //_operatorApprovals[owneraddress][operatoraddress] = true/false;
 
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
-    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+    //ERC721 events are not defined here as they are inherited from IERC721
     event Birth(address owner, uint256 birdId, uint256 mumId, uint256 dadId, uint256 genes);
 
     constructor(string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
-        _createBird(0, 0, 0, uint256(-1), address(0));//Bird 0 doesn't do anything, but it exists in the mappings and arrays to avoid issues in the market place
+        _createBird(0, 0, 0, uint256(-1), address(0));
+        //Bird 0 doesn't do anything, but it exists in the mappings and arrays to avoid issues in the market place
     }
 
-    function getContractOwner() external returns (address contractowner) {
+    function getContractOwner() external view returns (address contractowner) {
         return _owner;
     }
 
     function breed(uint256 _dadId, uint256 _mumId) external returns (uint256){
-        require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender, "You can't breed what you don't own");
+        require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender, 
+        "You can't breed what you don't own");
         
         (uint256 _dadDna,,,, uint256 _dadGeneration) = getBird(_dadId);//discarding redundant data here
         (uint256 _mumDna,,,, uint256 _mumGeneration) = getBird(_mumId);//discarding redundant data here
@@ -172,7 +176,8 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function approve(address _approved, uint256 _tokenId) external {
-        require(birdOwner[_tokenId] == msg.sender || _operatorApprovals[birdOwner[_tokenId]][msg.sender] == true, "You are not authorized to access this function.");
+        require(birdOwner[_tokenId] == msg.sender || _operatorApprovals[birdOwner[_tokenId]][msg.sender] == true, 
+        "You are not authorized to access this function.");
         approvalOneBird[_tokenId] = _approved;
         emit Approval(msg.sender, _approved, _tokenId);
     }
@@ -197,7 +202,8 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
         _transfer(_from, _to, _tokenId);
     }
     
-    function _checkERC721Support(address _from, address _to, uint256 _tokenId, bytes memory _data) internal returns(bool) {
+    function _checkERC721Support(address _from, address _to, uint256 _tokenId, bytes memory _data) 
+            internal returns(bool) {
         if(!_isContract(_to)) {
             return true;
         }
@@ -217,7 +223,10 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function _isOwnerOrApproved(address _from, address _to, uint256 _tokenId) internal view returns (bool) {
-        require(_from == msg.sender || approvalOneBird[_tokenId] == msg.sender || _operatorApprovals[_from][msg.sender], "You are not authorized to use this function");
+        require(_from == msg.sender || 
+                approvalOneBird[_tokenId] == msg.sender || 
+                _operatorApprovals[_from][msg.sender], 
+                "You are not authorized to use this function");
         require(birdOwner[_tokenId] == _from, "Owner incorrect");
         require(_to != address(0), "Error: Operation would delete this token permanently");
         require(_tokenId < birdies.length, "Token doesn't exist");
@@ -241,10 +250,13 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
 
     function _mixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
         uint256[9] memory geneArray;
-        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is redundant. This will return a number 0-255. e.g. 10111000
+        uint8 random = uint8(now % 255); 
+        //pseudorandom, real randomness doesn't exist in solidity and is redundant. 
+        //This will return a number 0-255. e.g. 10111000
         uint8 randomSeventeenthDigit = uint8(now % 1);
         uint8 randomPair = uint8(now % 7); //w9d3 assignment. number to select random pair.
-        uint8 randomNumberForRandomPair = uint8((now % 89) + 10);//value of random pair, making sure there's no leading '0'.
+        uint8 randomNumberForRandomPair = uint8((now % 89) + 10);
+        //value of random pair, making sure there's no leading '0'.
         uint256 i;
         uint256 counter = 7; // start on the right end
 
