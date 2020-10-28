@@ -28,8 +28,15 @@ contract("Marketcontract", (accounts) => {
     marketInstance = await Marketcontract.new(testInstance.address);
   });
 
-  describe("setOffer() and getOffer()", () =>{
-    it("should set and return seller, price, index, tokenId, and status of an offer", async () => {
+  describe("getOffer()", () =>{
+    it("should revert, if there is no active offer", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await truffleAssert.reverts(marketInstance.getOffer(1));
+    });
+
+    it("should return seller, price, index, tokenId, and status of an offer correcly", async () => {
       await testInstance.createTestBird(101, accounts[1]);
       var marketAddress = await marketInstance.address;
       await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
@@ -41,19 +48,6 @@ contract("Marketcontract", (accounts) => {
       assert.equal(offer.tokenId, 1, "TokenId is wrong");
       assert.equal(offer.active, true, "Offer status is wrong");
     });
-  });
-
-  describe("removeOffer()", () =>{
-    it("should remove an offer and emit a correct MarketTransaction", async () => {
-      await testInstance.createTestBird(101, accounts[1]);
-      var marketAddress = await marketInstance.address;
-      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
-      await marketInstance.setOffer(1, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
-      var removal = await marketInstance.removeOffer(1, { from: accounts[1] });
-      truffleAssert.eventEmitted(removal, 'MarketTransaction', (ev) => {
-        return ev.TxType == "Offer removed" && ev.owner == accounts[1] && ev.tokenId == 1;
-        }, "Event was NOT emitted with correct parameters");
-      });
   });
 
   describe("getAllTokensOnSale()", () =>{
@@ -70,6 +64,53 @@ contract("Marketcontract", (accounts) => {
       assert.equal(arrayOffers[0], 1, "Bird1 offer status is wrong");
       assert.equal(arrayOffers[1], 2, "Bird2 offer status is wrong");
     });
+  });
+
+  describe("setOffer()", () =>{
+    it("should only allow the owner to set an offer", async () => {
+      await testInstance.createTestBird(101, accounts[0]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true);
+      await truffleAssert.reverts(marketInstance.setOffer(1, 1, { from: accounts[1] }));//1 ETH for tokenId1 (birdId1)
+    });
+
+    it("should not allow to set a new offer when another already exists", async () => {
+      await testInstance.createTestBird(101, accounts[0]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true);
+      await marketInstance.setOffer(1, 1);//1 ETH for tokenId1 (birdId1)
+      await truffleAssert.reverts(marketInstance.setOffer(5, 1));//5 ETH for tokenId1 (birdId1)
+    });
+
+    it("should not allow to set an offer, if the Marketcontract is not an approved operator", async () => {
+      await testInstance.createTestBird(101, accounts[0]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, false);
+      await truffleAssert.reverts(marketInstance.setOffer(5, 1));//5 ETH for tokenId1 (birdId1)
+    });
+
+    it("should emit a transaction event with correct parameters", async () => {
+      await testInstance.createTestBird(101, accounts[0]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true);
+      var creation = await marketInstance.setOffer(5, 1);
+      truffleAssert.eventEmitted(creation, 'MarketTransaction', (ev) => {
+        return ev.TxType == "Offer created" && ev.owner == accounts[0] && ev.tokenId == 1;
+        }, "Event was NOT emitted with correct parameters");
+    });
+  });
+
+  describe("removeOffer()", () =>{
+    it("should remove an offer and emit a correct MarketTransaction", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await marketInstance.setOffer(1, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
+      var removal = await marketInstance.removeOffer(1, { from: accounts[1] });
+      truffleAssert.eventEmitted(removal, 'MarketTransaction', (ev) => {
+        return ev.TxType == "Offer removed" && ev.owner == accounts[1] && ev.tokenId == 1;
+        }, "Event was NOT emitted with correct parameters");
+      });
   });
 
   describe("buyBird()", () =>{
