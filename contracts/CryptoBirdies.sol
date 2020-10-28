@@ -13,7 +13,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
 
     using SafeMath for uint256;
 
-    uint256 public constant maxGen0Birds = 16;
+    uint256 public constant maxGen0Birds = 16;//allow a maximum of 16 Gen0 birds
     uint256 public gen0Counter = 0;
 
     bytes4 internal constant _ERC721Checksum = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
@@ -81,7 +81,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function createBirdGen0(uint256 genes) public onlyOwner returns (uint256) {
-        require(gen0Counter <= maxGen0Birds, "Maximum number of Birds is reached. No new birds allowed!");
+        require(gen0Counter < maxGen0Birds, "Maximum number of Birds is reached. No new birds allowed!");
         gen0Counter = gen0Counter.add(1);
         return _createBird(0, 0, 0, genes, msg.sender);
     }
@@ -121,7 +121,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
             mumId = uint256(bird.mumId);
             dadId = uint256(bird.dadId);
             generation = uint256(bird.generation);
-        }
+    }
 
     function getAllBirdsOfOwner(address owner) external view returns(uint256[] memory) {
         uint256[] memory allBirdsOfOwner = new uint[](ownsNumberOfTokens[owner]);

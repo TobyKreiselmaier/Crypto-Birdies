@@ -101,7 +101,34 @@ contract("Marketcontract", (accounts) => {
   });
 
   describe("removeOffer()", () =>{
-    it("should remove an offer and emit a correct MarketTransaction", async () => {
+    it("should only allow the owner to remove an offer", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await marketInstance.setOffer(1, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
+      await truffleAssert.reverts(marketInstance.removeOffer(1, { from: accounts[0] }));
+    });
+
+    it("should set status in the offers array to false", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await marketInstance.setOffer(1, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
+      await marketInstance.removeOffer(1, { from: accounts[1] });
+      var status = await marketInstance.getAllTokensOnSale();
+      assert.equal(status.length, 0, "The offers array was not updated correctly");
+    });
+
+    it("should delete the entry in the tokenIdToOffer mapping", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await marketInstance.setOffer(1, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
+      await marketInstance.removeOffer(1, { from: accounts[1] });
+      await truffleAssert.reverts(marketInstance.getOffer(1));
+    });
+
+    it("should emit a MarketTransaction with correct parameters", async () => {
       await testInstance.createTestBird(101, accounts[1]);
       var marketAddress = await marketInstance.address;
       await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
@@ -110,11 +137,55 @@ contract("Marketcontract", (accounts) => {
       truffleAssert.eventEmitted(removal, 'MarketTransaction', (ev) => {
         return ev.TxType == "Offer removed" && ev.owner == accounts[1] && ev.tokenId == 1;
         }, "Event was NOT emitted with correct parameters");
-      });
+    });
   });
 
   describe("buyBird()", () =>{
-    it("transfer a bird, remove the offer status, and emit a correct event", async () => {
+    it("should only work, if there is an active offer", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await truffleAssert.reverts(marketInstance.buyBird(1, { from: accounts[2], value: 1 }));
+    });
+
+    it("should only work, if the value offered is equal to the asking price of the offer", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await marketInstance.setOffer(2, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
+      await truffleAssert.reverts(marketInstance.buyBird(1, { from: accounts[2], value: 1 }));
+    });
+
+    it("should transfer ownership correctly", async () => {
+      await testInstance.createTestBird(101, accounts[0]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[0] });
+      await marketInstance.setOffer(1, 1, { from: accounts[0] });//1 ETH for tokenId1 (birdId1)
+      await marketInstance.buyBird(1, { from: accounts[1], value: 1 });
+      var owner = await testInstance.ownerOf(1);
+      assert.equal(owner, accounts[1], "Ownership was not updated correctly");
+    });
+
+    it("should set the status in the offers array to false", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await marketInstance.setOffer(1, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
+      await marketInstance.buyBird(1, { from: accounts[2], value: 1 });
+      var status = await marketInstance.getAllTokensOnSale();
+      assert.equal(status.length, 0, "The offers array was not updated correctly");
+    });
+
+    it("should delete the entry in the tokenIdToOffer mapping", async () => {
+      await testInstance.createTestBird(101, accounts[1]);
+      var marketAddress = await marketInstance.address;
+      await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
+      await marketInstance.setOffer(1, 1, { from: accounts[1] });//1 ETH for tokenId1 (birdId1)
+      await marketInstance.buyBird(1, { from: accounts[2], value: 1 });
+      await truffleAssert.reverts(marketInstance.getOffer(1));
+    });
+
+    it("should emit a MarketTransaction event with correct parameters", async () => {
       await testInstance.createTestBird(101, accounts[1]);
       var marketAddress = await marketInstance.address;
       await testInstance.setApprovalForAll(marketAddress, true, { from: accounts[1] });
@@ -131,19 +202,127 @@ contract("Birdcontract", (accounts) => {
 
   beforeEach(async () => {birdInstance = await Birdcontract.new("CryptoBird", "CBX")});
 
-  describe("name()", () =>{
-    it("should return the name of the native token 'CryptoBird'", async () => {
-      var testName = await birdInstance.name();
-      assert.equal(testName, "CryptoBird", "Token wasn't constructed correctly");
+  describe("getContractOwner()", () =>{
+    it("should the owner of the smart contract", async () => {
+      var owner = await birdInstance.getContractOwner();
+      assert.equal(owner, accounts[0], "The owner was not returned correctly");
     });
   });
 
-  describe("symbol()", () =>{
-    it("should return the ticker symbol 'CBX'", async () => {
-      var testSymbol = await birdInstance.symbol();
-      assert.equal(testSymbol, "CBX", "Symbol wasn't constructed correctly");
+  describe("breed()", () =>{
+    it("should execute only, if both parents are owned by msg.sender", async () => {
+      await birdInstance.createBirdGen0(101);
+      await birdInstance.createBirdGen0(202);
+      var dadOwner = await birdInstance.ownerOf(2);
+      var mumOwner = await birdInstance.ownerOf(1);
+      assert.equal(dadOwner && mumOwner, accounts[0], "The parents are not owned by msg.sender");
+      await birdInstance.breed(2, 1);
+    });
+
+    it("should call _mixDna() and create a new 17-digit DNA string", async () => {
+      await birdInstance.createBirdGen0("11223344556677889");
+      await birdInstance.createBirdGen0("98877665544332211");
+      var birdy = await birdInstance.breed(2, 1);
+      truffleAssert.eventEmitted(birdy, 'Birth', (ev) => {
+        var helper = ev.genes;
+        return helper.toString().length == 17;
+      }, "There was no new 17-digit DNA string created by _mixDna()");
+    });
+
+    it("should emit a birth event with correct parameters", async () => {
+      await birdInstance.createBirdGen0(101);
+      await birdInstance.createBirdGen0(202);
+      var birdy = await birdInstance.breed(2, 1);
+      truffleAssert.eventEmitted(birdy, 'Birth', (ev) => {
+        return ev.owner == accounts[0] && ev.birdId == 3 && ev.mumId == 1 && ev.dadId == 2;
+        }, "Event was NOT emitted with correct parameters");
     });
   });
+
+  describe("supportsInterface()", () =>{
+    it("should check, if the contract supports IERC721", async () => {
+      var testIERC721 = await birdInstance.supportsInterface("0x80ac58cd");
+      assert.equal(testIERC721, true, "The contract does not support IERC721");
+    });
+
+    it("should check, if the contract supports IERC165", async () => {
+      var testIERC721 = await birdInstance.supportsInterface("0x01ffc9a7");
+      assert.equal(testIERC721, true, "The contract does not support IERC721");
+    });
+  });
+
+  describe("createBirdGen0()", () =>{
+    it("should only allow the owner of the contract to create a bird", async () => {
+      await truffleAssert.reverts(birdInstance.createBirdGen0(101, { from: accounts[1] }));
+    });
+
+    it("should only allow a maximum of 16 Gen0 birds to be created", async () => {
+      await birdInstance.createBirdGen0(101);
+      await birdInstance.createBirdGen0(102);
+      await birdInstance.createBirdGen0(103);
+      await birdInstance.createBirdGen0(104);
+      await birdInstance.createBirdGen0(105);
+      await birdInstance.createBirdGen0(106);
+      await birdInstance.createBirdGen0(107);
+      await birdInstance.createBirdGen0(108);
+      await birdInstance.createBirdGen0(109);
+      await birdInstance.createBirdGen0(110);
+      await birdInstance.createBirdGen0(111);
+      await birdInstance.createBirdGen0(112);
+      await birdInstance.createBirdGen0(113);
+      await birdInstance.createBirdGen0(114);
+      await birdInstance.createBirdGen0(115);
+      await birdInstance.createBirdGen0(116);
+      await truffleAssert.reverts(birdInstance.createBirdGen0(117));
+    });
+
+    it("should call _createBird() and _transfer() and emit a birth event with correct parameters", async () => {
+      var birdy = await birdInstance.createBirdGen0(101);
+      truffleAssert.eventEmitted(birdy, 'Birth', (ev) => {
+        return ev.owner == accounts[0] && ev.birdId == 1 && ev.mumId == 0 && ev.dadId == 0 && ev.genes == 101;
+        }, "Event was NOT emitted with correct parameters");
+    });
+  });
+
+  describe("getBird()", () =>{
+    it("should return the correct genes of a bird", async () => {
+      await birdInstance.createBirdGen0(101);
+      var result = await birdInstance.getBird(1);
+      assert.equal(result.genes, 101, "The genes are incorrect");
+    });
+
+    it("should return the correct birthTime of a bird", async () => {
+      var startTime = Date.now();
+      await birdInstance.createBirdGen0(101);
+      var endTime = Date.now();
+      var result = await birdInstance.getBird(1);
+      assert(startTime/1000 <= result.birthTime <= endTime/1000, "The birthTime is incorrect");
+    });
+
+    it("should return the correct mumId of a bird", async () => {
+      await birdInstance.createBirdGen0(101);
+      var result = await birdInstance.getBird(1);
+      assert.equal(result.mumId, 0, "The id for the mum is incorrect");
+    });
+
+    it("should return the correct dadId of a bird", async () => {
+      await birdInstance.createBirdGen0(101);
+      var result = await birdInstance.getBird(1);
+      assert.equal(result.dadId, 0, "The id for the dad is incorrect");
+    });
+
+    it("should return the correct generation of a bird", async () => {
+      await birdInstance.createBirdGen0(101);
+      var result = await birdInstance.getBird(1);
+      assert.equal(result.generation, 0, "The generation is not zero");
+    });
+
+    it("should revert, if the bird does not exist", async () => {
+      await truffleAssert.reverts(birdInstance.getBird(5));
+    });
+  });
+
+//getAllBirdsOfOwner() has been tested in the Testcontract
 
   describe("balanceOf()", () =>{
     it("should return the correct balance of tokens owned by an address", async () => {
@@ -155,41 +334,25 @@ contract("Birdcontract", (accounts) => {
     });
   });
 
-  describe("getBird()", () =>{
-    it("should return the correct genes of a token", async () => {
-      await birdInstance.createBirdGen0(101);
-      var result = await birdInstance.getBird(1);
-      assert.equal(result.genes, 101, "The genes are incorrect");
-    });
+  describe("totalSupply()", () =>{
+  it("should record the total supply of tokens", async () => {
+    await birdInstance.createBirdGen0(101);
+    var supply = await birdInstance.totalSupply();
+    assert.equal(supply, 2, "The record of total supply is flawed and can't be trusted");
+  });
+});
 
-    it("should return the correct birthTime of a token", async () => {
-      var startTime = Date.now();
-      await birdInstance.createBirdGen0(101);
-      var endTime = Date.now();
-      var result = await birdInstance.getBird(1);
-      assert(startTime/1000 <= result.birthTime <= endTime/1000, "The birthTime is incorrect");
+  describe("name()", () =>{
+    it("should return the name of the native token 'CryptoBird'", async () => {
+      var testName = await birdInstance.name();
+      assert.equal(testName, "CryptoBird", "Token wasn't constructed correctly");
     });
+  });
 
-    it("should return the correct mumId of a token", async () => {
-      await birdInstance.createBirdGen0(101);
-      var result = await birdInstance.getBird(1);
-      assert.equal(result.mumId, 0, "The id for the mum is incorrect");
-    });
-
-    it("should return the correct dadId of a token", async () => {
-      await birdInstance.createBirdGen0(101);
-      var result = await birdInstance.getBird(1);
-      assert.equal(result.dadId, 0, "The id for the dad is incorrect");
-    });
-
-    it("should return the correct generation of a token", async () => {
-      await birdInstance.createBirdGen0(101);
-      var result = await birdInstance.getBird(1);
-      assert.equal(result.generation, 0, "The generation is not zero");
-    });
-
-    it("should revert, if the bird does not exist", async () => {
-      await truffleAssert.reverts(birdInstance.getBird(5));
+  describe("symbol()", () =>{
+    it("should return the ticker symbol 'CBX'", async () => {
+      var testSymbol = await birdInstance.symbol();
+      assert.equal(testSymbol, "CBX", "Symbol wasn't constructed correctly");
     });
   });
 
@@ -205,23 +368,45 @@ contract("Birdcontract", (accounts) => {
     });
   });
 
-  describe("totalSupply()", () =>{
-    it("should record the total supply of tokens", async () => {
+  describe("transfer()", () =>{
+    it("should not allow transfer to the burn address", async () => {
+      const zeroAddress = '0x0000000000000000000000000000000000000000';
       await birdInstance.createBirdGen0(101);
-      var supply = await birdInstance.totalSupply();
-      assert.equal(supply, 2, "The record of total supply is flawed and can't be trusted");
+      var testOwner = await birdInstance.ownerOf(1);
+      assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
+      await truffleAssert.reverts(birdInstance.transfer(zeroAddress, 0));
     });
-  });
-
-  describe("breed()", () =>{
-    it("should emit a birth event with correct parameters", async () => {
+  
+    it("should not allow transfer to the contract address", async () => {
+      const contractAddress = await birdInstance.address;
       await birdInstance.createBirdGen0(101);
-      await birdInstance.createBirdGen0(202);
-      var birdy = await birdInstance.breed(2, 1);
-      truffleAssert.eventEmitted(birdy, 'Birth', (ev) => {
-        return ev.owner == accounts[0] && ev.birdId == 3 && ev.mumId == 1 && ev.dadId == 2;
-        }, "Event was NOT emitted with correct parameters");
-        //child genes can not be tested bc they are random
+      var testOwner = await birdInstance.ownerOf(1);
+      assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
+      await truffleAssert.reverts(birdInstance.transfer(contractAddress, 0));
+    });
+  
+    it("should emit a transfer event when a transfer was successful", async () => {
+      await birdInstance.createBirdGen0(101);
+      var testTransfer = await birdInstance.transfer(accounts[1], 1);
+      truffleAssert.eventEmitted(testTransfer, 'Transfer', (ev) => {
+      return ev.from == accounts[0] && ev.to == accounts[1] && ev.tokenId == 1;
+      }, "Transfer event should have been emitted with correct parameters");
+    });
+  
+    it("should check balances and transfer a token from one account to another", async () => {
+      await birdInstance.createBirdGen0(101);
+
+      var numberTokensSender = await birdInstance.balanceOf(accounts[0]);
+      assert.equal(numberTokensSender, 1, "Token balance is incorrect");
+      var numberTokensRecipient = await birdInstance.balanceOf(accounts[1]);
+      assert.equal(numberTokensRecipient, 0, "Token balance is incorrect");
+
+      await birdInstance.transfer(accounts[1], 1);
+
+      numberTokensSender = await birdInstance.balanceOf(accounts[0]);
+      assert.equal(numberTokensSender, 0, "Token balance is incorrect");
+      numberTokensRecipient = await birdInstance.balanceOf(accounts[1]);
+      assert.equal(numberTokensRecipient, 1, "Token balance is incorrect");
     });
   });
 
@@ -270,45 +455,8 @@ contract("Birdcontract", (accounts) => {
     });
   });
 
-  describe("transfer()", () =>{
-    it("should not allow transfer to the burn address", async () => {
-      const zeroAddress = '0x0000000000000000000000000000000000000000';
-      await birdInstance.createBirdGen0(101);
-      var testOwner = await birdInstance.ownerOf(1);
-      assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
-      await truffleAssert.reverts(birdInstance.transfer(zeroAddress, 0));
-    });
-  
-    it("should not allow transfer to the contract address", async () => {
-      const contractAddress = await birdInstance.address;
-      await birdInstance.createBirdGen0(101);
-      var testOwner = await birdInstance.ownerOf(1);
-      assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
-      await truffleAssert.reverts(birdInstance.transfer(contractAddress, 0));
-    });
-  
-    it("should emit a transfer event when a transfer was successful", async () => {
-      await birdInstance.createBirdGen0(101);
-      var testTransfer = await birdInstance.transfer(accounts[1], 1);
-      truffleAssert.eventEmitted(testTransfer, 'Transfer', (ev) => {
-      return ev.from == accounts[0] && ev.to == accounts[1] && ev.tokenId == 1;
-      }, "Transfer event should have been emitted with correct parameters");
-    });
-  
-    it("should check balances and transfer a token from one account to another", async () => {
-      await birdInstance.createBirdGen0(101);
+//safeTransferFrom
 
-      var numberTokensSender = await birdInstance.balanceOf(accounts[0]);
-      assert.equal(numberTokensSender, 1, "Token balance is incorrect");
-      var numberTokensRecipient = await birdInstance.balanceOf(accounts[1]);
-      assert.equal(numberTokensRecipient, 0, "Token balance is incorrect");
+//transferFrom
 
-      await birdInstance.transfer(accounts[1], 1);
-
-      numberTokensSender = await birdInstance.balanceOf(accounts[0]);
-      assert.equal(numberTokensSender, 0, "Token balance is incorrect");
-      numberTokensRecipient = await birdInstance.balanceOf(accounts[1]);
-      assert.equal(numberTokensRecipient, 1, "Token balance is incorrect");
-    });
-  });
 })
