@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
     font-family: "Poppins";
     src: url("/client/assets/fonts/Poppins-Light.ttf");
@@ -5,25 +6,24 @@
 
 /* HTML Elements */
 body {
-	background: lightblue;
+    background: url(/client/assets/media/nature.webp);
+    background-size: cover;
     font-family: Poppins;
     font-weight: 500;
     letter-spacing: 1px; 
-}
+    }
 
 footer {
     background: whitesmoke;
-    height: 30px;
-    left: 20em;
-    padding: 4vh;
-    padding-bottom: 60px;
-    position: relative;
-    width: 68%;
     border-radius: 5px;
+    height: 30px;
+    padding: 2vh;
+    padding-bottom: 40px;
+    width: auto;
 }
 
 h1 {
-    color: rgb(48, 46, 46);
+    color: #f8f9fa;
 }
 
 html {
@@ -32,7 +32,8 @@ html {
 }
 
 p {
-    color: rgb(48, 46, 46);
+    color: #f8f9fa;
+    height: 0.8em;
 }
 
 /* Classes */
@@ -44,41 +45,75 @@ p {
 }
 
 .birdBox {
-    background-color: #e2efff;
+    background-color: #f8f9fa;
     border-radius: 10px;
     left: 0.6em;
     padding-bottom: 10px;
     padding-left: 30px;
     padding-right: 30px;
     z-index: 20;
+}
+
+.bottomList {
+    margin-left: -2.5em;
+}
+
+.buyBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    display: inline-flex;
+    height: 34em;
+    min-width: 20.7em;
+    max-width: 20.7em;
+    z-index: 20;
+}
+
+.buyButton {
+    border-radius: 5px;
+    margin-left: 7em;
+}
+
+.cancelButton {
+    border-radius: 5px;
+    margin-left: 5em;
 }
 
 .card-deck{
     background: transparent;
-    left: -8%;
+    border-width: 5px;
     position: relative;
-    top: -15em;
-    width: 120%;
+    top: 0em;
     z-index: 1;
-}
-
-.catalogBox {
-    background-color: #e2efff;
-    border-radius: 10px;
-    height: 30em;
-    left: 0.6em;
-    padding-bottom: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    z-index: 20;
 }
 
 .card-img-top {
     height: 200px;
 }
 
+.card-special {
+    background-color: seagreen;
+    height: 10em;
+}
+
 .card-text {
     color: black;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-title {
+    font-weight: bold;
+    text-align: center;
+}
+
+.catalogBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
 }
 
 .dnaDiv {
@@ -88,21 +123,56 @@ p {
     position: absolute;
 }
 
+.evolvingHeart {
+    left: -20em;
+    position: relative;
+    top: -20em;
+}
+
 .navbar {
     border-radius: 5px;
+    color: black;
+    font-weight: bold;
+}
+
+.offerBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    display: inline-flex;
+    height: 34em;
+    min-width: 20.7em;
+    max-width: 20.7em;
+    z-index: 20;
+}
+
+.row {
+    margin-left: -0.4em;
+}
+
+.submitButton {
+    margin-right: 1em;
+}
+
+.topCard {
+    background: seagreen;
+    border-width: 5px;
+    float: none;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
 }
 
 /* IDs */
-#backgroundPicture {
-    opacity: 80%;
-    width: 100%;
-    z-index: -10;
+#breedButton {
+    left: 10em;
     position: relative;
+    top: -50em;
 }
 
-#blockchainButton {
-    border-radius: 5%;
-    left: 26.1em;
+#breedFooter {
+    position: relative;
+    top: -33em;
 }
 
 #cardButton {
@@ -111,27 +181,121 @@ p {
 }
 
 #cardTitle {
+    color: #343a40;
     text-align: center;
 }
 
+#childBox {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
+#childDisplay {
+    left: 21.3em;
+    opacity: 90%;
+    position: relative;
+    top: -66em;
+    width: 30em;
+    z-index: 50;
+}
+
+#createButton {
+    border-radius: 5px;
+    left: 36em;
+}
+
+#dadData {
+    float: right;
+    margin-right: 1em;
+}
+
+#dameBox {
+    background-color: #fdb1f3;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
+#dameButton {
+    left: 10em;
+    position: relative;
+    top: -34em;
+}
+
+#dameDisplay {
+    left: 3em;
+    opacity: 90%;
+    position: relative;
+    top: -3em;
+    width: 30em;
+}
+
 #defaultButton {
-    border-radius: 5%;
+    border-radius: 5px;
     left: 4.6em;
+}
+
+#genData {
+    float: right;
+    margin-right: 1em;
+}
+
+#idData {
+    float: left;
 }
 
 #logo {
     border-radius: 40%;
 }
 
+#mumData {
+    float: left;
+}
+
+#offerAmount {
+    position: relative;
+    width: min-content;
+}
+
 #randomizeButton {
-    border-radius: 5%;
+    border-radius: 5px;
     left: 0.8em;
 }
 
-#topCard {
-    left: 35%;
+#sireBox {
+    background-color: #5caaf8;
+    border-radius: 10px;
+    height: 31em;
+    min-width: 21em;
+    max-width: 21em;
+    padding-right: 30px;
+    z-index: 20;
+}
+
+#sireButton {
+    left: 37.5em;
     position: relative;
-    display: inline-block;
-    background: transparent;
-    z-index: 1;
+    top: -34em;
+}
+
+#sireDisplay {
+    left: 39.5em;
+    opacity: 90%;
+    position: relative;
+    top: -34.5em;
+    width: 30em;
+}
+
+#swapButton {
+    left: 26.4em;
+    position: relative;
+    top: -49em;
 }

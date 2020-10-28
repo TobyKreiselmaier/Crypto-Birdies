@@ -3,23 +3,27 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Design Studio - Angry Birds on the Block</title>
-      <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
-      <script src="assets/js/web3.min.js"></script>
-      <script src="assets/js/abi.js"></script>
+      <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/client/assets/media/favicons/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/client/assets/media/favicons/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/client/assets/media/favicons/favicon-16x16.png">
+      <link rel="manifest" href="/client/assets/media/favicons/site.webmanifest">
       <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-      <script src="assets/bootstrap/js/popper.js"></script>
-      <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-      <link rel="stylesheet" href="assets/css/animations_red.css">
-      <link rel="stylesheet" href="assets/css/birds_red.css">
+      <link rel="stylesheet" href="assets/css/animations.css">
+      <link rel="stylesheet" href="assets/css/bird.css">
       <link rel="stylesheet" href="assets/css/styles.css">
+      <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
+      <script type="text/javascript" src="assets/js/web3.min.js"></script>
+      <script type="text/javascript" src="assets/js/abi.js"></script>
+      <script type="text/javascript" src="assets/bootstrap/js/popper.js"></script>
+      <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
     </head>
     <body>
 
         <div class="container p-5">
 
           <!-- Navbar -->
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Logo.png"> Angry Birds on the Block</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img id="logo" height="50" src="assets/media/Birdy.jpg"> Crypto Birdies </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,6 +36,9 @@
                   <a class="nav-link" href="./catalog.html">Catalog</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="./breeding.html">Breeding</a>
+                  </li>
+                  <li id="designStudio" class="nav-item">
                     <a class="nav-link" href="#">Design Studio</a>
                 </li>
                 <li class="nav-item">
@@ -39,18 +46,19 @@
                 </li>
               </ul>
             </div>
-        </nav><br><br>
+        </nav><br>
 
             <!-- Headlines -->
             <div align="center">
-                <h1 class="c-white"><b>Angry Bird Design Studio</b></h1>
+                <h1 class="c-white"><b>Design Studio</b></h1>
                 <p class="c-white">Create Your Own Angry Bird</p>
+                <div class="alert alert-success" role="alert" id="birdCreation" style="display: none"></div>
             </div>
 
             <!-- BirdBox -->
             <div class="row">
                 <div class="col-lg-4 birdBox m-2 light-b-shadow">
-                    <div class="angryBird_Red">
+                    <div class="bird">
                         <div class="tail">
                             <div class="tail_top"></div>
                             <div class="tail_middle"></div>
@@ -148,21 +156,16 @@
                         <button type="button" id="defaultButton" class="btn btn-primary mr-5 tsp-1 m-1 light-b-shadow"><b>Default Bird</b></button>
                     </div>
                     <div class="btn-group float-right">
-                        <button type="button" id="blockchainButton" class="btn btn-success mr-5 tsp-1 m-1 light-b-shadow"><b>Send This Bird To The Blockchain</b></button>
+                        <button type="button" id="createButton" class="btn btn-success mr-5 tsp-1 m-1 light-b-shadow"><b>Create Bird</b></button>
                     </div><br>
                 </div>
-                <hr>
-                <div class="alert alert-success" role="alert" id="birdCreation" style="display: none">
-                </div>
-            </div>
+            </div><br>
+            <footer align="center">
+                Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
+            </footer>
         </div>
-        </div>
-        <footer align="center">
-            Written by <a href="mailto:the.rainmaker@mail.com">The Rainmaker</a>
-        </footer>
     </body>
     <script src="assets/js/blockchain.js"></script>
     <script src="assets/js/colors.js"></script>
-    <script src="assets/js/settings.js"></script>
     <script src="assets/js/studio.js"></script>
 </html>

@@ -1,3 +1,5 @@
+pragma solidity ^0.5.12;
+
 import "./Ownable.sol";
 import "./Destroyable.sol";
 import "./IERC165.sol";
@@ -5,9 +7,7 @@ import "./IERC721.sol";
 import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has... same goes if that variable is a contract. an interface is a way of abstracting those capabilities so the EVM knows what it does.
 import "./SafeMath.sol";
 
-pragma solidity ^0.5.12;
-
-contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
+contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
 
     using SafeMath for uint256;
 
@@ -44,18 +44,22 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
     event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Birth(address owner, uint256 birdId, uint256 mumId, uint256 dadId, uint256 genes);
-    event Testmix(uint256 newGenes);
 
     constructor(string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
+        _createBird(0, 0, 0, uint256(-1), address(0));//Bird 0 doesn't do anything, but it exists in the mappings and arrays to avoid issues in the market place
     }
 
-    function breed(uint256 _dadId, uint256 _mumId) public returns (uint256){
+    function getContractOwner() external returns (address contractowner) {
+        return _owner;
+    }
+
+    function breed(uint256 _dadId, uint256 _mumId) external returns (uint256){
         require(birdOwner[_dadId] == msg.sender && birdOwner[_mumId] == msg.sender, "You can't breed what you don't own");
         
-        (uint256 _dadDna,,,, uint256 _dadGeneration) = getBird(_dadId);//discarding not needed data here
-        (uint256 _mumDna,,,, uint256 _mumGeneration) = getBird(_mumId);//discarding not needed data here
+        (uint256 _dadDna,,,, uint256 _dadGeneration) = getBird(_dadId);//discarding redundant data here
+        (uint256 _mumDna,,,, uint256 _mumGeneration) = getBird(_mumId);//discarding redundant data here
         uint256 _newDna = _mixDna(_dadDna, _mumDna);
         uint256 _newGeneration;
 
@@ -93,8 +97,8 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
             generation: uint16(_generation)
         });
         uint256 newBirdId = birdies.push(_bird).sub(1);//want to start with zero.
-        emit Birth(_owner, newBirdId, _mumId, _dadId, _genes);
         _transfer(address(0), _owner, newBirdId);//transfer from nowhere. Creation event.
+        emit Birth(_owner, newBirdId, _mumId, _dadId, _genes);
         return newBirdId;
     }
 
@@ -213,7 +217,7 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function _isOwnerOrApproved(address _from, address _to, uint256 _tokenId) internal view returns (bool) {
-        require(_from == msg.sender || approvalOneBird[_tokenId] == msg.sender || _operatorApprovals[_from][_to], "You are not authorized to use this function");
+        require(_from == msg.sender || approvalOneBird[_tokenId] == msg.sender || _operatorApprovals[_from][msg.sender], "You are not authorized to use this function");
         require(birdOwner[_tokenId] == _from, "Owner incorrect");
         require(_to != address(0), "Error: Operation would delete this token permanently");
         require(_tokenId < birdies.length, "Token doesn't exist");
@@ -237,14 +241,23 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
 
     function _mixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
         uint256[9] memory geneArray;
-        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is not needed. This will return a number 0-255. e.g. 10111000
+        uint8 random = uint8(now % 255); //pseudorandom, real randomness doesn't exist in solidity and is redundant. This will return a number 0-255. e.g. 10111000
         uint8 randomSeventeenthDigit = uint8(now % 1);
         uint8 randomPair = uint8(now % 7); //w9d3 assignment. number to select random pair.
         uint8 randomNumberForRandomPair = uint8((now % 89) + 10);//value of random pair, making sure there's no leading '0'.
         uint256 i;
-        uint256 counter = 7;             // start on the right end
+        uint256 counter = 7; // start on the right end
 
         //DNA example: 11 22 33 44 55 66 77 88 9
+
+        if(randomSeventeenthDigit == 0){
+            geneArray[8] = uint8(_mumDna % 10); //this takes the 17th gene from mum.
+        } else {
+            geneArray[8] = uint8(_dadDna % 10); //this takes the 17th gene from dad.
+        }
+
+        _mumDna = _mumDna / 10; // division by 10 removes the last digit
+        _dadDna = _dadDna / 10; // division by 10 removes the last digit
 
         for (i = 1; i <= 128; i=i*2) {                      //1, 2 , 4, 8, 16, 32, 64 ,128
             if(random & i == 0){                            //00000001
@@ -255,12 +268,6 @@ contract AngryBirds is Ownable, Destroyable, IERC165, IERC721 {
             _mumDna = _mumDna / 100;                        //if(0) - mum gene
             _dadDna = _dadDna / 100;                        //division by 100 removes last two digits from genes
             counter = counter - 1;
-        }
-
-        if(randomSeventeenthDigit == 0){
-            geneArray[8] = _mumDna; //this takes the 17th gene from mum.
-        } else {
-            geneArray[8] = _dadDna; //this takes the 17th gene from dad.
         }
 
         geneArray[randomPair] = randomNumberForRandomPair; //extra randomness for random pair.
