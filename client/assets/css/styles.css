@@ -6,11 +6,11 @@
 
 /* HTML Elements */
 body {
+    background: url(/client/assets/media/nature.webp);
+    background-size: cover;
     font-family: Poppins;
     font-weight: 500;
     letter-spacing: 1px; 
-    background: url(/client/assets/media/nature.webp);
-    background-size: cover;
     }
 
 footer {
@@ -61,11 +61,11 @@ p {
 .buyBox {
     background-color: #f8f9fa;
     border-radius: 10px;
+    display: inline-flex;
     height: 34em;
     min-width: 20.7em;
     max-width: 20.7em;
     z-index: 20;
-    display: inline-flex;
 }
 
 .buyButton {
@@ -138,11 +138,11 @@ p {
 .offerBox {
     background-color: #f8f9fa;
     border-radius: 10px;
+    display: inline-flex;
     height: 34em;
     min-width: 20.7em;
     max-width: 20.7em;
     z-index: 20;
-    display: inline-flex;
 }
 
 .row {
@@ -156,17 +156,17 @@ p {
 .topCard {
     background: seagreen;
     border-width: 5px;
+    float: none;
+    margin: 0 auto;
+    margin-bottom: 10px;
     position: relative;
     z-index: 1;
-    margin: 0 auto;
-    float: none;
-    margin-bottom: 10px;
 }
 
 /* IDs */
 #breedButton {
-    position: relative;
     left: 10em;
+    position: relative;
     top: -50em;
 }
 
@@ -205,8 +205,8 @@ p {
 }
 
 #createButton {
-    left: 36em;
     border-radius: 5px;
+    left: 36em;
 }
 
 #dadData {
