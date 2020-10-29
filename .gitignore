@@ -5,3 +5,6 @@
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 /build/contracts
+
+.secret
+truffle-config.js
