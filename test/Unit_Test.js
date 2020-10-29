@@ -256,7 +256,7 @@ contract("Birdcontract", (accounts) => {
       await truffleAssert.reverts(birdInstance.createBirdGen0(101, { from: accounts[1] }));
     });
 
-    it("should only allow a maximum of 16 Gen0 birds to be created", async () => {
+    it("should only allow a maximum of 10 Gen0 birds to be created", async () => {
       await birdInstance.createBirdGen0(101);
       await birdInstance.createBirdGen0(102);
       await birdInstance.createBirdGen0(103);
@@ -265,15 +265,9 @@ contract("Birdcontract", (accounts) => {
       await birdInstance.createBirdGen0(106);
       await birdInstance.createBirdGen0(107);
       await birdInstance.createBirdGen0(108);
-      await birdInstance.createBirdGen0(109);
+      await birdInstance.createBirdGen0(108);
       await birdInstance.createBirdGen0(110);
-      await birdInstance.createBirdGen0(111);
-      await birdInstance.createBirdGen0(112);
-      await birdInstance.createBirdGen0(113);
-      await birdInstance.createBirdGen0(114);
-      await birdInstance.createBirdGen0(115);
-      await birdInstance.createBirdGen0(116);
-      await truffleAssert.reverts(birdInstance.createBirdGen0(117));
+      await truffleAssert.reverts(birdInstance.createBirdGen0(111));
     });
 
     it("should call _createBird() and _transfer() and emit a birth event with correct parameters", async () => {
@@ -321,8 +315,6 @@ contract("Birdcontract", (accounts) => {
       await truffleAssert.reverts(birdInstance.getBird(5));
     });
   });
-
-//getAllBirdsOfOwner() has been tested in the Testcontract
 
   describe("balanceOf()", () =>{
     it("should return the correct balance of tokens owned by an address", async () => {
@@ -455,8 +447,47 @@ contract("Birdcontract", (accounts) => {
     });
   });
 
-//safeTransferFrom
+  describe("safeTransferFrom()", () =>{//uses transfer(), so basic functionality doesn't have to be retested
+    it("should check, if the from address is msg.sender", async () => {
+      await birdInstance.createBirdGen0(101);
+      await truffleAssert.passes(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1, {from: accounts[0]}));
+    });
 
-//transferFrom
+    it("should check, if msg.sender has operator approval for this token", async () => {
+      await birdInstance.createBirdGen0(101);
+      await birdInstance.approve(accounts[2], 1);
+      await truffleAssert.passes(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1, {from: accounts[2]}));
+    });
+
+    it("should check, if msg.sender has general operator approval for this owner", async () => {
+      await birdInstance.createBirdGen0(101);
+      await birdInstance.setApprovalForAll(accounts[2], true);
+      await truffleAssert.passes(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1, {from: accounts[2]}));
+    });
+
+    it("should check, if the from address is the owner of the bird", async () => {
+      await birdInstance.createBirdGen0(101);
+      await truffleAssert.reverts(birdInstance.safeTransferFrom(accounts[2], accounts[1], 1, {from: accounts[0]}));
+    });
+
+    it("should not allow a transfer to the zero address", async () => {
+      const zeroAddress = '0x0000000000000000000000000000000000000000';
+      await birdInstance.createBirdGen0(101);
+      await truffleAssert.reverts(birdInstance.safeTransferFrom(accounts[0], zeroAddress, 1));
+    });
+
+    it("should not allow a transfer of a token that doesn't exist", async () => {
+      await truffleAssert.reverts(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1));
+    });
+
+    it("should only allow transfer to a contract that does support ERC721", async () => {
+      marketInstance = await Marketcontract.new(birdInstance.address);
+      await birdInstance.createBirdGen0(101);
+      await birdInstance.createBirdGen0(101);
+      await truffleAssert.reverts(birdInstance.safeTransferFrom(accounts[0], marketInstance.address, 1));
+    });
+  });
+
+//transferFrom has same requirements as safeTransferFrom()
 
 })

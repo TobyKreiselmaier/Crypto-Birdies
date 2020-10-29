@@ -13,7 +13,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
 
     using SafeMath for uint256;
 
-    uint256 public constant maxGen0Birds = 16;//allow a maximum of 16 Gen0 birds
+    uint256 public constant maxGen0Birds = 10;//allow a maximum of 10 Gen0 birds
     uint256 public gen0Counter = 0;
 
     bytes4 internal constant _ERC721Checksum = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
