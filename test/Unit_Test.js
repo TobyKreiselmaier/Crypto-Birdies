@@ -448,18 +448,18 @@ contract("Birdcontract", (accounts) => {
   });
 
   describe("safeTransferFrom()", () =>{//uses transfer(), so basic functionality doesn't have to be retested
-    it("should check, if the from address is msg.sender", async () => {
+    it("should revert, if msg.sender is NEITHER owner nor operator for a token", async () => {
       await birdInstance.createBirdGen0(101);
-      await truffleAssert.passes(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1, {from: accounts[0]}));
+      await truffleAssert.reverts(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1, { from: accounts[2]}));
     });
 
-    it("should check, if msg.sender has operator approval for this token", async () => {
+    it("should pass, if msg.sender has operator approval for this token", async () => {
       await birdInstance.createBirdGen0(101);
       await birdInstance.approve(accounts[2], 1);
       await truffleAssert.passes(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1, {from: accounts[2]}));
     });
 
-    it("should check, if msg.sender has general operator approval for this owner", async () => {
+    it("should pass, if msg.sender has general operator approval for this owner", async () => {
       await birdInstance.createBirdGen0(101);
       await birdInstance.setApprovalForAll(accounts[2], true);
       await truffleAssert.passes(birdInstance.safeTransferFrom(accounts[0], accounts[1], 1, {from: accounts[2]}));
