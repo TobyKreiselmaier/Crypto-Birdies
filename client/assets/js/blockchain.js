@@ -156,7 +156,6 @@ async function getBirdsOfOwner() {
     var arrayOfIds = [];
     try {
         arrayOfIds = await birdInstance.methods.getAllBirdsOfOwner(user).call();
-        //console.log(arrayOfIds);
     } catch (error) {
         console.log(error);
     }

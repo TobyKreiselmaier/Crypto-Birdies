@@ -254,7 +254,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
         //pseudorandom, real randomness doesn't exist in solidity and is redundant. 
         //This will return a number 0-255. e.g. 10111000
         uint8 randomSeventeenthDigit = uint8(now % 1);
-        uint8 randomPair = uint8(now % 7); //w9d3 assignment. number to select random pair.
+        uint8 randomPair = uint8(now % 7); //number to select random pair.
         uint8 randomNumberForRandomPair = uint8((now % 89) + 10);
         //value of random pair, making sure there's no leading '0'.
         uint256 i;
