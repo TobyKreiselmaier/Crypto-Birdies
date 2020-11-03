@@ -216,7 +216,6 @@ contract("Marketcontract", (accounts) => {
     });
 
     it("should transfer funds correctly", async () => {
-      var BN = web3.utils.BN;
       var seller = accounts[0];
       var buyer = accounts[1];
       await testInstance.testCreateBird(101, seller);
@@ -225,16 +224,17 @@ contract("Marketcontract", (accounts) => {
       var price = web3.utils.toBN(1);
       var inWei = web3.utils.toWei(price, "ether");
       await marketInstance.setOffer(inWei, 1);//1 ETH for Bird1
-      var weiBalanceSellerBefore = await web3.eth.getBalance(seller);
-      var weiBalanceBuyerBefore = await web3.eth.getBalance(buyer);
+      var sellerStart = parseInt(await web3.eth.getBalance(seller));
+      var buyerStart = parseInt(await web3.eth.getBalance(buyer));
       await marketInstance.buyBird(1, { from: buyer, value: inWei });
-      var weiBalanceSellerAfter = await web3.eth.getBalance(seller);
-      var weiBalanceBuyerAfter = await web3.eth.getBalance(buyer);
-      assert.equal(parseInt(weiBalanceSellerBefore) + parseInt(inWei), parseInt(weiBalanceSellerAfter), 
+      var sellerEnd = parseInt(await web3.eth.getBalance(seller));
+      var buyerEnd = parseInt(await web3.eth.getBalance(buyer));
+      weiInt = parseInt(inWei);
+      assert.equal(sellerStart + weiInt, sellerEnd, 
         "Funds were not correctly added to the seller account");
-      assert.isAtMost(parseInt(weiBalanceBuyerAfter), parseInt(weiBalanceBuyerBefore) - parseInt(inWei), 
+      assert.isAtMost(buyerEnd, buyerStart - weiInt, 
         "Funds were not correctly subtracted from the buyer account");
-      assert.isAtLeast(parseInt(weiBalanceBuyerAfter), parseInt(weiBalanceBuyerBefore) - (2 * parseInt(inWei)), 
+      assert.isAtLeast(buyerEnd, buyerStart - 2 * weiInt, 
         "Funds were not correctly subtracted from the buyer account");
     });
 
@@ -286,7 +286,7 @@ contract("Birdcontract", (accounts) => {
     marketInstance = await Marketcontract.new(testInstance.address);
   });
 
-  describe("initialization", () =>{
+  describe("constructor()", () =>{
     it("should create and emit a correct birth event for bird0", async () => {
       const zeroAddress = '0x0000000000000000000000000000000000000000';
       var birdZero = await truffleAssert.createTransactionResult(testInstance, testInstance.transactionHash);
