@@ -165,9 +165,12 @@ $('#createButton').click(()=>{
 });
 
 function topFeatherColor(color,code) {
-    $('.feather_top, .feather_bottom').css('background', '#' + color) //This changes the color of the bird
-    $('#topfeatherstext').html('Code: '+ code) //This updates text of the badge above the slider
-    $('#dnaTopFeather').html(code) //This updates the DNA that is displayed below the bird
+    $('.feather_top, .feather_bottom').css('background', '#' + color) 
+    //This changes the color of the bird
+    $('#topfeatherstext').html('Code: '+ code) 
+    //This updates text of the badge above the slider
+    $('#dnaTopFeather').html(code) 
+    //This updates the DNA that is displayed below the bird
 }
 
 function bodyFeatherColor(color,code) {
@@ -237,7 +240,8 @@ function eyesVariation(num) {
 }
 
 function basicEyes() {
-    $('.eye').css({'border-top': 'none', 'border-bottom': 'none', 'border-left': 'none', 'border-right': 'none', 'border': '0.9em black solid'});
+    $('.eye').css({'border-top': 'none', 'border-bottom': 'none', 'border-left': 
+        'none', 'border-right': 'none', 'border': '0.9em black solid'});
     $('.eye_right .eyebrow').css({'left': '-1em', 'top': '-1.5em'});
     $('.eye_left .eyebrow').css({'left': '-3em', 'top': '-1.5em'});
     $('.eye_right .pupil').css({'left': '1.5em', 'top': '3em'});
@@ -285,7 +289,8 @@ function eyesType5() {//Dazzled
 }
 
 function eyesType6() {//Slit
-    $('.eye').css({'border-top': '4em solid', 'border-left': '4em solid', 'border-right': '4em solid'});
+    $('.eye').css({'border-top': '4em solid', 'border-left': '4em solid', 
+        'border-right': '4em solid'});
     $('.eye_right .eyebrow').css({'left': '-4em', 'top': '-5em'});
     $('.eye_left .eyebrow').css({'left': '-6em', 'top': '-5em'});
     $('.eye_right .pupil').css({'left': '-0.1em', 'top': '1em'});
@@ -349,10 +354,14 @@ function decorationVariation(num) {
 }
 
 function basicDecoration() {
-    $('.bird_body .deco_1').css({'display': 'initial', 'transform': 'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)'});
-    $('.bird_body .deco_2').css({'display': 'initial', 'transform': 'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)'});
-    $('.bird_body .deco_3').css({'display': 'initial', 'transform': 'rotate(-10deg) scaleY(1) translateY(0em)'});
-    $('.bird_body .deco_4').css({'display': 'initial', 'transform': 'rotate(-10deg) scaleY(1) translateY(0em)'});
+    $('.bird_body .deco_1').css({'display': 'initial', 'transform': 
+        'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)'});
+    $('.bird_body .deco_2').css({'display': 'initial', 'transform': 
+        'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)'});
+    $('.bird_body .deco_3').css({'display': 'initial', 'transform': 
+        'rotate(-10deg) scaleY(1) translateY(0em)'});
+    $('.bird_body .deco_4').css({'display': 'initial', 'transform': 
+        'rotate(-10deg) scaleY(1) translateY(0em)'});
 }
 
 function decorationType1() {//Large
@@ -391,35 +400,39 @@ function decorationType5() {//None
 }
 
 function decorationType6() {//Cross
-    $('.bird_body .deco_1').css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
-    $('.bird_body .deco_2').css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
+    $('.bird_body .deco_1').css('transform', 
+        'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
+    $('.bird_body .deco_2').css('transform', 
+        'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
     $('.bird_body .deco_3').css('display', 'none');
     $('.bird_body .deco_4').css('display', 'none');
 }
 
 function decorationType7() {//Cross & Eyes
-    $('.bird_body .deco_1').css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
-    $('.bird_body .deco_2').css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
+    $('.bird_body .deco_1').css('transform', 
+        'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
+    $('.bird_body .deco_2').css('transform', 
+        'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
     $('.bird_body .deco_3').css('transform', 'rotate(-10deg) scaleY(2)');
     $('.bird_body .deco_4').css('transform', 'rotate(-10deg) scaleY(2)');
 }
 
 function decorationMainColor(color,code) {
-    $('.deco_3, .deco_4').css('background', '#' + color) //This changes the color of the bird
-    $('#ateyestext').html('Code: '+ code) //This updates text of the badge above the slider
-    $('#dnaDecorationAtEye').html(code) //This updates the DNA that is displayed below the bird
+    $('.deco_3, .deco_4').css('background', '#' + color)
+    $('#ateyestext').html('Code: '+ code)
+    $('#dnaDecorationAtEye').html(code)
 }
 
 function middleColor(color,code) {
-    $('.deco_2').css('background', '#' + color) //This changes the color of the bird
-    $('#middletext').html('Code: '+ code) //This updates text of the badge above the slider
-    $('#dnaDecorationMid').html(code) //This updates the DNA that is displayed below the bird
+    $('.deco_2').css('background', '#' + color)
+    $('#middletext').html('Code: '+ code)
+    $('#dnaDecorationMid').html(code)
 }
 
 function smallColor(color,code) {
-    $('.deco_1').css('background', '#' + color) //This changes the color of the bird
-    $('#smalltext').html('Code: '+ code) //This updates text of the badge above the slider
-    $('#dnaDecorationSmall').html(code) //This updates the DNA that is displayed below the bird
+    $('.deco_1').css('background', '#' + color)
+    $('#smalltext').html('Code: '+ code)
+    $('#dnaDecorationSmall').html(code)
 }
 
 function animationVariation(num) {
@@ -476,7 +489,9 @@ function animationVariation(num) {
 }
 
 function resetAnimation() {
-    $('*').removeClass('slowRotateBird floatingBird compressingBird upperSpeakingBird lowerSpeakingBird topWaggingTail middleWaggingTail bottomWaggingTail topAttention bottomAttention');
+    $('*').removeClass('slowRotateBird floatingBird compressingBird upperSpeakingBird');
+    $('*').removeClass('lowerSpeakingBird topWaggingTail middleWaggingTail');
+    $('*').removeClass('bottomWaggingTail topAttention bottomAttention');
     document.onmousemove = function(){};
 }
 

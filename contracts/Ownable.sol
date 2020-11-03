@@ -5,7 +5,8 @@ contract Ownable{
     address payable internal _owner;
       
     modifier onlyOwner(){
-      require(msg.sender == _owner, "You need to be owner of the contract in order to access this functionality!");
+      require(msg.sender == _owner, 
+      "You need to be owner of the contract in order to access this functionality!");
       _;
     }
     

@@ -1,22 +1,22 @@
-var arrayOfIds;
-var arrayOnSale;
-var arrayToDisplay;
+var ids;
+var onSale;
+var toDisplay;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await accessStudio();
     await initializeMarketplace();//allow Marketplace contract to handle offers.
-    arrayOfIds
+    ids
  = await getBirdsOfOwner();
-    arrayOnSale = await getBirdsOnSale();
-    if (arrayOnSale == "") {
-        arrayToDisplay = arrayOfIds
+    onSale = await getBirdsOnSale();
+    if (onSale == "") {
+        toDisplay = ids
     ;
     } else {
-        arrayToDisplay = arrayOfIds
-    .filter(x => !arrayOnSale.includes(x));//all birds of this user not on sale
+        toDisplay = ids
+    .filter(x => !onSale.includes(x));//all birds of this user not on sale
     }
-    await buildCatalog(arrayToDisplay);
+    await buildCatalog(toDisplay);
 })
 
 function appendBirdToCatalog(dna, id) {
@@ -91,15 +91,23 @@ function catalogBox(id) {
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                        <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomeyetext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomdecorationpatterntext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomanimationtext` 
+                                            + id + `"></span></li>
                                     </ul>
                             </b>
                             <div class="input-group mb-3">
-                                <input id="birdPrice` + id + `" type="text" class="form-control" placeholder="Amount in ETH" aria-label="Amount in ETH" aria-describedby="button-addon2">
+                                <input id="birdPrice` + id + `" type="text" 
+                                    class="form-control" placeholder="Amount in ETH" 
+                                    aria-label="Amount in ETH" aria-describedby="button-addon2">
                                 <div class="input-group-append">
-                                    <button id="offerButton` + id + `" class="btn btn-success submitButton" type="button" id="button-addon2">Submit Offer</button>
+                                    <button id="offerButton` + id + `" 
+                                        class="btn btn-success submitButton" 
+                                        type="button" id="button-addon2">Submit Offer
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -120,10 +128,10 @@ function activateCatalogEventListeners() {
             } else{
                 await sellBird(price, id);
                 $('.row').empty();//clear catalog content
-                arrayOnSale = await getBirdsOnSale();
-                arrayToDisplay = arrayOfIds
-            .filter(x => !arrayOnSale.includes(x));//all birds of this user not on sale
-                await buildCatalog(arrayToDisplay);//repopulate catalog with remaining birds
+                onSale = await getBirdsOnSale();
+                toDisplay = ids
+            .filter(x => !onSale.includes(x));//all birds of this user not on sale
+                await buildCatalog(toDisplay);//repopulate catalog with remaining birds
             }
         }
     })
@@ -138,10 +146,10 @@ function activateCatalogEventListeners() {
         } else{
             await sellBird(price, id);
             $('.row').empty();//clear catalog content
-            arrayOnSale = await getBirdsOnSale();
-            arrayToDisplay = arrayOfIds
-        .filter(x => !arrayOnSale.includes(x));//all birds of this user not on sale
-            await buildCatalog(arrayToDisplay);//repopulate catalog with remaining birds
+            onSale = await getBirdsOnSale();
+            toDisplay = ids
+        .filter(x => !onSale.includes(x));//all birds of this user not on sale
+            await buildCatalog(toDisplay);//repopulate catalog with remaining birds
         }
     })
 }

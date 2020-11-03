@@ -39,8 +39,15 @@ contract MarketPlace is Ownable, IMarketPlace {
         setContract(_contractAddress);
     }
 
-    function getOffer(uint256 _tokenId) public view returns (address seller, uint256 price, uint256 index, uint256 tokenId, bool active) {
+    function getOffer(uint256 _tokenId) public view returns (
+        address seller, 
+        uint256 price, 
+        uint256 index, 
+        uint256 tokenId, 
+        bool active) {
+        
         require(tokenIdToOffer[_tokenId].active == true, "No active offer at this time");
+        
         return (tokenIdToOffer[_tokenId].seller,
                 tokenIdToOffer[_tokenId].price,
                 tokenIdToOffer[_tokenId].index,
@@ -60,7 +67,8 @@ contract MarketPlace is Ownable, IMarketPlace {
         if (offers.length == 0) {
             return new uint256[](0);//returns empty array
         } else {
-            uint256[] memory allTokensOnSale = new uint256[](resultId);//initialize new array with correct length
+            uint256[] memory allTokensOnSale = new uint256[](resultId);
+            //initialize new array with correct length
             resultId = 0;//reset index of new array
             for (uint256 index = 0; index < offers.length; index++) {//iterate through entire offers array
                 if (offers[index].active == true) {
@@ -77,9 +85,12 @@ contract MarketPlace is Ownable, IMarketPlace {
     }
 
     function setOffer(uint256 _price, uint256 _tokenId) public {
-        require(_ownsBird(msg.sender, _tokenId), "Only the owner of the bird can initialize an offer");
-        require(tokenIdToOffer[_tokenId].active == false, "You already created an offer for this bird. Please remove it first before creating a new one.");
-        require(_cryptoBirdies.isApprovedForAll(msg.sender, address(this)), "MarketPlace contract must first be an approved operator for your birds");
+        require(_ownsBird(msg.sender, _tokenId), 
+        "Only the owner of the bird can initialize an offer");
+        require(tokenIdToOffer[_tokenId].active == false, 
+        "You already created an offer for this bird. Please remove it first before creating a new one.");
+        require(_cryptoBirdies.isApprovedForAll(msg.sender, address(this)), 
+        "MarketPlace contract must first be an approved operator for your birds");
 
         Offer memory _currentOffer = Offer({//set offer
             seller: msg.sender,
@@ -96,9 +107,11 @@ contract MarketPlace is Ownable, IMarketPlace {
     }
 
     function removeOffer(uint256 _tokenId) public {
-        require(tokenIdToOffer[_tokenId].seller == msg.sender, "Only the owner of the bird can withdraw the offer.");
+        require(tokenIdToOffer[_tokenId].seller == msg.sender, 
+        "Only the owner of the bird can withdraw the offer.");
 
-        offers[tokenIdToOffer[_tokenId].index].active = false;//don't iterate through array, but simply set active to false.
+        offers[tokenIdToOffer[_tokenId].index].active = false;
+        //don't iterate through array, but simply set active to false.
         delete tokenIdToOffer[_tokenId];//delete entry in mapping
 
         emit MarketTransaction("Offer removed", msg.sender, _tokenId);
@@ -107,17 +120,21 @@ contract MarketPlace is Ownable, IMarketPlace {
     function buyBird(uint256 _tokenId) public payable {
         Offer memory _currentOffer = tokenIdToOffer[_tokenId];
 
-        require(_currentOffer.active, "There is no active offer for this bird");
-        require(msg.value == _currentOffer.price, "The amount offered is not equal to the amount requested");
+        require(_currentOffer.active, 
+        "There is no active offer for this bird");
+        require(msg.value == _currentOffer.price, 
+        "The amount offered is not equal to the amount requested");
 
         delete tokenIdToOffer[_tokenId];//delete entry in mapping
-        offers[_currentOffer.index].active = false;//don't iterate through array, but simply set active to false.
+        offers[_currentOffer.index].active = false;
+        //don't iterate through array, but simply set active to false.
 
         if (_currentOffer.price > 0) {
             _currentOffer.seller.transfer(_currentOffer.price);//send money to seller
         }
 
-        _cryptoBirdies.transferFrom(_currentOffer.seller, msg.sender, _tokenId);//ERC721 ownership transferred
+        _cryptoBirdies.transferFrom(_currentOffer.seller, msg.sender, _tokenId);
+        //ERC721 ownership transferred
 
         emit MarketTransaction("Bird successfully purchased", msg.sender, _tokenId);
     }
