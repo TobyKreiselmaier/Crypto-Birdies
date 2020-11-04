@@ -33,4 +33,8 @@ contract TestMarket is MarketPlace {
                 offers[id].tokenId,
                 offers[id].active);
     }
+
+    function getBalanceOfMapping(address caller) public view returns(uint256 amount) {
+        return _fundsToBeCollected[caller];
+    }
 }

@@ -12,6 +12,7 @@ import "./Ownable.sol";
 interface IMarketPlace {
 
     event MarketTransaction(string TxType, address owner, uint256 tokenId);
+    event MonetaryTransaction(string message, address recipient, uint256 amount);
 
     /**
     * Set the current contract address and initialize the instance of the contract.
@@ -47,10 +48,20 @@ interface IMarketPlace {
 
     /**
     * Executes the purchase of _tokenId.
-    * Sends the funds to the seller and transfers the token using transferFrom in Kittycontract.
+    * Transfers the token using transferFrom in CryptoBirdies.
+    * Transfers funds to the _fundsToBeCollected mapping.
+    * Removes the offer from the mapping.
+    * Sets the offer in the array to inactive.
     * Emits the MarketTransaction event with txType "Buy".
     * Requirement: The msg.value needs to equal the price of _tokenId
     * Requirement: There must be an active offer for _tokenId
      */
     function buyBird(uint256 _tokenId) external payable;
+
+    /**
+    * Send funds to msg.sender.
+    * Emits a MonetaryTransaction event "Successful Transfer".
+    * Requirement: msg.sender must have funds in the mapping.
+     */
+    function withdrawFunds() external payable;
 }

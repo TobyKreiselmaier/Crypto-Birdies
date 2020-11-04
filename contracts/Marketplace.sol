@@ -28,6 +28,7 @@ contract MarketPlace is Ownable, IMarketPlace {
     Offer[] offers;
 
     mapping(uint256 => Offer) tokenIdToOffer;
+    mapping(address => uint256) internal _fundsToBeCollected;
 
     //Contract has one event that is already declared in the interface.
 
@@ -120,22 +121,38 @@ contract MarketPlace is Ownable, IMarketPlace {
     function buyBird(uint256 _tokenId) public payable {
         Offer memory _currentOffer = tokenIdToOffer[_tokenId];
 
-        require(_currentOffer.active, 
-        "There is no active offer for this bird");
-        require(msg.value == _currentOffer.price, 
-        "The amount offered is not equal to the amount requested");
+        //checks
+        require(_currentOffer.active, "There is no active offer for this bird");
+        require(msg.value == _currentOffer.price, "The amount offered is not equal to the requested amount");
 
+        //effects
         delete tokenIdToOffer[_tokenId];//delete entry in mapping
-        offers[_currentOffer.index].active = false;
-        //don't iterate through array, but simply set active to false.
+        offers[_currentOffer.index].active = false;//don't iterate through array, but simply set active to false.
 
+        //interactions
         if (_currentOffer.price > 0) {
-            _currentOffer.seller.transfer(_currentOffer.price);//send money to seller
+            _fundsToBeCollected[_currentOffer.seller] = _currentOffer.price;
+            //instead of sending money to seller it is deposited in a mapping waiting for seller to pull.
         }
 
-        _cryptoBirdies.transferFrom(_currentOffer.seller, msg.sender, _tokenId);
-        //ERC721 ownership transferred
+        _cryptoBirdies.transferFrom(_currentOffer.seller, msg.sender, _tokenId);//ERC721 ownership transferred
 
         emit MarketTransaction("Bird successfully purchased", msg.sender, _tokenId);
+    }
+
+    function withdrawFunds() public payable {
+
+        //check
+        require(_fundsToBeCollected[msg.sender] > 0, "No funds available at this time");
+        
+        uint256 toWithdraw = _fundsToBeCollected[msg.sender];
+
+        //effect
+        _fundsToBeCollected[msg.sender] = 0;
+
+        //interaction
+        msg.sender.transfer(toWithdraw);
+
+        emit MonetaryTransaction("Funds successfully received", msg.sender, toWithdraw);
     }
 }
