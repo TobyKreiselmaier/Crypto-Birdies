@@ -1,14 +1,14 @@
 var dameId;
 var sireId;
-var arrayOfIds;
+var ids;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
     await connectWallet(); //connect MetaMask (if not already connected)
     await accessStudio();
-    arrayOfIds = await getBirdsOfOwner(); //fill array with ids for all birds of this address
-    dameId = arrayOfIds[0];
-    sireId = arrayOfIds[1];
-    if (arrayOfIds.length == 2) { //user must own at least two birds to continue
+    ids = await getBirdsOfOwner(); //fill array with ids for all birds of this address
+    dameId = ids[0];
+    sireId = ids[1];
+    if (ids.length == 2) { //user must own at least two birds to continue
         await renderDameAndSire(dameId, sireId);
         $('#swapButton').css("display", "block");
         $('#swapButton').click(async function() { //swap dame and sire if only 2 birds in array
@@ -17,10 +17,10 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
             sireId = helper;
             await renderDameAndSire(dameId, sireId);
         })
-    } else if (arrayOfIds.length > 2) {
+    } else if (ids.length > 2) {
         $('#swapButton').css("display", "none");
-        await buildModal(arrayOfIds); //iterates through array and returns full info from blockchain
-        await renderDameAndSire(arrayOfIds[0], arrayOfIds[1]);
+        await buildModal(ids); //iterates through array and returns full info from blockchain
+        await renderDameAndSire(ids[0], ids[1]);
     }
 });
 
@@ -31,16 +31,16 @@ function appendBirdToModal(dna, id) {
 
 async function setUpModal() {
     $('.row').empty(); //clear modal content
-    arrayOfIds = await getBirdsOfOwner(); //get a fresh array from the blockcahin
-    var index = arrayOfIds.findIndex(bird => bird == dameId); //search for dame
+    ids = await getBirdsOfOwner(); //get a fresh array from the blockcahin
+    var index = ids.findIndex(bird => bird == dameId); //search for dame
     if (index >= 0) { //make sure element is in array
-        arrayOfIds.splice(index, 1); //remove current dame from array
+        ids.splice(index, 1); //remove current dame from array
     };
-    index = arrayOfIds.findIndex(bird => bird == sireId);
+    index = ids.findIndex(bird => bird == sireId);
     if (index >= 0) { //make sure element is in array
-        arrayOfIds.splice(index, 1); //remove current sire from array
+        ids.splice(index, 1); //remove current sire from array
     };
-    await buildModal(arrayOfIds); //iterates through array and returns full info from blockchain
+    await buildModal(ids); //iterates through array and returns full info from blockchain
     $('#birdSelection').modal('show'); //open modal
 }
 
@@ -170,9 +170,12 @@ function dameBox(id) {
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                    <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
-                                    <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                    <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomeyetext` 
+                                        + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomdecorationpatterntext` 
+                                        + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomanimationtext` 
+                                        + id + `"></span></li>
                                 </ul>
                                 <div align="center">DAME</div>
                             </b>
@@ -249,9 +252,12 @@ function sireBox(id) {
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                    <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
-                                    <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                    <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomeyetext` 
+                                        + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomdecorationpatterntext` 
+                                        + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomanimationtext` 
+                                        + id + `"></span></li>
                                 </ul>
                                     <div align="center">SIRE</div>
                             </b>
@@ -328,9 +334,12 @@ function childBox(id) {
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                    <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
-                                    <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                    <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomeyetext` 
+                                        + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomdecorationpatterntext` 
+                                        + id + `"></span></li>
+                                    <li class="bottomList"><span id="bottomanimationtext` 
+                                        + id + `"></span></li>
                                 </ul>
                                 <div align="center">NEWBORN!</div>
                             </b>
@@ -409,9 +418,12 @@ function modalBox(id) {
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                        <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomeyetext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomdecorationpatterntext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomanimationtext` 
+                                            + id + `"></span></li>
                                     </ul>
                             </b>
                         </div>

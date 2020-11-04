@@ -36,28 +36,28 @@ function renderBird(boxId, dna, id){
 }
 
 function topFeatherColor(boxId, color, code, id) {
-    $(`${boxId} .feather_top`).css('background', '#' + color)//This changes the color of the bird
-    $(`${boxId} .feather_bottom`).css('background', '#' + color)//This changes the color of the bird
-    $('#dnaTopFeather' + id).html(code)//This updates the DNA line that is displayed below the bird
+    $(`${boxId} .feather_top`).css('background', '#' + color);
+    $(`${boxId} .feather_bottom`).css('background', '#' + color);
+    $('#dnaTopFeather' + id).html(code);
 }
 
 function bodyFeatherColor(boxId, color, code, id) {
-    $(`${boxId} .bird_body_inner`).css('background', '#' + color)
-    $('#dnaBodyFeather' + id).html(code)
+    $(`${boxId} .bird_body_inner`).css('background', '#' + color);
+    $('#dnaBodyFeather' + id).html(code);
 }
 
 function topBeakColor(boxId, color, code, id) {
-    $(`${boxId} .beak_upper`).css('background', '#' + color)
-    $('#dnaTopBeak' + id).html(code)
+    $(`${boxId} .beak_upper`).css('background', '#' + color);
+    $('#dnaTopBeak' + id).html(code);
 }
 
 function bottomBeakColor(boxId, color, code, id) {
-    $(`${boxId} .beak_lower`).css('background', '#' + color)
-    $('#dnaBottomBeak' + id).html(code)
+    $(`${boxId} .beak_lower`).css('background', '#' + color);
+    $('#dnaBottomBeak' + id).html(code);
 }
 
 function eyesVariation(boxId, num, id) {
-    $('#dnaEyesShape' + id).html(num)
+    $('#dnaEyesShape' + id).html(num);
     switch (num) {
         case 0:
             basicEyes(boxId);
@@ -105,7 +105,8 @@ function eyesVariation(boxId, num, id) {
 }
 
 function basicEyes(boxId) {
-    $(`${boxId} .eye`).css({'border-top': 'none', 'border-bottom': 'none', 'border-left': 'none', 'border-right': 'none', 'border': '0.9em black solid'});
+    $(`${boxId} .eye`).css({'border-top': 'none', 'border-bottom': 'none', 
+        'border-left': 'none', 'border-right': 'none', 'border': '0.9em black solid'});
     $(`${boxId} .eye_right .eyebrow`).css({'left': '-1em', 'top': '-1.5em'});
     $(`${boxId} .eye_left .eyebrow`).css({'left': '-3em', 'top': '-1.5em'});
     $(`${boxId} .eye_right .pupil`).css({'left': '1.5em', 'top': '3em'});
@@ -153,7 +154,8 @@ function eyesType5(boxId) {//Dazzled
 }
 
 function eyesType6(boxId) {//Slit
-    $(`${boxId} .eye`).css({'border-top': '4em solid', 'border-left': '4em solid', 'border-right': '4em solid'});
+    $(`${boxId} .eye`).css({'border-top': '4em solid', 'border-left': '4em solid', 
+        'border-right': '4em solid'});
     $(`${boxId} .eye_right .eyebrow`).css({'left': '-4em', 'top': '-5em'});
     $(`${boxId} .eye_left .eyebrow`).css({'left': '-6em', 'top': '-5em'});
     $(`${boxId} .eye_right .pupil`).css({'left': '-0.1em', 'top': '1em'});
@@ -217,10 +219,14 @@ function decorationVariation(boxId, num, id) {
 }
 
 function resetDecoration(boxId) {
-    $(`${boxId} .deco_1`).css({'display': 'initial', 'transform': 'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)'});
-    $(`${boxId} .deco_2`).css({'display': 'initial', 'transform': 'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)'});
-    $(`${boxId} .deco_3`).css({'display': 'initial', 'transform': 'rotate(-10deg) scaleY(1) translateY(0em)'});
-    $(`${boxId} .deco_4`).css({'display': 'initial', 'transform': 'rotate(-10deg) scaleY(1) translateY(0em)'});
+    $(`${boxId} .deco_1`).css({'display': 'initial', 'transform': 
+        'rotate(-25deg) scaleY(1) translateX(0em) translateY(0em)'});
+    $(`${boxId} .deco_2`).css({'display': 'initial', 'transform': 
+        'rotate(-15deg) scaleY(1) translateX(0em) translateY(0em)'});
+    $(`${boxId} .deco_3`).css({'display': 'initial', 'transform': 
+        'rotate(-10deg) scaleY(1) translateY(0em)'});
+    $(`${boxId} .deco_4`).css({'display': 'initial', 'transform': 
+        'rotate(-10deg) scaleY(1) translateY(0em)'});
 }
 
 function decorationType1(boxId) {//Large
@@ -259,36 +265,40 @@ function decorationType5(boxId) {//None
 }
 
 function decorationType6(boxId) {//Cross
-    $(`${boxId} .deco_1`).css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
-    $(`${boxId} .deco_2`).css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
+    $(`${boxId} .deco_1`).css('transform', 
+        'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
+    $(`${boxId} .deco_2`).css('transform', 
+        'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
     $(`${boxId} .deco_3`).css('display', 'none');
     $(`${boxId} .deco_4`).css('display', 'none');
 }
 
 function decorationType7(boxId) {//Cross & Eyes
-    $(`${boxId} .deco_1`).css('transform', 'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
-    $(`${boxId} .deco_2`).css('transform', 'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
+    $(`${boxId} .deco_1`).css('transform', 
+        'rotate(90deg) scaleY(3) translateX(-9em) translateY(-0.5em)');
+    $(`${boxId} .deco_2`).css('transform', 
+        'rotate(0deg) scaleY(3) translateX(-3.5em) translateY(-2.5em)');
     $(`${boxId} .deco_3`).css('transform', 'rotate(-10deg) scaleY(2)');
     $(`${boxId} .deco_4`).css('transform', 'rotate(-10deg) scaleY(2)');
 }
 
 function decorationMainColor(boxId, color, code, id) {
-    $(`${boxId} .deco_3`, `${boxId} .deco_4`).css('background', '#' + color)
-    $('#dnaDecorationAtEye' + id).html(code)
+    $(`${boxId} .deco_3`, `${boxId} .deco_4`).css('background', '#' + color);
+    $('#dnaDecorationAtEye' + id).html(code);
 }
 
 function middleColor(boxId, color, code, id) {
-    $(`${boxId} .deco_2`).css('background', '#' + color)
-    $('#dnaDecorationMid' + id).html(code)
+    $(`${boxId} .deco_2`).css('background', '#' + color);
+    $('#dnaDecorationMid' + id).html(code);
 }
 
 function smallColor(boxId, color, code, id) {
-    $(`${boxId} .deco_1`).css('background', '#' + color)
-    $('#dnaDecorationSmall' + id).html(code)
+    $(`${boxId} .deco_1`).css('background', '#' + color);
+    $('#dnaDecorationSmall' + id).html(code);
 }
 
 function animationVariation(boxId, num, id) {
-    $('#dnaAnimation' + id).html(num)
+    $('#dnaAnimation' + id).html(num);
     switch (num) {
         case 0:
             resetAnimation(boxId);

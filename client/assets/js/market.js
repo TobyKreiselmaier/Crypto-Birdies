@@ -1,19 +1,20 @@
-var arrayOfIds;
-var arrayOnSale;
-var arrayInMarket;
-var arrayInOffers;
+var ids;
+var onSale;
+var inMarket;
+var inOffers;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await accessStudio();
-    await initializeMarketplace();//make sure marketplace contract is approved as operator for user
-    arrayOfIds = await getBirdsOfOwner();
-    arrayOnSale = await getBirdsOnSale();
-    arrayInMarket = arrayOnSale.filter(x => !arrayOfIds.includes(x));//offers of other users
-    arrayInMarket = arrayInMarket.filter(x => !["0"].includes(x));//remove Bird0
-    arrayInOffers = arrayOnSale.filter(x => arrayOfIds.includes(x));//user's offers
-    await buildMarket(arrayInMarket);//build market
-    await buildOffers(arrayInOffers);//build offers
+    await initializeMarketplace();
+    //make sure marketplace contract is approved as operator for user
+    ids = await getBirdsOfOwner();
+    onSale = await getBirdsOnSale();
+    inMarket = onSale.filter(x => !ids.includes(x));//offers of other users
+    inMarket = inMarket.filter(x => !["0"].includes(x));//remove Bird0
+    inOffers = onSale.filter(x => ids.includes(x));//user's offers
+    await buildMarket(inMarket);//build market
+    await buildOffers(inOffers);//build offers
 });
 
 async function appendBirdToMarket(dna, id) {
@@ -95,9 +96,12 @@ function marketBox(price, id) {//used for offers of other users
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                        <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomeyetext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomdecorationpatterntext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomanimationtext` 
+                                            + id + `"></span></li>
                                     </ul>
                                 <div align="center">
                                     ASKING PRICE: ` + price + ` ETH
@@ -105,7 +109,9 @@ function marketBox(price, id) {//used for offers of other users
                             </b>
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <button id="buyButton` + id + `" class="btn btn-success buyButton rounded-lg" type="button" id="button-addon2">Buy Bird</button>
+                                    <button id="buyButton` + id + `" 
+                                        class="btn btn-success buyButton rounded-lg" 
+                                        type="button" id="button-addon2">Buy Bird</button>
                                 </div>
                             </div>
                         </div>
@@ -180,9 +186,12 @@ function offerBox(price, id) {//used for offers of current user
                                         <span id="dnaDecorationSmall` + id + `"></span>
                                         <span id="dnaAnimation` + id + `"></span><br>
                                     <ul class="ml-4">
-                                        <li class="bottomList"><span id="bottomeyetext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomdecorationpatterntext` + id + `"></span></li>
-                                        <li class="bottomList"><span id="bottomanimationtext` + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomeyetext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomdecorationpatterntext` 
+                                            + id + `"></span></li>
+                                        <li class="bottomList"><span id="bottomanimationtext` 
+                                            + id + `"></span></li>
                                     </ul>
                                 <div align="center">
                                     ASKING PRICE: ` + price + ` ETH
@@ -190,7 +199,10 @@ function offerBox(price, id) {//used for offers of current user
                             </b>
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <button id="cancelButton` + id + `" class="btn btn-danger cancelButton rounded-lg" type="button" id="button-addon2">Cancel Offer</button>
+                                    <button id="cancelButton` + id + `" 
+                                        class="btn btn-danger cancelButton rounded-lg" 
+                                        type="button" id="button-addon2">Cancel Offer
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -205,10 +217,10 @@ function activateBuyButtonListener() {
         var price = await getPrice(id);
         await buyBird(price, id);
         $('.marketOffers').empty();//clear offer content
-        arrayOfIds = await getBirdsOfOwner();
-        arrayOnSale = await getBirdsOnSale();
-        arrayInMarket = arrayOnSale.filter(x => !arrayOfIds.includes(x));//offers of other users
-        await buildMarket(arrayInMarket);//repopulate with the remaining birds that are for sale
+        ids = await getBirdsOfOwner();
+        onSale = await getBirdsOnSale();
+        inMarket = onSale.filter(x => !ids.includes(x));//offers of other users
+        await buildMarket(inMarket);//repopulate with remaining birds that are for sale
     });
 }
 
@@ -217,9 +229,10 @@ function activateCancelButtonListener() {
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
         await removeOffer(id);
         $('.myOffers').empty();//clear offer content
-        arrayOfIds = await getBirdsOfOwner();
-        arrayOnSale = await getBirdsOnSale();
-        arrayInOffers = arrayOnSale.filter(x => arrayOfIds.includes(x));//user's offers
-        await buildOffers(arrayInOffers);//repopulate offers with remaining birds of user that are for sale
+        ids = await getBirdsOfOwner();
+        onSale = await getBirdsOnSale();
+        inOffers = onSale.filter(x => ids.includes(x));//user's offers
+        await buildOffers(inOffers);
+        //repopulate offers with remaining birds of user that are for sale
     });
 }

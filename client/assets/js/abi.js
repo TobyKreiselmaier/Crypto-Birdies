@@ -211,7 +211,7 @@ var abi = {
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": true,
       "inputs": [],
       "name": "getContractOwner",
       "outputs": [
@@ -222,7 +222,7 @@ var abi = {
         }
       ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
