@@ -40,7 +40,7 @@ contract("CryptoBirdies", (accounts) => {
   describe("getContractOwner()", () =>{
     it("should get the owner of the smart contract", async () => {
       var owner = await testBirdiesInstance.getContractOwner();
-      assert.equal(owner, accounts[0], "The owner was not returned correctly");
+      assert.strictEqual(owner, accounts[0], "The owner was not returned correctly");
     });
   });
 
@@ -110,12 +110,12 @@ contract("CryptoBirdies", (accounts) => {
   describe("supportsInterface()", () =>{
     it("should check, if the contract supports IERC721", async () => {
       var testIERC721 = await testBirdiesInstance.supportsInterface("0x80ac58cd");
-      assert.equal(testIERC721, true, "The contract does not support IERC721");
+      assert.strictEqual(testIERC721, true, "The contract does not support IERC721");
     });
 
     it("should check, if the contract supports IERC165", async () => {
       var testIERC721 = await testBirdiesInstance.supportsInterface("0x01ffc9a7");
-      assert.equal(testIERC721, true, "The contract does not support IERC721");
+      assert.strictEqual(testIERC721, true, "The contract does not support IERC721");
     });
   });
 
@@ -128,7 +128,7 @@ contract("CryptoBirdies", (accounts) => {
       await testBirdiesInstance.createBirdGen0(101);
       var owner = await testBirdiesInstance.ownerOf(1);
       var contractOwner = await testBirdiesInstance.getContractOwner();
-      assert.equal(owner, contractOwner, "The contract owner is not owner of this Gen0 bird");
+      assert.strictEqual(owner, contractOwner, "The contract owner is not owner of this Gen0 bird");
     });
 
     it("should have generation 0", async () => {
@@ -214,7 +214,7 @@ contract("CryptoBirdies", (accounts) => {
       await testBirdiesInstance.testCreateBird(101, accounts[0]);
       await testBirdiesInstance.testCreateBird(202, accounts[1]);
       var testAllBirdsOfOwner = await testBirdiesInstance.getAllBirdsOfOwner(accounts[1]);
-      assert.equal(testAllBirdsOfOwner[0], 2, "Something went wrong");
+      assert.equal(testAllBirdsOfOwner[0], 2, "The offer was not removed correctly");
     });
   });
 
@@ -254,7 +254,7 @@ contract("CryptoBirdies", (accounts) => {
     it("should return the correct owner of the token", async () => {
       await testBirdiesInstance.testCreateBird(101, accounts[0]);
       var testOwner = await testBirdiesInstance.ownerOf(1);
-      assert.equal(testOwner, accounts[0], "The owner of the token is incorrect");
+      assert.strictEqual(testOwner, accounts[0], "The owner of the token is incorrect");
     });
 
     it("should revert, if the ID does not exist", async () => {
@@ -267,7 +267,7 @@ contract("CryptoBirdies", (accounts) => {
       const zeroAddress = '0x0000000000000000000000000000000000000000';
       await testBirdiesInstance.testCreateBird(101, accounts[0]);
       var testOwner = await testBirdiesInstance.ownerOf(1);
-      assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
+      assert.strictEqual(testOwner, accounts[0], "Owner is not msg.sender");
       await truffleAssert.reverts(testBirdiesInstance.transfer(zeroAddress, 0));
     });
   
@@ -275,7 +275,7 @@ contract("CryptoBirdies", (accounts) => {
       const contractAddress = await testBirdiesInstance.address;
       await testBirdiesInstance.testCreateBird(101, accounts[0]);
       var testOwner = await testBirdiesInstance.ownerOf(1);
-      assert.equal(testOwner, accounts[0], "Owner is not msg.sender");
+      assert.strictEqual(testOwner, accounts[0], "Owner is not msg.sender");
       await truffleAssert.reverts(testBirdiesInstance.transfer(contractAddress, 0));
     });
   
@@ -369,7 +369,7 @@ contract("CryptoBirdies", (accounts) => {
       var marketAddress = await testMarketInstance.address;
       await testBirdiesInstance.approve(marketAddress, 1);
       var approvedOperator = await testBirdiesInstance.getApproved(1);
-      assert.equal(approvedOperator, marketAddress, "The operator was NOT returned correctly");
+      assert.strictEqual(approvedOperator, marketAddress, "The operator was NOT returned correctly");
     });
   });
 
@@ -380,7 +380,7 @@ contract("CryptoBirdies", (accounts) => {
       var marketAddress = await testMarketInstance.address;
       await testBirdiesInstance.setApprovalForAll(marketAddress, true);
       var hasApprovalForAll = await testBirdiesInstance.isApprovedForAll(accounts[0], marketAddress);
-      assert.equal(hasApprovalForAll, true, "The status was NOT returned correctly");
+      assert.strictEqual(hasApprovalForAll, true, "The status was NOT returned correctly");
     });
   });
 
@@ -508,11 +508,11 @@ contract("MarketPlace", (accounts) => {
       await createBirdAndSetApproval();
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
       var offer = await testMarketInstance.getOffer(1);
-      assert.equal(offer.seller, accounts[0], "Seller is wrong");
+      assert.strictEqual(offer.seller, accounts[0], "Seller is wrong");
       assert.equal(offer.price, 1, "Price is wrong");
       assert.equal(offer.index, 0, "Index is wrong");
       assert.equal(offer.tokenId, 1, "TokenId is wrong");
-      assert.equal(offer.active, true, "Offer status is wrong");
+      assert.strictEqual(offer.active, true, "Offer status is wrong");
     });
   });
 
@@ -549,11 +549,11 @@ contract("MarketPlace", (accounts) => {
         return ev.TxType == "Offer created" && ev.owner == accounts[0] && ev.tokenId == 1;
         }, "Event was NOT emitted with correct parameters");
       var offer = await testMarketInstance.getOffer(1);
-      assert.equal(offer.seller, accounts[0], "Seller is wrong");
+      assert.strictEqual(offer.seller, accounts[0], "Seller is wrong");
       assert.equal(offer.price, 1, "Price is wrong");
       assert.equal(offer.index, 0, "Index is wrong");
       assert.equal(offer.tokenId, 1, "TokenId is wrong");
-      assert.equal(offer.active, true, "Offer status is wrong");
+      assert.strictEqual(offer.active, true, "Offer status is wrong");
     });
 
     it("should only allow the owner to set an offer", async () => {
@@ -597,7 +597,12 @@ contract("MarketPlace", (accounts) => {
       await createBirdAndSetApproval();
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
       await testMarketInstance.removeOffer(1, { from: accounts[0] });
-      assert.fail(await testMarketInstance.getOfferFromArray(1));
+      var offer = await testMarketInstance.getOfferFromArray(0);
+      assert.strictEqual(offer.seller, accounts[0], "The offer was not removed correctly");
+      assert.equal(offer.price, 1, "The offer was not removed correctly");
+      assert.equal(offer.index, 0, "The offer was not removed correctly");
+      assert.equal(offer.tokenId, 1, "The offer was not removed correctly");
+      assert.strictEqual(offer.active, false, "The offer was not removed correctly");
     });
 
     it("should delete the entry in the offer mapping", async () => {
@@ -605,11 +610,11 @@ contract("MarketPlace", (accounts) => {
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
       await testMarketInstance.removeOffer(1, { from: accounts[0] });
       var offer = await testMarketInstance.getOfferFromMapping(1);
-      assert.notStrictEqual(offer.seller, accounts[0], "Something went wrong");
-      assert.notStrictEqual(offer.price, 1, "Something went wrong");
-      assert.notStrictEqual(offer.index, 0, "Something went wrong");
-      assert.notStrictEqual(offer.tokenId, 1, "Something went wrong");
-      assert.notStrictEqual(offer.active, true, "Something went wrong");
+      assert.notStrictEqual(offer.seller, accounts[0], "The offer was not removed correctly");
+      assert.notEqual(offer.price, 1, "The offer was not removed correctly");
+      assert.equal(offer.index, 0, "The offer was not removed correctly");
+      assert.notEqual(offer.tokenId, 1, "The offer was not removed correctly");
+      assert.notStrictEqual(offer.active, true, "The offer was not removed correctly");
     });
 
     it("should emit a MarketTransaction with correct parameters", async () => {
@@ -641,7 +646,7 @@ contract("MarketPlace", (accounts) => {
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
       await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
       var owner = await testBirdiesInstance.ownerOf(1);
-      assert.equal(owner, accounts[1], "Ownership was not updated correctly");
+      assert.strictEqual(owner, accounts[1], "Ownership was not updated correctly");
     });
 
     it("should transfer funds correctly", async () => {
@@ -659,7 +664,7 @@ contract("MarketPlace", (accounts) => {
       var sellerEnd = parseInt(await web3.eth.getBalance(seller));
       var buyerEnd = parseInt(await web3.eth.getBalance(buyer));
       weiInt = parseInt(inWei);
-      assert.equal(sellerStart + weiInt, sellerEnd, 
+      assert.strictEqual(sellerStart + weiInt, sellerEnd, 
         "Funds were not correctly added to the seller account");
       assert.isAtMost(buyerEnd, buyerStart - weiInt, 
         "Funds were not correctly subtracted from the buyer account");
@@ -671,7 +676,12 @@ contract("MarketPlace", (accounts) => {
       await createBirdAndSetApproval();
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
       await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
-      assert.fail(await testMarketInstance.getOfferFromArray(1));
+      var offer = await testMarketInstance.getOfferFromArray(0);
+      assert.strictEqual(offer.seller, accounts[0], "The offer was not removed correctly");
+      assert.equal(offer.price, 1, "The offer was not removed correctly");
+      assert.equal(offer.index, 0, "The offer was not removed correctly");
+      assert.equal(offer.tokenId, 1, "The offer was not removed correctly");
+      assert.strictEqual(offer.active, false, "The offer was not removed correctly");
     });
 
     it("should delete the entry in the offer mapping", async () => {
@@ -679,11 +689,11 @@ contract("MarketPlace", (accounts) => {
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
       await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
       var offer = await testMarketInstance.getOfferFromMapping(1);
-      assert.notStrictEqual(offer.seller, accounts[0], "Something went wrong");
-      assert.notStrictEqual(offer.price, 1, "Something went wrong");
-      assert.notStrictEqual(offer.index, 0, "Something went wrong");
-      assert.notStrictEqual(offer.tokenId, 1, "Something went wrong");
-      assert.notStrictEqual(offer.active, true, "Something went wrong");
+      assert.notStrictEqual(offer.seller, accounts[0], "The offer was not removed correctly");
+      assert.notStrictEqual(offer.price, 1, "The offer was not removed correctly");
+      assert.notStrictEqual(offer.index, 0, "The offer was not removed correctly");
+      assert.notStrictEqual(offer.tokenId, 1, "The offer was not removed correctly");
+      assert.notStrictEqual(offer.active, true, "The offer was not removed correctly");
     });
 
     it("should emit a MarketTransaction event with correct parameters", async () => {

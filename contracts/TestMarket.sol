@@ -6,21 +6,21 @@ contract TestMarket is MarketPlace {
 
     constructor(address _contractAddress) MarketPlace(_contractAddress) public{}
 
-    function getOfferFromMapping(uint256 token) public returns (
+    function getOfferFromMapping(uint256 id) public view returns(
     address seller, 
     uint256 price, 
     uint256 index, 
     uint256 tokenId, 
     bool active) {
     
-    return (tokenIdToOffer[token].seller,
-            tokenIdToOffer[token].price,
-            tokenIdToOffer[token].index,
-            tokenIdToOffer[token].tokenId,
-            tokenIdToOffer[token].active);
+    return (tokenIdToOffer[id].seller,
+            tokenIdToOffer[id].price,
+            tokenIdToOffer[id].index,
+            tokenIdToOffer[id].tokenId,
+            tokenIdToOffer[id].active);
     }
 
-    function getOfferFromArray(uint256 id) public returns(
+    function getOfferFromArray(uint256 id) public view returns(
         address seller,
         uint256 price,
         uint256 index,
