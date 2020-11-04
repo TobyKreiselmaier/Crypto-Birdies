@@ -5,6 +5,6 @@ module.exports = async function(deployer) {
   await deployer.deploy(MarketPlace, CryptoBirdies.address);
   const instance = await MarketPlace.deployed();
   if(instance) {
-    console.log("MarketPlace contract successfully deployed.")
+    console.log("MarketPlace successfully deployed.")
   }
 }

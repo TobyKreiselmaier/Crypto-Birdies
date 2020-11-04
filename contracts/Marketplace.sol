@@ -29,7 +29,7 @@ contract MarketPlace is Ownable, IMarketPlace {
 
     mapping(uint256 => Offer) tokenIdToOffer;
 
-    //one event. Already declared in interface.
+    //Contract has one event that is already declared in the interface.
 
     function setContract(address _contractAddress) onlyOwner public {
         _cryptoBirdies = CryptoBirdies(_contractAddress);
@@ -60,7 +60,7 @@ contract MarketPlace is Ownable, IMarketPlace {
         
         for (uint256 index = 0; index < offers.length; index++) {
             if (offers[index].active == true) {
-                resultId = resultId.add(1);//determine length of array to return
+                resultId = SafeMath.add(resultId, 1);//determine length of array to return
             }
         }
         
@@ -73,7 +73,7 @@ contract MarketPlace is Ownable, IMarketPlace {
             for (uint256 index = 0; index < offers.length; index++) {//iterate through entire offers array
                 if (offers[index].active == true) {
                     allTokensOnSale[resultId] = offers[index].tokenId;
-                    resultId = resultId.add(1);
+                    resultId = SafeMath.add(resultId, 1);
                 }
             }
         return allTokensOnSale;
@@ -111,7 +111,7 @@ contract MarketPlace is Ownable, IMarketPlace {
         "Only the owner of the bird can withdraw the offer.");
 
         offers[tokenIdToOffer[_tokenId].index].active = false;
-        //don't iterate through array, but simply set active to false.
+        //don't iterate through array, simply set active to false.
         delete tokenIdToOffer[_tokenId];//delete entry in mapping
 
         emit MarketTransaction("Offer removed", msg.sender, _tokenId);

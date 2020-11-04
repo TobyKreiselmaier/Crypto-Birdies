@@ -64,7 +64,14 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
         
         (uint256 _dadDna,,,, uint256 _dadGeneration) = getBird(_dadId);//discarding redundant data here
         (uint256 _mumDna,,,, uint256 _mumGeneration) = getBird(_mumId);//discarding redundant data here
-        uint256 _newDna = _mixDna(_dadDna, _mumDna);
+        uint256 _newDna = _mixDna(
+            _dadDna, 
+            _mumDna,
+            uint8(now % 255),//This will return a number 0-255. e.g. 10111000
+            uint8(now % 1),
+            uint8(now % 7),//number to select random pair.
+            uint8((now % 89) + 10)//value of random pair, making sure there's no leading '0'.
+            );
         uint256 _newGeneration;
 
         if (_dadGeneration <= _mumGeneration) {
@@ -72,7 +79,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
         } else {
             _newGeneration = _mumGeneration;
         }
-        _newGeneration = _newGeneration.add(1);
+        _newGeneration = SafeMath.add(_newGeneration, 1);
         return _createBird(_mumId, _dadId, _newGeneration, _newDna, msg.sender);
     }
 
@@ -82,7 +89,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
 
     function createBirdGen0(uint256 genes) public onlyOwner returns (uint256) {
         require(gen0Counter < maxGen0Birds, "Maximum number of Birds is reached. No new birds allowed!");
-        gen0Counter = gen0Counter.add(1);
+        gen0Counter = SafeMath.add(gen0Counter, 1);
         return _createBird(0, 0, 0, genes, msg.sender);
     }
 
@@ -100,7 +107,8 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
             dadId: uint32(_dadId),
             generation: uint16(_generation)
         });
-        uint256 newBirdId = birdies.push(_bird).sub(1);//want to start with zero.
+        birdies.push(_bird);
+        uint256 newBirdId = SafeMath.sub(birdies.length, 1);//want to start with zero.
         _transfer(address(0), _owner, newBirdId);//transfer from nowhere. Creation event.
         emit Birth(_owner, newBirdId, _mumId, _dadId, _genes);
         return newBirdId;
@@ -129,7 +137,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
         for (uint256 i = 0; i < birdies.length; i++) {
             if (birdOwner[i] == owner) {
                 allBirdsOfOwner[j] = i;
-                j = j.add(1);
+                j = SafeMath.add(j, 1);
             }
         }
         return allBirdsOfOwner;
@@ -164,11 +172,11 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function _transfer(address _from, address _to, uint256 _tokenId) internal {
-        ownsNumberOfTokens[_to] = ownsNumberOfTokens[_to].add(1);
+        ownsNumberOfTokens[_to] = SafeMath.add(ownsNumberOfTokens[_to], 1);
         birdOwner[_tokenId] = _to;
         
         if (_from != address(0)) {
-            ownsNumberOfTokens[_from] = ownsNumberOfTokens[_from].sub(1);
+            ownsNumberOfTokens[_from] = SafeMath.sub(ownsNumberOfTokens[_from], 1);
             delete approvalOneBird[_tokenId];//when owner changes, approval must be removed.
         }
 
@@ -248,15 +256,16 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
         _transfer(_from, _to, _tokenId);
     }
 
-    function _mixDna(uint256 _dadDna, uint256 _mumDna) internal view returns (uint256){
+    function _mixDna(
+        uint256 _dadDna, 
+        uint256 _mumDna,
+        uint8 random,
+        uint8 randomSeventeenthDigit,
+        uint8 randomPair,
+        uint8 randomNumberForRandomPair
+        ) internal pure returns (uint256){
+        
         uint256[9] memory geneArray;
-        uint8 random = uint8(now % 255); 
-        //pseudorandom, real randomness doesn't exist in solidity and is redundant. 
-        //This will return a number 0-255. e.g. 10111000
-        uint8 randomSeventeenthDigit = uint8(now % 1);
-        uint8 randomPair = uint8(now % 7); //number to select random pair.
-        uint8 randomNumberForRandomPair = uint8((now % 89) + 10);
-        //value of random pair, making sure there's no leading '0'.
         uint256 i;
         uint256 counter = 7; // start on the right end
 
@@ -268,8 +277,8 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
             geneArray[8] = uint8(_dadDna % 10); //this takes the 17th gene from dad.
         }
 
-        _mumDna = _mumDna / 10; // division by 10 removes the last digit
-        _dadDna = _dadDna / 10; // division by 10 removes the last digit
+        _mumDna = SafeMath.div(_mumDna, 10); // division by 10 removes the last digit
+        _dadDna = SafeMath.div(_dadDna, 10); // division by 10 removes the last digit
 
         for (i = 1; i <= 128; i=i*2) {                      //1, 2 , 4, 8, 16, 32, 64 ,128
             if(random & i == 0){                            //00000001
@@ -277,9 +286,11 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
             } else {                                        //11001011 &
                 geneArray[counter] = uint8(_dadDna % 100);  //00000001 will go through random number bitwise
             }                                               //if(1) - dad gene
-            _mumDna = _mumDna / 100;                        //if(0) - mum gene
-            _dadDna = _dadDna / 100;                        //division by 100 removes last two digits from genes
-            counter = counter - 1;
+            _mumDna = SafeMath.div(_mumDna, 100);           //if(0) - mum gene
+            _dadDna = SafeMath.div(_dadDna, 100);           //division by 100 removes last two digits from genes
+            if(counter > 0) {
+                counter = SafeMath.sub(counter, 1);
+            }
         }
 
         geneArray[randomPair] = randomNumberForRandomPair; //extra randomness for random pair.
@@ -289,11 +300,11 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
         //geneArray example: [11, 22, 33, 44, 55, 66, 77, 88, 9]
 
         for (i = 0; i < 8; i++) {                           //8 is number of pairs in array
-            newGene = newGene * 100;                        //adds two digits to newGene; no digits the first time
-            newGene = newGene + geneArray[i];               //adds a pair of genes
+            newGene = SafeMath.mul(newGene, 100);           //adds two digits to newGene; no digits the first time
+            newGene = SafeMath.add(newGene, geneArray[i]);  //adds a pair of genes
         }
-        newGene = newGene * 10;                             //add seventeenth digit
-        newGene = newGene + geneArray[8];
+        newGene = SafeMath.mul(newGene, 10);                //add seventeenth digit
+        newGene = SafeMath.add(newGene, geneArray[8]);
         return newGene;
     }
 }
