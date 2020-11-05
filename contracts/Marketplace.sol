@@ -153,6 +153,10 @@ contract MarketPlace is Ownable, IMarketPlace {
         //interaction
         msg.sender.transfer(toWithdraw);
 
+        //making sure transfer executed correctly
+        assert(_fundsToBeCollected[msg.sender] == 0);
+
+        //emit event
         emit MonetaryTransaction("Funds successfully received", msg.sender, toWithdraw);
     }
 }
