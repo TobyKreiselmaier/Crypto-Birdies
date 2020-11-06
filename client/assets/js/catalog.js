@@ -1,3 +1,4 @@
+var balance;
 var ids;
 var onSale;
 var toDisplay;
@@ -5,7 +6,7 @@ var toDisplay;
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await accessStudio();
-    var balance = await returnBalance();
+    balance = await returnBalance();
     displayBalance(balance);
     await initializeMarketplace();//allow Marketplace contract to handle offers.
     ids = await getBirdsOfOwner();
@@ -122,7 +123,10 @@ function catalogBox(id) {
 
 //Listener for withdraw button
 $('#withdrawButton').click(async ()=>{
-    await withdraw();
+    if(balance > 0) {
+        await withdraw();
+        window.location.reload();
+    }
 });
 
 //Listener for offer button

@@ -125,7 +125,7 @@ async function returnBalance() {
     try {
         balance = await marketInstance.methods.getBalance().call();
         if (balance >= 0) {
-            return balance;
+            return web3.utils.fromWei(balance);
         }
     } catch (error) {
         console.log(error);
