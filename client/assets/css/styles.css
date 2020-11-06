@@ -1,12 +1,12 @@
 /* Fonts */
 @font-face {
     font-family: "Poppins";
-    src: url("/client/assets/fonts/Poppins-Light.ttf");
+    src: url("assets/fonts/Poppins-Light.ttf");
 }
 
 /* HTML Elements */
 body {
-    background: url(/client/assets/media/Nature.webp);
+    background: url(assets/media/Nature.webp);
     background-size: cover;
     font-family: Poppins;
     font-weight: 500;
