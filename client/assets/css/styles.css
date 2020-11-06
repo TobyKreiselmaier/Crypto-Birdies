@@ -1,12 +1,13 @@
 /* Fonts */
 @font-face {
     font-family: "Poppins";
-    src: url("./assets/fonts/Poppins-Light.ttf");
+    src: url("https://www.fontpalace.com/font-details/poppins-light/");
 }
 
 /* HTML Elements */
 body {
-    background: url(./assets/media/Nature.webp);
+    background: 
+    url(https://static.vecteezy.com/system/resources/previews/000/454/694/original/vector-river-scene-with-trees-and-hills.jpg);
     background-size: cover;
     font-family: Poppins;
     font-weight: 500;
