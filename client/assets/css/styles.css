@@ -206,7 +206,7 @@ p {
 
 #createButton {
     border-radius: 5px;
-    left: 36em;
+    left: 21em;
 }
 
 #dadData {
@@ -225,13 +225,13 @@ p {
 }
 
 #dameButton {
-    left: 10em;
+    left: 8em;
     position: relative;
     top: -34em;
 }
 
 #dameDisplay {
-    left: 3em;
+    left: 1em;
     opacity: 90%;
     position: relative;
     top: -3em;
@@ -281,13 +281,13 @@ p {
 }
 
 #sireButton {
-    left: 37.5em;
+    left: 40em;
     position: relative;
     top: -34em;
 }
 
 #sireDisplay {
-    left: 39.5em;
+    left: 41.5em;
     opacity: 90%;
     position: relative;
     top: -34.5em;
