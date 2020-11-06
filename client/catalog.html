@@ -4,16 +4,17 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Catalog - Angry Birds on the Block</title>
       <link rel="apple-touch-icon" type="image/png" sizes="180x180" 
-        href="/client/assets/media/favicons/apple-touch-icon.png">
+        href="assets/media/favicons/apple-touch-icon.png">
       <link rel="icon" type="image/png" sizes="32x32" 
-        href="/client/assets/media/favicons/favicon-32x32.png">
+        href="assets/media/favicons/favicon-32x32.png">
       <link rel="icon" type="image/png" sizes="16x16" 
-        href="/client/assets/media/favicons/favicon-16x16.png">
-      <link rel="manifest" href="/client/assets/media/favicons/site.webmanifest">
+        href="assets/media/favicons/favicon-16x16.png">
+      <link rel="manifest" href="assets/media/favicons/site.webmanifest">
       <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
       <link rel="stylesheet" href="assets/css/animations.css">
       <link rel="stylesheet" href="assets/css/bird.css">
       <link rel="stylesheet" href="assets/css/styles.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
       <script type="text/javascript" src="assets/js/jquery-3.5.1.min.js"></script>
       <script type="text/javascript" src="assets/js/web3.min.js"></script>
       <script type="text/javascript" src="assets/js/abi.js"></script>
@@ -59,9 +60,15 @@
                 <p>Once you own birds, they will be displayed here</p>
                 <p>Make money by creating offers for your birds! - 
                   Active offers will be transferred to the Market Place</p>
+                <div class="alert alert-success" role="alert">
+                  <span id="fundsAvailable"></span>
+                  <button id="withdrawButton" class="btn btn-success" type="button"
+                   id="button-addon2">Withdraw All
+                  </button>
+                </div>
                 <div class="alert alert-success" role="alert" id="offerCreated" 
-                  style="display: none"></div>
-            </div>
+                style="display: none"></div>
+                </div>
 
             <!-- Bird Boxes -->
             <div class="row"></div>

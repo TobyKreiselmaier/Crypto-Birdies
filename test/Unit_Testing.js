@@ -495,6 +495,58 @@ contract("MarketPlace", (accounts) => {
     });
   });
 
+  describe("pause()", () =>{
+    it("should only execute for the contract owner", async () => {
+      await truffleAssert.reverts(testMarketInstance.pause( { from: accounts[1] }));
+    });
+
+    it("should prevent the execution of buyBird()", async () => {
+      await createBirdAndSetApproval();
+      await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+      await testMarketInstance.pause( { from: accounts[0] });
+      await truffleAssert.reverts(testMarketInstance.buyBird(1, { from: accounts[1], value: 1 }));
+    });
+
+    it("should prevent the execution of withdrawFunds()", async () => {
+      await createBirdAndSetApproval();
+      await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+      await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
+      await testMarketInstance.pause( { from: accounts[0] });
+      await truffleAssert.reverts(testMarketInstance.withdrawFunds({ from: accounts[0] }));
+    });
+  });
+
+  describe("resume()", () =>{
+    it("should only execute for the contract owner", async () => {
+      await testMarketInstance.pause( { from: accounts[0] });
+      await truffleAssert.reverts(testMarketInstance.resume( { from: accounts[1] }));
+    });
+
+    it("should resume the execution of buyBird()", async () => {
+      await createBirdAndSetApproval();
+      await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+      await testMarketInstance.pause( { from: accounts[0] });
+      await testMarketInstance.resume( { from: accounts[0] });
+      var purchase = await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
+      truffleAssert.eventEmitted(purchase, 'MarketTransaction', (ev) => {
+        return ev.TxType == "Bird successfully purchased" && ev.owner == accounts[1] && ev.tokenId == 1;
+        }, "Event was NOT emitted with correct parameters");
+
+    });
+
+    it("should resume the execution of withdrawFunds()", async () => {
+      await createBirdAndSetApproval();
+      await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+      await testMarketInstance.pause( { from: accounts[0] });
+      await testMarketInstance.resume( { from: accounts[0] });
+      await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
+      var fundsReceived = await testMarketInstance.withdrawFunds({ from: accounts[0] });
+      truffleAssert.eventEmitted(fundsReceived, 'MonetaryTransaction', (ev) => {
+        return ev.message == "Funds successfully received" && ev.recipient == accounts[0] && ev.amount == 1;
+        }, "Event was NOT emitted with correct parameters");
+    });
+  });
+
   describe("getOffer()", () =>{
     it("should revert, if there is no active offer", async () => {
       await testBirdiesInstance.testCreateBird(101, accounts[1]);
@@ -702,6 +754,16 @@ contract("MarketPlace", (accounts) => {
     });
   });
 
+  describe("getBalance()", () =>{
+    it("should return the balance of msg.sender", async () => {
+      var amountToSet = 5;
+      await testMarketInstance.testSetBalance(amountToSet);
+      var amountToGet = await testMarketInstance.getBalance();
+      assert.equal(amountToSet, amountToGet, 
+        "Balance was not returned correctly");
+    });
+  });
+
   describe("withdrawFunds()", () =>{
     it("should revert, if no funds are available to withdraw", async () => {
       await truffleAssert.reverts(testMarketInstance.withdrawFunds({ from: accounts[0] }));
@@ -716,7 +778,6 @@ contract("MarketPlace", (accounts) => {
       await testMarketInstance.setOffer(inWei, 1);
       await testMarketInstance.buyBird(1, { from: buyer, value: inWei });
       var sellerStart = parseInt(await web3.eth.getBalance(seller));
-      var fundsInMappingStart = await testMarketInstance.getBalanceOfMapping(seller);
       await testMarketInstance.withdrawFunds({ from: seller });
       var sellerEnd = parseInt(await web3.eth.getBalance(seller));
       var fundsInMappingEnd = await testMarketInstance.getBalanceOfMapping(seller);

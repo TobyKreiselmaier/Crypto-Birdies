@@ -349,8 +349,6 @@ function childBox(id) {
     $('#childDisplay').append(boxDiv);
 }
 
-
-
 function modalBox(id) {
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
                         <div class="bird">

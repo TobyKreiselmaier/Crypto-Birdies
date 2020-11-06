@@ -25,12 +25,25 @@ contract MarketPlace is Ownable, IMarketPlace {
         bool active;
     }
 
+    bool private _paused;
+
     Offer[] offers;
 
     mapping(uint256 => Offer) tokenIdToOffer;
     mapping(address => uint256) internal _fundsToBeCollected;
 
     //Contract has one event that is already declared in the interface.
+    
+    //Contract can be paused by owner to ensure bugs can be fixed after deployment
+    modifier whenNotPaused() {
+        require(!_paused);
+        _;
+    }
+
+    modifier whenPaused() {
+        require(_paused);
+        _;
+    }
 
     function setContract(address _contractAddress) onlyOwner public {
         _cryptoBirdies = CryptoBirdies(_contractAddress);
@@ -38,6 +51,15 @@ contract MarketPlace is Ownable, IMarketPlace {
 
     constructor(address _contractAddress) public {
         setContract(_contractAddress);
+        _paused = false;
+    }
+
+    function pause() public onlyOwner whenNotPaused {
+        _paused = true;
+    }
+
+    function resume() public onlyOwner whenPaused {
+        _paused = false;
     }
 
     function getOffer(uint256 _tokenId) public view returns (
@@ -118,7 +140,7 @@ contract MarketPlace is Ownable, IMarketPlace {
         emit MarketTransaction("Offer removed", msg.sender, _tokenId);
     }
 
-    function buyBird(uint256 _tokenId) public payable {
+    function buyBird(uint256 _tokenId) public payable whenNotPaused{
         Offer memory _currentOffer = tokenIdToOffer[_tokenId];
 
         //checks
@@ -140,7 +162,11 @@ contract MarketPlace is Ownable, IMarketPlace {
         emit MarketTransaction("Bird successfully purchased", msg.sender, _tokenId);
     }
 
-    function withdrawFunds() public payable {
+    function getBalance() public view returns (uint256) {
+        return _fundsToBeCollected[msg.sender];
+    }
+
+    function withdrawFunds() public payable whenNotPaused{
 
         //check
         require(_fundsToBeCollected[msg.sender] > 0, "No funds available at this time");
@@ -153,6 +179,10 @@ contract MarketPlace is Ownable, IMarketPlace {
         //interaction
         msg.sender.transfer(toWithdraw);
 
+        //making sure transfer executed correctly
+        assert(_fundsToBeCollected[msg.sender] == 0);
+
+        //emit event
         emit MonetaryTransaction("Funds successfully received", msg.sender, toWithdraw);
     }
 }

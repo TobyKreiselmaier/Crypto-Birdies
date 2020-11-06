@@ -21,6 +21,16 @@ interface IMarketPlace {
     function setContract(address _contractAddress) external;
 
     /**
+    * Sets status of _paused to true which affects all functions that have whenNotPaused modifiers.
+     */
+    function pause() external;
+
+    /**
+    * Sets status of _paused to false which affects all functions that have whenNotPaused modifiers.
+     */
+    function resume() external;
+
+    /**
     * Get the details about a offer for _tokenId. Throws an error if there is no active offer for _tokenId.
      */
     function getOffer(uint256 _tokenId) external view returns (address seller, uint256 price, uint256 index, uint256 tokenId, bool active);
@@ -57,6 +67,11 @@ interface IMarketPlace {
     * Requirement: There must be an active offer for _tokenId
      */
     function buyBird(uint256 _tokenId) external payable;
+
+    /**
+    * Returns current balance of msg.sender
+     */
+    function getBalance() external view returns (uint256);
 
     /**
     * Send funds to msg.sender.
