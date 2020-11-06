@@ -37,4 +37,8 @@ contract TestMarket is MarketPlace {
     function getBalanceOfMapping(address caller) public view returns(uint256 amount) {
         return _fundsToBeCollected[caller];
     }
+
+    function testSetBalance(uint256 amount) public payable {
+        _fundsToBeCollected[msg.sender] = amount;
+    }
 }

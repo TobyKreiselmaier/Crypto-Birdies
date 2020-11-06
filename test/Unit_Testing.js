@@ -754,6 +754,16 @@ contract("MarketPlace", (accounts) => {
     });
   });
 
+  describe("getBalance()", () =>{
+    it("should return the balance of msg.sender", async () => {
+      var amountToSet = 5;
+      await testMarketInstance.testSetBalance(amountToSet);
+      var amountToGet = await testMarketInstance.getBalance();
+      assert.equal(amountToSet, amountToGet, 
+        "Balance was not returned correctly");
+    });
+  });
+
   describe("withdrawFunds()", () =>{
     it("should revert, if no funds are available to withdraw", async () => {
       await truffleAssert.reverts(testMarketInstance.withdrawFunds({ from: accounts[0] }));

@@ -162,6 +162,10 @@ contract MarketPlace is Ownable, IMarketPlace {
         emit MarketTransaction("Bird successfully purchased", msg.sender, _tokenId);
     }
 
+    function getBalance() public view returns (uint256) {
+        return _fundsToBeCollected[msg.sender];
+    }
+
     function withdrawFunds() public payable whenNotPaused{
 
         //check

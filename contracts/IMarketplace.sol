@@ -69,6 +69,11 @@ interface IMarketPlace {
     function buyBird(uint256 _tokenId) external payable;
 
     /**
+    * Returns current balance of msg.sender
+     */
+    function getBalance() external view returns (uint256);
+
+    /**
     * Send funds to msg.sender.
     * Emits a MonetaryTransaction event "Successful Transfer".
     * Requirement: msg.sender must have funds in the mapping.

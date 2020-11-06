@@ -5,9 +5,10 @@ var toDisplay;
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await accessStudio();
+    var balance = await returnBalance();
+    displayBalance(balance);
     await initializeMarketplace();//allow Marketplace contract to handle offers.
-    ids
- = await getBirdsOfOwner();
+    ids = await getBirdsOfOwner();
     onSale = await getBirdsOnSale();
     if (onSale == "") {
         toDisplay = ids
@@ -18,6 +19,10 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     }
     await buildCatalog(toDisplay);
 })
+
+function displayBalance(balance) {
+    $('#fundsAvailable').html("Currently there are " + balance + " ETH available from bird sales.");
+}
 
 function appendBirdToCatalog(dna, id) {
     catalogBox(id);
@@ -115,7 +120,12 @@ function catalogBox(id) {
     $('.row').append(boxDiv);
 }
 
-//Listener for offer buttons
+//Listener for withdraw button
+$('#withdrawButton').click(async ()=>{
+    await withdraw();
+});
+
+//Listener for offer button
 function activateCatalogEventListeners() {
     $(`[id^='birdPrice']`).keypress(async function(e) {
         if ( e.which == 13 ) {//both enter buttons have '13'.

@@ -4,13 +4,12 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0xD666b2c74EaD8Fb45208B86732C9eD61C4f5e5aC";//update after CryptoBirdies is deployed
-var marketAddress = "0xcd5fEB9CC97A2Fada429ac87094CaC90c248EC97";//update after Marketplace is deployed
+var birdAddress = "0x387e174efA6F4d156e61daa0fC31ac1B1498E451";//update after CryptoBirdies is deployed
+var marketAddress = "0xD9ABBd21670D29168d196311656B409023320e83";//update after Marketplace is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
         user = accounts[0];
-
         birdInstance = new web3.eth.Contract(abi.birdContract, birdAddress, user, 
             {from: user});
         marketInstance = new web3.eth.Contract(abi.marketContract, marketAddress, 
@@ -18,7 +17,6 @@ async function connectWallet() {
 
         birdInstance.events.Birth()
             .on('data', async function (event) {
-                //console.log(event);
                 let owner = event.returnValues.owner;
                 let birdId = event.returnValues.birdId;
                 let mumId = event.returnValues.mumId;
@@ -33,7 +31,7 @@ async function connectWallet() {
                     await timeout(6000);
                     $('#birdCreation').css("display", "block");
                     $('#birdCreation').text(
-                    "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog in a few moments. Owner: "
+                    "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: "
                         + owner 
                         + " | BirdID: " + birdId 
                         + " | MumID: " + mumId 
@@ -44,7 +42,7 @@ async function connectWallet() {
                 } else if (location.href.replace(location.origin,'') == "/client/studio.html") {
                     $('#birdCreation').css("display", "block");
                     $('#birdCreation').text(
-                    "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog in a few moments. Owner: "
+                    "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: "
                         + owner 
                         + " | BirdID: " + birdId 
                         + " | MumID: " + mumId 
@@ -63,19 +61,19 @@ async function connectWallet() {
                     $('#offerCreated').css("display", "block");
                     $('#offerCreated').text(
                     "Offer successfully created! After confirmation from the blockchain, your new offer will appear in the market place. Owner: " 
-                    + user + " BirdID: " + tokenId);
+                    + user + " | BirdID: " + tokenId);
                 };
                 if (eventType == "Offer removed") {
                     $('#offerRemoved').css("display", "block");
                     $('#offerRemoved').text(
                     "Offer successfully removed! After confirmation from the blockchain, your bird will again appear in the catalog. Owner: " 
-                    + user + " BirdID: " + tokenId);
+                    + user + " | BirdID: " + tokenId);
                 };
                 if (eventType == "Bird successfully purchased") {
                     $('#birdPurchased').css("display", "block");
                     $('#birdPurchased').text(
                     "Bird successfully purchased! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: " 
-                    + user + " BirdID: " + tokenId);
+                    + user + " | BirdID: " + tokenId);
                 };
             })
             .on('error', console.error);
@@ -111,6 +109,27 @@ async function accessStudio() {//limits access to contract owner
                 window.location.href = "./index.html";
             }
         }
+    }
+}
+
+async function withdraw() {
+    await marketInstance.methods.withdrawFunds().send({}, function(error){
+        if (error) {
+            console.log(error);
+        };
+    })
+}
+
+async function returnBalance() {
+    var balance;
+    try {
+        balance = await marketInstance.methods.getBalance().call();
+        if (balance >= 0) {
+            return balance;
+        }
+    } catch (error) {
+        console.log(error);
+        return;
     }
 }
 
@@ -164,57 +183,55 @@ async function createBird() {
 };
 
 async function getBirdsOfOwner() {
-    var arrayOfIds = [];
+    var ids = [];
     try {
-        arrayOfIds = await birdInstance.methods.getAllBirdsOfOwner(user).call();
+        ids = await birdInstance.methods.getAllBirdsOfOwner(user).call();
     } catch (error) {
         console.log(error);
     }
-    return arrayOfIds;
+    return ids;
 };
 
 async function getBirdsOnSale() {
-    var arrayOfIds = [];
+    var ids = [];
     try {
-        arrayOfIds = await marketInstance.methods.getAllTokensOnSale().call();
-        //console.log(arrayOfIds);
+        ids = await marketInstance.methods.getAllTokensOnSale().call();
     } catch (error) {
         console.log(error);
     }
-    return arrayOfIds;
+    return ids;
 }
 
-async function buildCatalog(arrayOfIds){
-    for (let i = 0; i < arrayOfIds.length; i++) {
-        bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
-        //console.log(bird);
-        appendBirdToCatalog(bird, arrayOfIds[i]);
+async function buildCatalog(ids){
+    for (let i = 0; i < ids.length; i++) {
+        bird = await birdInstance.methods.getBird(ids[i]).call();
+        appendBirdToCatalog(bird, ids[i]);
     }
     activateCatalogEventListeners();//must be activated after all buttons are rendered.
 }
 
-async function buildModal(arrayOfIds){
-    for (let i = 0; i < arrayOfIds.length; i++) {
-        bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
+async function buildModal(ids){
+    for (let i = 0; i < ids.length; i++) {
+        bird = await birdInstance.methods.getBird(ids[i]).call();
         //console.log(bird);
-        appendBirdToModal(bird, arrayOfIds[i]);
+        appendBirdToModal(bird, ids[i]);
     }
 }
 
-async function buildMarket(arrayOfIds){
-    for (let i = 0; i < arrayOfIds.length; i++) {
-        bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
+async function buildMarket(ids){
+    for (let i = 0; i < ids.length; i++) {
+        bird = await birdInstance.methods.getBird(ids[i]).call();
         //console.log(bird);
-        await appendBirdToMarket(bird, arrayOfIds[i]);
+        await appendBirdToMarket(bird, ids[i]);
     }
     activateBuyButtonListener();//must be activated after all buttons are rendered.
 }
 
-async function buildOffers(arrayOfIds){
-    for (let i = 0; i < arrayOfIds.length; i++) {
-        bird = await birdInstance.methods.getBird(arrayOfIds[i]).call();
+async function buildOffers(ids){
+    for (let i = 0; i < ids.length; i++) {
+        bird = await birdInstance.methods.getBird(ids[i]).call();
         //console.log(bird);
-        await appendBirdToOffers(bird, arrayOfIds[i]);
+        await appendBirdToOffers(bird, ids[i]);
     }
     activateCancelButtonListener();
 }
