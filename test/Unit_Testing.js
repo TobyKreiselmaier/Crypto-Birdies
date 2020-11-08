@@ -2,6 +2,7 @@ const Birdcontract = artifacts.require("CryptoBirdies");
 const Marketcontract = artifacts.require("MarketPlace");
 const TestBirdies = artifacts.require("TestBirdies");
 const TestMarket = artifacts.require("TestMarket");
+const TestErc = artifacts.require("TestErc");
 const assert = require("chai").assert;
 const truffleAssert = require("truffle-assertions");
 const Web3 = require('web3');
@@ -135,9 +136,9 @@ contract("CryptoBirdies", (accounts) => {
     });
 
     it("should check, if the contract supports IERC165", async () => {
-      var testIERC721 = await testBirdiesInstance.supportsInterface("0x01ffc9a7");
+      var testIERC165 = await testBirdiesInstance.supportsInterface("0x01ffc9a7");
 
-      assert.strictEqual(testIERC721, true, "The contract does not support IERC721");
+      assert.strictEqual(testIERC165, true, "The contract does not support IERC721");
     });
   });
 
@@ -597,13 +598,16 @@ contract("CryptoBirdies", (accounts) => {
     });
 
     it("should execute, if the receiving contract supports ERC721", async () => {
-      
-      //create one test bird
-      await testBirdiesInstance.testCreateBird(101, accounts[1]);
 
-      //a safe transfer to the Birdcontract should succeed as it is ERC721 compliant
+      //create instance of ERC721 compliant test contract
+      testErcInstance = await TestErc.new();
+
+      //create test bird
+      await testBirdiesInstance.testCreateBird(101, accounts[0]);
+
+      //safe transfer to the ERC721 test contract should work
       await truffleAssert.passes(testBirdiesInstance.safeTransferFrom(
-        accounts[1], testBirdiesInstance.address, 1));
+        accounts[0], testErcInstance.address, 1));
     });
   });
 
@@ -652,7 +656,11 @@ contract("MarketPlace", (accounts) => {
   });
 
   describe("pause()", () =>{
-    it("should only execute for the contract owner", async () => {
+    it("should execute for the contract owner", async () => {
+      await truffleAssert.passes(testMarketInstance.pause( { from: accounts[0] }));
+    });
+
+    it("should not execute for other users", async () => {
       await truffleAssert.reverts(testMarketInstance.pause( { from: accounts[1] }));
     });
 
@@ -676,15 +684,37 @@ contract("MarketPlace", (accounts) => {
       //it should not be possible to withdraw that 1 ETH after pause() is called
       await truffleAssert.reverts(testMarketInstance.withdrawFunds({ from: accounts[0] }));
     });
+
+    it("should still allow the execution of getAllTokensOnSale()", async () => {
+      await createBirdAndSetApproval();
+      await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+      await testMarketInstance.pause( { from: accounts[0] });
+      await truffleAssert.passes(testMarketInstance.getAllTokensOnSale());
+    });
+
+    it("should still allow the execution of getBalance()", async () => {
+      await testMarketInstance.testSetBalance(5);
+      await testMarketInstance.pause( { from: accounts[0] });
+      await truffleAssert.passes(testMarketInstance.getBalance());
+    });
   });
 
   describe("resume()", () =>{
-    it("should only execute for the contract owner", async () => {
+    it("should execute for the contract owner", async () => {
       
-      //first pause the contract
-      await testMarketInstance.pause( { from: accounts[0] });
+      //first pause the contract through test function
+      await testMarketInstance.testSetPause( { from: accounts[0] });
 
-      //another shouldn't be able to resume contract execution
+      //owner should be able to resume
+      await truffleAssert.passes(testMarketInstance.resume( { from: accounts[0] }));
+    });
+
+    it("should not execute for other users", async () => {
+      
+      //first pause the contract through test function
+      await testMarketInstance.testSetPause( { from: accounts[0] });
+
+      //another user shouldn't be able to resume contract execution
       await truffleAssert.reverts(testMarketInstance.resume( { from: accounts[1] }));
     });
 
@@ -692,8 +722,8 @@ contract("MarketPlace", (accounts) => {
       await createBirdAndSetApproval();
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
 
-      //pause contract
-      await testMarketInstance.pause( { from: accounts[0] });
+      // pause the contract through test function
+      await testMarketInstance.testSetPause( { from: accounts[0] });
 
       //resume execution
       await testMarketInstance.resume( { from: accounts[0] });
@@ -706,12 +736,12 @@ contract("MarketPlace", (accounts) => {
 
     });
 
-    it.only("should resume the execution of withdrawFunds()", async () => {
+    it("should resume the execution of withdrawFunds()", async () => {
       await createBirdAndSetApproval();
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
 
-      //first pause contract
-      await testMarketInstance.pause( { from: accounts[0] });
+      //first pause the contract through test function
+      await testMarketInstance.testSetPause( { from: accounts[0] });
 
       //it should not be possible to buy the bird at this point
       await truffleAssert.reverts(testMarketInstance.buyBird(1, { from: accounts[1], value: 1 }));
@@ -976,8 +1006,15 @@ contract("MarketPlace", (accounts) => {
 
       //set offer for 1ETH for Bird1
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+
+      //accounts[1] buys Bird1 for 1ETH from accounts[0]
       await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
+
+      //check array for offer parameters
       var offer = await testMarketInstance.getOfferFromArray(0);
+
+      //make sure seller, price, index, and tokenId are still correct
+      //while offer status must now be false
       assert.strictEqual(offer.seller, accounts[0], "The offer was not removed correctly");
       assert.equal(offer.price, 1, "The offer was not removed correctly");
       assert.equal(offer.index, 0, "The offer was not removed correctly");
@@ -987,9 +1024,17 @@ contract("MarketPlace", (accounts) => {
 
     it("should delete the entry in the offer mapping", async () => {
       await createBirdAndSetApproval();
+
+      //set offer for 1ETH for Bird1
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+
+      //accounts[1] buys Bird1 for 1ETH from accounts[0]
       await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
+
+      //return parameters from mapping
       var offer = await testMarketInstance.getOfferFromMapping(1);
+
+      //all 5 parameters of the mapping are deleted and should not reflect the original offer
       assert.notStrictEqual(offer.seller, accounts[0], "The offer was not removed correctly");
       assert.notStrictEqual(offer.price, 1, "The offer was not removed correctly");
       assert.notStrictEqual(offer.index, 0, "The offer was not removed correctly");
@@ -1000,26 +1045,58 @@ contract("MarketPlace", (accounts) => {
     it("should transfer funds to the _fundsToBeCollected mapping", async () => {
       var buyer = accounts[1];
       await createBirdAndSetApproval();
+      
+      //convert offer of 1ETH to BN
       var price = web3.utils.toBN(1);
+
+      //convert offer to Wei
       var inWei = web3.utils.toWei(price, "ether");
+
+      //set offer for 1ETH for Bird1
       await testMarketInstance.setOffer(inWei, 1);
+
+      //check buyer's ETH balance before the purchase
       var buyerStart = parseInt(await web3.eth.getBalance(buyer));
+
+      //purchase Bird1 for 1ETH
       await testMarketInstance.buyBird(1, { from: buyer, value: inWei });
+
+      //check buyer's ETH balance after the purchase
       var buyerEnd = parseInt(await web3.eth.getBalance(buyer));
-      var fundsInMappingEnd = parseInt(await testMarketInstance.getBalanceOfMapping(accounts[0]));
+
+      //check the balance in the funds mapping
+      var fundsInMapping = parseInt(await testMarketInstance.getBalanceOfMapping(accounts[0]));
+      
+      //convert the purchase price back into integer for comparison reasons
       weiInt = parseInt(inWei);
-      assert.strictEqual(fundsInMappingEnd, weiInt, 
+      
+      //check that the same amount was added to the funds mapping that the buyer sent
+      assert.strictEqual(fundsInMapping, weiInt, 
         "Funds were not correctly added to the mapping");
+
+      //check that the buyer's balance is at most 
+      //what he had before less the purchase price.
+      //it should be a little less, because of gas fees.
       assert.isAtMost(buyerEnd, buyerStart - weiInt, 
-        "Funds were not correctly subtracted from the buyer account");
+      "Funds were not correctly subtracted from the buyer account");
+
+      //check that the buyer's balance is at least
+      //what he had before less twice the purchase price.
+      //this ensures that buyer wasn't double charged
       assert.isAtLeast(buyerEnd, buyerStart - 2 * weiInt, 
         "Funds were not correctly subtracted from the buyer account");
     });
 
     it("should emit a MarketTransaction event with correct parameters", async () => {
       await createBirdAndSetApproval();
+
+      //set offer of 1ETH for Bird1
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+
+      //purchase Bird1
       var purchase = await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
+
+      //check for all event parameters to be emitted correctly
       truffleAssert.eventEmitted(purchase, 'MarketTransaction', (ev) => {
         return ev.TxType == "Bird successfully purchased" && ev.owner == accounts[1] && ev.tokenId == 1;
         }, "Event was NOT emitted with correct parameters");
@@ -1029,8 +1106,15 @@ contract("MarketPlace", (accounts) => {
   describe("getBalance()", () =>{
     it("should return the balance of msg.sender", async () => {
       var amountToSet = 5;
+
+      //a test function was created to set test balances in the funds mapping
+      //create a balance of 5ETH for msg.sender
       await testMarketInstance.testSetBalance(amountToSet);
+
+      //check mapping for balance
       var amountToGet = await testMarketInstance.getBalance();
+
+      //ensure the mapping contains the same value as was set in the test
       assert.equal(amountToSet, amountToGet, 
         "Balance was not returned correctly");
     });
@@ -1041,35 +1125,132 @@ contract("MarketPlace", (accounts) => {
       await truffleAssert.reverts(testMarketInstance.withdrawFunds({ from: accounts[0] }));
     });
 
+    it("should revert, if the contract owner tries to withdraw user funds", async () => {
+      await testMarketInstance.testSetBalance(5, { from: accounts[2] });
+      await truffleAssert.reverts(testMarketInstance.withdrawFunds({ from: accounts[0] }));
+    });
+
     it("should withdraw funds correctly", async () => {
-      var seller = accounts[0];
-      var buyer = accounts[1];
-      await createBirdAndSetApproval();
+      var seller = accounts[1];
+      var buyer = accounts[2];
+      
+      //create test bird for seller
+      await testBirdiesInstance.testCreateBird(101, seller);
+      var marketAddress = await testMarketInstance.address;
+      await testBirdiesInstance.setApprovalForAll(marketAddress, true, { from: seller });
+  
+      //conversions of offer of 1ETH
       var price = web3.utils.toBN(1);
       var inWei = web3.utils.toWei(price, "ether");
-      await testMarketInstance.setOffer(inWei, 1);
+
+      //set offer for 1ETH for Bird1
+      await testMarketInstance.setOffer(inWei, 1, { from: seller });
+
+      //check buyer's ETH balance before purchase
+      var buyerStart = parseInt(await web3.eth.getBalance(buyer));
+
+      //correct purchase of Bird1
       await testMarketInstance.buyBird(1, { from: buyer, value: inWei });
+
+      //check buyer's ETH balance after purchase
+      var buyerEnd = parseInt(await web3.eth.getBalance(buyer));
+
+      //check seller's ETH balance before withdrawal
       var sellerStart = parseInt(await web3.eth.getBalance(seller));
+
+      //check funds in mapping
+      var fundsInMapping = await testMarketInstance.getBalanceOfMapping(seller);
+      assert.equal(fundsInMapping, parseInt(inWei), 
+        "Funds were not correctly added to the mapping");
+
+      //seller should be able to withdraw 1ETH
       await testMarketInstance.withdrawFunds({ from: seller });
+
+      //check seller's ETH balance after withdrawal
       var sellerEnd = parseInt(await web3.eth.getBalance(seller));
-      var fundsInMappingEnd = await testMarketInstance.getBalanceOfMapping(seller);
-      weiInt = parseInt(inWei);
-      assert.equal(fundsInMappingEnd, 0, 
+
+      //check mapping again
+      fundsInMapping = await testMarketInstance.getBalanceOfMapping(seller);
+
+      //convert back to integer
+      var weiInt = parseInt(inWei);
+
+      //make sure funds were removed from mapping
+      assert.equal(fundsInMapping, 0, 
         "Funds were not correctly removed from the mapping");
+
+      //make sure seller didn't receive any more funds than the proceedings from the purchase
       assert.isAtMost(sellerEnd - sellerStart, weiInt,
         "Funds were not correctly added to the seller account");
-      assert.isAtLeast(sellerEnd - sellerStart, 0, 
+
+      //check that the amount was correctly subtracted from buyer
+      //considering gas, at least purchase price and gas should have been removed
+      assert.isAtLeast(buyerStart - buyerEnd, weiInt, 
+        "Funds were not correctly subtracted from the buyer account");
+
+      //check that the amount was correctly subtracted from buyer
+      //considering gas, at most double the purchase price should have been removed
+      //this ensures that there is no double spending
+      assert.isAtMost(buyerStart - buyerEnd, 2 * weiInt, 
         "Funds were not correctly subtracted from the buyer account");
     });
 
     it("should emit a MonetaryTransaction event with correct parameters", async () => {
       await createBirdAndSetApproval();
+
+      //set offer for 1ETH for Bird1
       await testMarketInstance.setOffer(1, 1, { from: accounts[0] });
+
+      //purchase of Bird1
       await testMarketInstance.buyBird(1, { from: accounts[1], value: 1 });
+
+      //seller withdraws funds
       var fundsReceived = await testMarketInstance.withdrawFunds({ from: accounts[0] });
+
+      //ensure correct event for withdrawal is emitted
       truffleAssert.eventEmitted(fundsReceived, 'MonetaryTransaction', (ev) => {
         return ev.message == "Funds successfully received" && ev.recipient == accounts[0] && ev.amount == 1;
         }, "Event was NOT emitted with correct parameters");
+    });
+
+    it("should allow seller to access correct funds, if birds were sold to different buyers",
+    async () => {
+    var seller = accounts[1];
+    var buyer1 = accounts[2];
+    var buyer2 = accounts[3];
+
+    //create 2 test birds and give market contract approval as operator
+    await testBirdiesInstance.testCreateBird(101, seller);
+    await testBirdiesInstance.testCreateBird(202, seller);
+    var marketAddress = await testMarketInstance.address;
+    await testBirdiesInstance.setApprovalForAll(marketAddress, true, { from: seller });
+
+    //conversions
+    var price1 = web3.utils.toBN(5);
+    var inWei1 = web3.utils.toWei(price1, "ether");
+    var price2 = web3.utils.toBN(3);
+    var inWei2 = web3.utils.toWei(price2, "ether");
+
+    //create 2 offers
+    await testMarketInstance.setOffer(inWei1, 1, { from: seller }); //5 ETH for Bird1
+    await testMarketInstance.setOffer(inWei2, 2, { from: seller }); //3 ETH for Bird2
+
+    //purchase of the birds by two different buyers
+    await testMarketInstance.buyBird(1, { from: buyer1, value: inWei1 });
+    await testMarketInstance.buyBird(2, { from: buyer2, value: inWei2 });
+
+    //check seller's ETH balance before withdrawal
+    var sellerStart = parseInt(await web3.eth.getBalance(seller));
+
+    await testMarketInstance.withdrawFunds({ from: seller });
+
+    //check seller's ETH balance after withdrawal
+    var sellerEnd = parseInt(await web3.eth.getBalance(seller));
+    var weiInt = parseInt(inWei1 + inWei2);
+
+    //make sure seller didn't receive any more funds than the proceedings from the purchase
+    assert.isAtMost(sellerEnd - sellerStart, weiInt,
+      "Funds were not correctly added to the seller account");
     });
   });
 })

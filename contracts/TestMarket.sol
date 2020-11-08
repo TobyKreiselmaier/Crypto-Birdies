@@ -41,4 +41,8 @@ contract TestMarket is MarketPlace {
     function testSetBalance(uint256 amount) public payable {
         _fundsToBeCollected[msg.sender] = amount;
     }
+
+    function testSetPause() public onlyOwner {
+        _paused = true;
+    }
 }

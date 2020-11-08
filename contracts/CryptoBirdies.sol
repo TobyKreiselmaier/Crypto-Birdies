@@ -4,7 +4,7 @@ import "./Ownable.sol";
 import "./Destroyable.sol";
 import "./IERC165.sol";
 import "./IERC721.sol";
-import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has... 
+import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has 
                                 //same goes if that variable is a contract. an interface is a way of abstracting
                                 //those capabilities so the EVM knows what it does.
 import "./SafeMath.sol";
