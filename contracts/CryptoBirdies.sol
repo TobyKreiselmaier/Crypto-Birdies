@@ -172,6 +172,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
     }
 
     function _transfer(address _from, address _to, uint256 _tokenId) internal {
+        require(_to != address(this));
         ownsNumberOfTokens[_to] = SafeMath.add(ownsNumberOfTokens[_to], 1);
         birdOwner[_tokenId] = _to;
         
