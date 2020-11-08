@@ -51,21 +51,27 @@
                 </li>
               </ul>
             </div>
+            <!-- Allows owner to pause execution of buyBird() and withdrawFunds() for maintenance only -->
+            <button id="pauseButton" class="btn btn-danger my-2 my-sm-0" type="submit">Pause/Resume</button>
           </nav><br>
 
             <!-- Headlines & Receipt -->
             <div align="center">
-                <h1 class="c-white"><b>My Bird Collection</b></h1>
+              <div class="alert alert-danger" role="alert" id="pauseMessage">
+                Contract paused for maintenance! Buying birds and withdrawing funds is temporarily unavailable.
+                Normal operations will be restored as soon as possible! Please check in soon!
+              </div>
+              <h1 class="c-white"><b>My Bird Collection</b></h1>
                 <p>Once you own birds, they will be displayed here</p>
                 <p>Make money by creating offers for your birds! - 
                   Active offers will be transferred to the Market Place</p>
-                <div class="alert alert-success" role="alert">
+                <div id="withdrawBox" class="alert alert-success" role="alert">
                   <span id="fundsAvailable"></span>
                   <button id="withdrawButton" class="btn btn-success" type="button"
                    id="button-addon2">Withdraw All
                   </button>
                 </div>
-                <div class="alert alert-success" role="alert" id="offerCreated" 
+                  <div class="alert alert-success" role="alert" id="offerCreated" 
                 style="display: none"></div>
                 </div>
 

@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0x387e174efA6F4d156e61daa0fC31ac1B1498E451";//update after CryptoBirdies is deployed
-var marketAddress = "0xD9ABBd21670D29168d196311656B409023320e83";//update after Marketplace is deployed
+var birdAddress = "0x25cdaB36433e42adb04F1C1694EC094269b4935f";//update after CryptoBirdies is deployed
+var marketAddress = "0x08C94C6d89EA54DA54c2109Af7c71Db86234B351";//update after Marketplace is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -54,7 +54,6 @@ async function connectWallet() {
 
         marketInstance.events.MarketTransaction()
             .on('data', (event) => {
-                //console.log(event);
                 var eventType = event.returnValues.TxType;
                 var tokenId = event.returnValues.tokenId;
                 if (eventType == "Offer created") {
@@ -84,6 +83,25 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function checkPause() {
+    return await marketInstance.methods.isPaused().call();
+}
+
+async function pauseResumeContract() {
+    if(!await checkPause()){
+        await marketInstance.methods.pause().send({}, function(error){
+            if (error) {
+                console.log(error);
+            }});
+    } else {
+        await marketInstance.methods.resume().send({}, function(error){
+            if (error) {
+                console.log(error);
+            }});
+    }
+    window.location.reload();
+}
+
 async function initializeMarketplace() {
     var marketplaceApprovedOperator = await birdInstance.methods.isApprovedForAll(
         user, marketAddress).call();
@@ -97,19 +115,39 @@ async function initializeMarketplace() {
     };
 }
 
-async function accessStudio() {//limits access to contract owner
+async function onlyOwnerAccess() {//limits access to studio and pause/resume to contract owner
     var owner = await birdInstance.methods.getContractOwner().call();
     var currentUser = await web3.eth.getAccounts();
     for (let i = 0; i < currentUser.length; i++) {
+
+        //logic for owner
         if (currentUser[i] == owner) {
             $('#designStudio').show();
+            $('#pauseButton').show();
+
+        //logic for other users
         } else {
             $('#designStudio').hide();
+            $('#pauseButton').hide();
             if (location.href.replace(location.origin,'') == "/client/studio.html") {
                 window.location.href = "./index.html";
             }
         }
     }
+ 
+    //Pause message applies to all users
+    if(await checkPause()) {
+        $('#pauseMessage').show();
+        $('#withdrawBox').hide();
+    } else {
+        $('#pauseMessage').hide();
+        $('#withdrawBox').show();
+    }
+
+    //event listener for pause button
+    $('#pauseButton').click(async ()=>{
+        await pauseResumeContract();
+    })
 }
 
 async function withdraw() {
@@ -224,7 +262,7 @@ async function buildMarket(ids){
         //console.log(bird);
         await appendBirdToMarket(bird, ids[i]);
     }
-    activateBuyButtonListener();//must be activated after all buttons are rendered.
+    await activateBuyButtonListener();//must be activated after all buttons are rendered.
 }
 
 async function buildOffers(ids){

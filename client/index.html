@@ -49,9 +49,15 @@
                 </li>
               </ul>
             </div>
+            <!-- Allows owner to pause execution of buyBird() and withdrawFunds() for maintenance only -->
+            <button id="pauseButton" class="btn btn-danger my-2 my-sm-0" type="submit">Pause/Resume</button>
           </nav><br>
 
         <!-- Feature Cards -->
+        <div class="alert alert-danger" role="alert" id="pauseMessage">
+          Contract paused for maintenance! Buying birds and withdrawing funds is temporarily unavailable.
+          Normal operations will be restored as soon as possible! Please check in soon!
+        </div>
         <div class="card-deck">
             <div class="card">
               <img src="assets/media/Bird.jpg" class="card-img-top" alt="collections">

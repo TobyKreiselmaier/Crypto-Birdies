@@ -4,9 +4,7 @@ import "./Ownable.sol";
 import "./Destroyable.sol";
 import "./IERC165.sol";
 import "./IERC721.sol";
-import "./IERC721Receiver.sol"; //the EVM needs to know what functions/properties every variable has 
-                                //same goes if that variable is a contract. an interface is a way of abstracting
-                                //those capabilities so the EVM knows what it does.
+import "./IERC721Receiver.sol";
 import "./SafeMath.sol";
 
 contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
@@ -68,7 +66,7 @@ contract CryptoBirdies is Ownable, Destroyable, IERC165, IERC721 {
             _dadDna, 
             _mumDna,
             uint8(now % 255),//This will return a number 0-255. e.g. 10111000
-            uint8(now % 1),
+            uint8(now % 1),//seventeenth digit
             uint8(now % 7),//number to select random pair.
             uint8((now % 89) + 10)//value of random pair, making sure there's no leading '0'.
             );
