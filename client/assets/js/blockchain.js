@@ -23,12 +23,6 @@ async function connectWallet() {
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
                 if (location.href.replace(location.origin,'') == "/client/breeding.html") {
-                    $('.evolvingHeart').css("display", "block");
-                    $('#breedButton').css("display", "none");
-                    $('#dameButton').css("display", "none");
-                    $('#sireButton').css("display", "none");
-                    $('#swapButton').css("display", "none");
-                    await timeout(6000);
                     $('#birdCreation').css("display", "block");
                     $('#birdCreation').text(
                     "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: "
@@ -48,7 +42,7 @@ async function connectWallet() {
                         + " | MumID: " + mumId 
                         + " | DadID: " + dadId
                         + " | Genes: " + genes);
-                }
+                };
             })
             .on('error', console.error);
 
@@ -76,16 +70,16 @@ async function connectWallet() {
                 };
             })
             .on('error', console.error);
-    })
+    });
 };
 
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
+};
 
 async function checkPause() {
     return await marketInstance.methods.isPaused().call();
-}
+};
 
 async function pauseResumeContract() {
     if(!await checkPause()){
@@ -100,7 +94,7 @@ async function pauseResumeContract() {
             }});
     }
     window.location.reload();
-}
+};
 
 async function initializeMarketplace() {
     var marketplaceApprovedOperator = await birdInstance.methods.isApprovedForAll(
@@ -113,10 +107,9 @@ async function initializeMarketplace() {
             };
         });
     };
-}
+};
 
 async function onlyOwnerAccess() {//limits access to studio and pause/resume to contract owner
-    $('#pauseMessage').hide();//making sure the message is not displayed by accident
     var owner = await birdInstance.methods.getContractOwner().call();
     var currentUser = await web3.eth.getAccounts();
     for (let i = 0; i < currentUser.length; i++) {
@@ -128,7 +121,7 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
                 $('#pauseButton').text('Resume Contract');
             } else {
                 $('#pauseButton').text('Pause Contract');
-            }
+            };
             $('#pauseButton').show();
 
 
@@ -138,9 +131,9 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
             $('#pauseButton').hide();
             if (location.href.replace(location.origin,'') == "/client/studio.html") {
                 window.location.href = "./index.html";
-            }
-        }
-    }
+            };
+        };
+    };
  
     //Pause message applies to all users
     if(await checkPause()) {
@@ -149,7 +142,7 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
     } else {
         $('#pauseMessage').hide();
         $('#withdrawBox').show();
-    }
+    };
 
     //event listener for pause button
     $('#pauseButton').click(async ()=>{
@@ -157,18 +150,18 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
             alert('Are you sure you want to RESUME withdrawFunds() and buyBird() for all users?');
         } else {
             alert('Are you sure you want to PAUSE withdrawFunds() and buyBird() for all users?');
-        }
+        };
         await pauseResumeContract();
-    })
-}
+    });
+};
 
 async function withdraw() {
     await marketInstance.methods.withdrawFunds().send({}, function(error){
         if (error) {
             console.log(error);
         };
-    })
-}
+    });
+};
 
 async function returnBalance() {
     var balance;
@@ -180,8 +173,8 @@ async function returnBalance() {
     } catch (error) {
         console.log(error);
         return;
-    }
-}
+    };
+};
 
 async function sellBird(price, id) {
     var inWei = web3.utils.toWei(price, "ether");
@@ -190,16 +183,20 @@ async function sellBird(price, id) {
         if (error) {
             console.log(error);
         };
-    })
-}
+    });
+    $('#offerCreated').css("display", "block");
+    $('#offerCreated').text("Waiting for confirmation from blockchain...");
+};
 
 async function removeOffer(id) {
     await marketInstance.methods.removeOffer(id).send({}, function(error){
         if (error) {
             console.log(error);
         };
-    })
-}
+    });
+    $('#offerRemoved').css("display", "block");
+    $('#offerRemoved').text("Waiting for confirmation from blockchain...");
+};
 
 async function buyBird(price, id) {
     var inWei = web3.utils.toWei(price, "ether");
@@ -207,8 +204,10 @@ async function buyBird(price, id) {
         if (error) {
             console.log(error);
         };
-    })
-}
+    });
+    $('#birdPurchased').css("display", "block");
+    $('#birdPurchased').text("Waiting for confirmation from blockchain...");
+};
 
 async function getPrice(id) {
     var result;
@@ -221,15 +220,17 @@ async function getPrice(id) {
     } catch (error) {
         console.log(error);
         return;
-    }
-}
+    };
+};
 
 async function createBird() {
     await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error){
         if (error) {
             console.log(error);
         };
-    })
+    });
+    $('#birdCreation').css("display", "block");
+    $('#birdCreation').text("Waiting for confirmation from blockchain...");
 };
 
 async function getBirdsOfOwner() {
@@ -248,52 +249,60 @@ async function getBirdsOnSale() {
         ids = await marketInstance.methods.getAllTokensOnSale().call();
     } catch (error) {
         console.log(error);
-    }
+    };
     return ids;
-}
+};
 
 async function buildCatalog(ids){
     for (let i = 0; i < ids.length; i++) {
         bird = await birdInstance.methods.getBird(ids[i]).call();
         appendBirdToCatalog(bird, ids[i]);
-    }
+    };
     activateCatalogEventListeners();//must be activated after all buttons are rendered.
-}
+};
 
 async function buildModal(ids){
     for (let i = 0; i < ids.length; i++) {
         bird = await birdInstance.methods.getBird(ids[i]).call();
         //console.log(bird);
         appendBirdToModal(bird, ids[i]);
-    }
-}
+    };
+};
 
 async function buildMarket(ids){
     for (let i = 0; i < ids.length; i++) {
         bird = await birdInstance.methods.getBird(ids[i]).call();
         //console.log(bird);
         await appendBirdToMarket(bird, ids[i]);
-    }
+    };
     await activateBuyButtonListener();//must be activated after all buttons are rendered.
-}
+};
 
 async function buildOffers(ids){
     for (let i = 0; i < ids.length; i++) {
         bird = await birdInstance.methods.getBird(ids[i]).call();
         //console.log(bird);
         await appendBirdToOffers(bird, ids[i]);
-    }
+    };
     activateCancelButtonListener();
-}
+};
 
 async function getBirdDna(id) {
     return await birdInstance.methods.getBird(id).call();
-}
+};
 
 async function breedBird(dadId, mumId) {
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error){
         if (error) {
             console.log(error);
         };
-    })
+    });
+    $('.evolvingHeart').css("display", "block");
+    $('#breedButton').css("display", "none");
+    $('#dameButton').css("display", "none");
+    $('#sireButton').css("display", "none");
+    $('#swapButton').css("display", "none");
+    await timeout(6000);// 6 secs to display evolving heart
+    $('#birdCreation').css("display", "block");
+    $('#birdCreation').text("Waiting for confirmation from blockchain...");
 };

@@ -3,6 +3,7 @@ var sireId;
 var ids;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
+    $('#pauseMessage').hide();//making sure the message is not displayed by accident
     await connectWallet(); //connect MetaMask (if not already connected)
     await onlyOwnerAccess();
     ids = await getBirdsOfOwner(); //fill array with ids for all birds of this address
