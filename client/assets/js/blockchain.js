@@ -120,8 +120,10 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
             $('#designStudio').show();
             if(await checkPause()) {
                 $('#pauseButton').text('Resume Contract');
+                $('#pauseButton').show();
             } else {
                 $('#pauseButton').text('Pause Contract');
+                $('#pauseButton').show();
             };
             $('#pauseButton').show();
 
@@ -225,8 +227,6 @@ async function getPrice(id) {
 };
 
 async function createBird() {
-    $('#birdCreation').css("display", "block");
-    $('#birdCreation').text("Waiting for confirmations from blockchain...");
     await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error){
         if (error) {
             console.log(error);
