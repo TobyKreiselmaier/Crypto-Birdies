@@ -298,6 +298,7 @@ async function breedBird(dadId, mumId) {
     $('#dameButton').css("display", "none");
     $('#sireButton').css("display", "none");
     $('#swapButton').css("display", "none");
+    $('#breedFooter').css("top", "-67em");
     await timeout(6000);// 6 secs to display evolving heart
     $('#birdCreation').css("display", "block");
     $('#birdCreation').text("Waiting for confirmations from blockchain...");
