@@ -1,18 +1,44 @@
 # Crypto Birdies
 
-This is a clone of the famous Crypto Kitties.
-Birds can be collected, traded and bred on the Ropsten Testnet.
+This project is a clone of the famous Crypto Kitties.
+It demonstrates use of the following technologies:
 
-A live version is available here: https://cryptobirdies.netlify.app
+* HTML5
+* CSS3
+* JavaScript
+* Bootstrap
+* jQuery
+* Solidity
+* web3.js
+* Truffle
+* Ganache
+* Mocha.js
+* Chai.js
+* MetaMask
 
-This project demonstrates:
+UI Functionality:
 
-* Frontend design using HTML/CSS/JavaScript
-* Smart Contract design using Solidity
-* Interaction between the two with web3.js
-* Compliance with ERC721 and ERC165 standards for non-fungible tokens
-* Unit Testing for the solidity code using Node.js, Chai.js, Mocha.js, and Truffle-Assertions
-* The use of safety measures such as:
-    - SafeMath to prevent Over- and Underflow in solidity
-    - Checks / Effects / Interactions for external transactions
-    - Pause function so the admin can pause essential functions such as buyBird() and withdrawFunds()
+* creation of bird with a 17-digit DNA sequence
+* 7 exciting animations for the birds
+* millions of color combinations for each bird
+* breeding of baby birds
+* buying and selling of birds for test ETH
+* catalog to display all birds of the user
+* market place displaying all active offers of birds both of the current user and other users
+
+Technical Functionality:
+
+* Creation and management of ERC721 tokens
+* Payments with ERC20 tokens (testnet)
+* Compliance with IERC721 and IERC165 (Open Zeppelin)
+* 95 unit tests for the smart contract code utilizing three additional test contracts
+* Implementation of pause functionality to allow for maintenance by the contract owner
+* Full SafeMath implementation for full protection against Over- and Underflow
+* Checks / Effects / Interactions logic to prevent re-entrency attacks
+* No external library calls to prevent Parity Freeze szenario
+* Independent Market Contract handling the trading of the NFT tokens
+* Truffle migrations
+* Smart Contract deployed on Ropsten Testnet
+  Address: 0x....
+
+Live demonstration: https://cryptobirdies.netlify.app

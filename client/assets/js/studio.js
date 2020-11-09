@@ -15,7 +15,7 @@ const defaultDNA = {
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
-    await accessStudio();
+    await onlyOwnerAccess();
     $('.colorscreen').show();
     $('.attributes').hide();
     setDefaultDna();

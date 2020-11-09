@@ -4,7 +4,7 @@ var ids;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
     await connectWallet(); //connect MetaMask (if not already connected)
-    await accessStudio();
+    await onlyOwnerAccess();
     ids = await getBirdsOfOwner(); //fill array with ids for all birds of this address
     dameId = ids[0];
     sireId = ids[1];

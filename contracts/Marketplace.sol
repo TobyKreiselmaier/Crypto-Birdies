@@ -25,7 +25,7 @@ contract MarketPlace is Ownable, IMarketPlace {
         bool active;
     }
 
-    bool private _paused;
+    bool internal _paused;
 
     Offer[] offers;
 
@@ -60,6 +60,10 @@ contract MarketPlace is Ownable, IMarketPlace {
 
     function resume() public onlyOwner whenPaused {
         _paused = false;
+    }
+
+    function isPaused() public view returns (bool) {
+        return _paused;
     }
 
     function getOffer(uint256 _tokenId) public view returns (
@@ -153,7 +157,8 @@ contract MarketPlace is Ownable, IMarketPlace {
 
         //interactions
         if (_currentOffer.price > 0) {
-            _fundsToBeCollected[_currentOffer.seller] = _currentOffer.price;
+            _fundsToBeCollected[_currentOffer.seller] = 
+            SafeMath.add(_fundsToBeCollected[_currentOffer.seller], _currentOffer.price);
             //instead of sending money to seller it is deposited in a mapping waiting for seller to pull.
         }
 

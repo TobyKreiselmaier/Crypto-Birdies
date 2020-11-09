@@ -5,7 +5,7 @@ var inOffers;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
-    await accessStudio();
+    await onlyOwnerAccess();
     await initializeMarketplace();
     //make sure marketplace contract is approved as operator for user
     ids = await getBirdsOfOwner();
@@ -211,18 +211,23 @@ function offerBox(price, id) {//used for offers of current user
 }
 
 //Listeners for buttons
-function activateBuyButtonListener() {
-    $(`[id^='buyButton']`).on("click", async function() {
-        var id = $(this).attr("id").substring(9);//extract bird ID from HTML
-        var price = await getPrice(id);
-        await buyBird(price, id);
-        $('.marketOffers').empty();//clear offer content
-        ids = await getBirdsOfOwner();
-        onSale = await getBirdsOnSale();
-        inMarket = onSale.filter(x => !ids.includes(x));//offers of other users
-        await buildMarket(inMarket);//repopulate with remaining birds that are for sale
-    });
-}
+async function activateBuyButtonListener() {
+    if(await checkPause()) {
+        $(`[id^='buyButton']`).hide();
+    } else {
+        $(`[id^='buyButton']`).show();
+        $(`[id^='buyButton']`).on("click", async function() {
+            var id = $(this).attr("id").substring(9);//extract bird ID from HTML
+            var price = await getPrice(id);
+            await buyBird(price, id);
+            $('.marketOffers').empty();//clear offer content
+            ids = await getBirdsOfOwner();
+            onSale = await getBirdsOnSale();
+            inMarket = onSale.filter(x => !ids.includes(x));//offers of other users
+            await buildMarket(inMarket);//repopulate with remaining birds that are for sale
+        });
+    };
+};
 
 function activateCancelButtonListener() {
     $(`[id^='cancelButton']`).on("click", async function() {
@@ -235,4 +240,4 @@ function activateCancelButtonListener() {
         await buildOffers(inOffers);
         //repopulate offers with remaining birds of user that are for sale
     });
-}
+};

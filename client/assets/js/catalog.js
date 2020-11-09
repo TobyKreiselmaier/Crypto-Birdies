@@ -5,7 +5,7 @@ var toDisplay;
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
-    await accessStudio();
+    await onlyOwnerAccess();
     balance = await returnBalance();
     displayBalance(balance);
     await initializeMarketplace();//allow Marketplace contract to handle offers.
@@ -22,7 +22,7 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
 })
 
 function displayBalance(balance) {
-    $('#fundsAvailable').html("Currently there are " + balance + " ETH available from bird sales.");
+    $('#fundsAvailable').html("You have " + balance + " ETH available from bird sales.");
 }
 
 function appendBirdToCatalog(dna, id) {

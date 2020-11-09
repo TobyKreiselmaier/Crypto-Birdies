@@ -35,14 +35,13 @@ p {
 .birdAttributes {
     background-color: #ededed;
     border-radius: 10px;
-    left: 2.5em;
+    left: 3em;
     padding: 25px;
 }
 
 .birdBox {
     background-color: #f8f9fa;
     border-radius: 10px;
-    left: 0.6em;
     padding-bottom: 10px;
     padding-left: 30px;
     padding-right: 30px;
@@ -235,7 +234,7 @@ p {
 
 #defaultButton {
     border-radius: 5px;
-    left: 4.6em;
+    left: 3.8em;
 }
 
 #genData {
@@ -260,9 +259,13 @@ p {
     width: min-content;
 }
 
+#pauseMessage {
+    text-align: center;
+}
+
 #randomizeButton {
     border-radius: 5px;
-    left: 0.8em;
+    left: 0.2em;
 }
 
 #sireBox {
