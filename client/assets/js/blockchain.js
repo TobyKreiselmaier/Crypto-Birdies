@@ -82,6 +82,8 @@ async function checkPause() {
 };
 
 async function pauseResumeContract() {
+    $('#pauseMessage').show();
+    $('#pauseMessage').text("Waiting for confirmation from blockchain...");
     if(!await checkPause()){
         await marketInstance.methods.pause().send({}, function(error){
             if (error) {
@@ -186,6 +188,7 @@ async function sellBird(price, id) {
             console.log(error);
         };
     });
+    window.location.reload();
 };
 
 async function removeOffer(id) {
@@ -196,6 +199,7 @@ async function removeOffer(id) {
             console.log(error);
         };
     });
+    window.location.reload();
 };
 
 async function buyBird(price, id) {
@@ -207,6 +211,7 @@ async function buyBird(price, id) {
             console.log(error);
         };
     });
+    window.location.reload();
 };
 
 async function getPrice(id) {
@@ -231,6 +236,7 @@ async function createBird() {
             console.log(error);
         };
     });
+    window.location.reload();
 };
 
 async function getBirdsOfOwner() {
@@ -305,4 +311,5 @@ async function breedBird(dadId, mumId) {
             console.log(error);
         };
     });
+    window.location.reload();
 };
