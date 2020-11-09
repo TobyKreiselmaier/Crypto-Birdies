@@ -92,8 +92,10 @@ async function pauseResumeContract() {
         await marketInstance.methods.resume().send({}, function(error){
             if (error) {
                 console.log(error);
-            }});
+            }
+        });
     }
+    window.location.reload();
 };
 
 async function initializeMarketplace() {
