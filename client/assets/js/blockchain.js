@@ -17,6 +17,7 @@ async function connectWallet() {
 
         birdInstance.events.Birth()
             .on('data', async function (event) {
+                console.log(event);
                 let owner = event.returnValues.owner;
                 let birdId = event.returnValues.birdId;
                 let mumId = event.returnValues.mumId;
@@ -299,11 +300,11 @@ async function getBirdDna(id) {
 };
 
 async function breedBird(dadId, mumId) {
+    $('#birdCreation').css("display", "block");
+    $('#birdCreation').text("Waiting for confirmations from blockchain...");
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error){
         if (error) {
             console.log(error);
         };
     });
-    $('#birdCreation').css("display", "block");
-    $('#birdCreation').text("Waiting for confirmations from blockchain...");
 };
