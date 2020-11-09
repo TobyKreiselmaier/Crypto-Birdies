@@ -38,8 +38,7 @@ Technical Functionality:
 * No external library calls to prevent Parity Freeze szenario
 * Independent Market Contract handling the trading of the NFT tokens
 * Truffle migrations
-* Chainlink oracle calls for randomization
 * Smart Contract deployed on Ropsten Testnet
   Address: 0x....
 
-Life demonstration: https://cryptobirdies.netlify.app
+Live demonstration: https://cryptobirdies.netlify.app

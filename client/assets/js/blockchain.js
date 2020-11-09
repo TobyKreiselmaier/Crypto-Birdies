@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0x25cdaB36433e42adb04F1C1694EC094269b4935f";//update after CryptoBirdies is deployed
-var marketAddress = "0x08C94C6d89EA54DA54c2109Af7c71Db86234B351";//update after Marketplace is deployed
+var birdAddress = "0x0e5384260679144dD838d8C126365148748E1b2c";//update after CryptoBirdies is deployed
+var marketAddress = "0x6835d70466eC15BD505B4F299aa8AABc329b2287";//update after Marketplace is deployed
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -116,6 +116,7 @@ async function initializeMarketplace() {
 }
 
 async function onlyOwnerAccess() {//limits access to studio and pause/resume to contract owner
+    $('#pauseMessage').hide();//making sure the message is not displayed by accident
     var owner = await birdInstance.methods.getContractOwner().call();
     var currentUser = await web3.eth.getAccounts();
     for (let i = 0; i < currentUser.length; i++) {
@@ -123,7 +124,13 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
         //logic for owner
         if (currentUser[i] == owner) {
             $('#designStudio').show();
+            if(await checkPause()) {
+                $('#pauseButton').text('Resume Contract');
+            } else {
+                $('#pauseButton').text('Pause Contract');
+            }
             $('#pauseButton').show();
+
 
         //logic for other users
         } else {
@@ -146,6 +153,11 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
 
     //event listener for pause button
     $('#pauseButton').click(async ()=>{
+        if(await checkPause()) {
+            alert('Are you sure you want to RESUME withdrawFunds() and buyBird() for all users?');
+        } else {
+            alert('Are you sure you want to PAUSE withdrawFunds() and buyBird() for all users?');
+        }
         await pauseResumeContract();
     })
 }
