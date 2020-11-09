@@ -4,8 +4,8 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0x0e5384260679144dD838d8C126365148748E1b2c";//update after CryptoBirdies is deployed
-var marketAddress = "0x6835d70466eC15BD505B4F299aa8AABc329b2287";//update after Marketplace is deployed
+var birdAddress = "0x70E2324ccF7a76e201DFf26d4749ED1bB821C305";
+var marketAddress = "0x78ad2F9C3924278692125a23Ed05d4e5FaCFd97c";
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){

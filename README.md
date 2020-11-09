@@ -42,3 +42,5 @@ Technical Functionality:
   Address: 0x....
 
 Live demonstration: https://cryptobirdies.netlify.app
+Birdcontract: https://ropsten.etherscan.io/address/0x70e2324ccf7a76e201dff26d4749ed1bb821c305
+Marketcontract: https://ropsten.etherscan.io/address/0x78ad2f9c3924278692125a23ed05d4e5facfd97c
