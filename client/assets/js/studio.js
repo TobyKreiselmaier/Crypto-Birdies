@@ -14,11 +14,11 @@ const defaultDNA = {
     };
 
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
-    await connectWallet();
-    await onlyOwnerAccess();
     $('.colorscreen').show();
     $('.attributes').hide();
     setDefaultDna();
+    await connectWallet();
+    await onlyOwnerAccess();
 });
 
 function setDefaultDna(){
