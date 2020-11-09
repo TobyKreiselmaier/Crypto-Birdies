@@ -23,7 +23,13 @@ async function connectWallet() {
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
                 if (location.href.replace(location.origin,'') == "/client/breeding.html") {
-                    $('#birdCreation').css("display", "block");
+                    $('.evolvingHeart').css("display", "block");
+                    $('#breedButton').css("display", "none");
+                    $('#dameButton').css("display", "none");
+                    $('#sireButton').css("display", "none");
+                    $('#swapButton').css("display", "none");
+                    $('#breedFooter').css("top", "-67em");
+                    await timeout(6000);// 6 secs to display evolving heart
                     $('#birdCreation').text(
                     "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: "
                         + owner 
@@ -293,18 +299,11 @@ async function getBirdDna(id) {
 };
 
 async function breedBird(dadId, mumId) {
-    $('.evolvingHeart').css("display", "block");
-    $('#breedButton').css("display", "none");
-    $('#dameButton').css("display", "none");
-    $('#sireButton').css("display", "none");
-    $('#swapButton').css("display", "none");
-    $('#breedFooter').css("top", "-67em");
-    await timeout(6000);// 6 secs to display evolving heart
-    $('#birdCreation').css("display", "block");
-    $('#birdCreation').text("Waiting for confirmations from blockchain...");
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error){
         if (error) {
             console.log(error);
         };
     });
+    $('#birdCreation').css("display", "block");
+    $('#birdCreation').text("Waiting for confirmations from blockchain...");
 };
