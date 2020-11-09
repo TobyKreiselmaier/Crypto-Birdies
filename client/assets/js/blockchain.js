@@ -83,7 +83,7 @@ async function checkPause() {
 
 async function pauseResumeContract() {
     $('#pauseMessage').show();
-    $('#pauseMessage').text("Waiting for confirmation from blockchain...");
+    $('#pauseMessage').text("Waiting for confirmations from blockchain...");
     if(!await checkPause()){
         await marketInstance.methods.pause().send({}, function(error){
             if (error) {
@@ -95,7 +95,6 @@ async function pauseResumeContract() {
                 console.log(error);
             }});
     }
-    window.location.reload();
 };
 
 async function initializeMarketplace() {
@@ -180,7 +179,7 @@ async function returnBalance() {
 
 async function sellBird(price, id) {
     $('#offerCreated').css("display", "block");
-    $('#offerCreated').text("Waiting for confirmation from blockchain...");
+    $('#offerCreated').text("Waiting for confirmations from blockchain...");
     var inWei = web3.utils.toWei(price, "ether");
     if (inWei < 0) {alert("Please enter a valid amount")};
     await marketInstance.methods.setOffer(inWei, id).send({}, function(error){
@@ -188,30 +187,27 @@ async function sellBird(price, id) {
             console.log(error);
         };
     });
-    window.location.reload();
 };
 
 async function removeOffer(id) {
     $('#offerRemoved').css("display", "block");
-    $('#offerRemoved').text("Waiting for confirmation from blockchain...");
+    $('#offerRemoved').text("Waiting for confirmations from blockchain...");
     await marketInstance.methods.removeOffer(id).send({}, function(error){
         if (error) {
             console.log(error);
         };
     });
-    window.location.reload();
 };
 
 async function buyBird(price, id) {
     $('#birdPurchased').css("display", "block");
-    $('#birdPurchased').text("Waiting for confirmation from blockchain...");
+    $('#birdPurchased').text("Waiting for confirmations from blockchain...");
     var inWei = web3.utils.toWei(price, "ether");
     await marketInstance.methods.buyBird(id).send({ value: inWei }, function(error){
         if (error) {
             console.log(error);
         };
     });
-    window.location.reload();
 };
 
 async function getPrice(id) {
@@ -230,13 +226,12 @@ async function getPrice(id) {
 
 async function createBird() {
     $('#birdCreation').css("display", "block");
-    $('#birdCreation').text("Waiting for confirmation from blockchain...");
+    $('#birdCreation').text("Waiting for confirmations from blockchain...");
     await birdInstance.methods.createBirdGen0(getDna()).send({}, function(error){
         if (error) {
             console.log(error);
         };
     });
-    window.location.reload();
 };
 
 async function getBirdsOfOwner() {
@@ -305,11 +300,10 @@ async function breedBird(dadId, mumId) {
     $('#swapButton').css("display", "none");
     await timeout(6000);// 6 secs to display evolving heart
     $('#birdCreation').css("display", "block");
-    $('#birdCreation').text("Waiting for confirmation from blockchain...");
+    $('#birdCreation').text("Waiting for confirmations from blockchain...");
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error){
         if (error) {
             console.log(error);
         };
     });
-    window.location.reload();
 };
