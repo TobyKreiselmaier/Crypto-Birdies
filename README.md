@@ -29,12 +29,13 @@ UI Functionality:
 Technical Functionality:
 
 * Creation and management of ERC721 tokens
-* Payments with ERC20 token
-* Compliance with IERC721 and IERC165
-* Extensive unit testing of the smart contract code with three additional test contracts
+* Payments with ERC20 tokens (testnet)
+* Compliance with IERC721 and IERC165 (Open Zeppelin)
+* 95 unit tests for the smart contract code utilizing three additional test contracts
 * Implementation of pause functionality to allow for maintenance by the contract owner
 * Full SafeMath implementation for full protection against Over- and Underflow
 * Checks / Effects / Interactions logic to prevent re-entrency attacks
+* No external library calls to prevent Parity Freeze szenario
 * Independent Market Contract handling the trading of the NFT tokens
 * Truffle migrations
 * Chainlink oracle calls for randomization
