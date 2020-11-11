@@ -5,8 +5,8 @@ var birdInstance;
 var marketInstance;
 var user;
 var access = false;
-var birdAddress = "0x29c2D933492DCEA2801c5047c223841c5668005B";
-var marketAddress = "0x5B4FB54C239662Eba1a8543Ab68358a616Dd1d67";
+var birdAddress = "0x70e2324ccf7a76e201dff26d4749ed1bb821c305";
+var marketAddress = "0x78ad2f9c3924278692125a23ed05d4e5facfd97c";
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
