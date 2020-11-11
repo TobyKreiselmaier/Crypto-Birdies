@@ -30,4 +30,8 @@ contract TestBirdies is CryptoBirdies {
             randomPair, 
             randomNumberForRandomPair);
     }
+
+    function testSetGenCounter(uint256 value) public returns (uint256){
+        return gen0Counter = value;
+    }
 }

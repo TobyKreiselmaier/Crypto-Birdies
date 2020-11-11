@@ -176,19 +176,10 @@ contract("CryptoBirdies", (accounts) => {
       assert.equal(result, 1, "The counter is incorrect");
     });
 
-    it("should only allow a maximum of 10 Gen0 birds to be created", async () => {
-      await testBirdiesInstance.createBirdGen0(101);
-      await testBirdiesInstance.createBirdGen0(102);
-      await testBirdiesInstance.createBirdGen0(103);
-      await testBirdiesInstance.createBirdGen0(104);
-      await testBirdiesInstance.createBirdGen0(105);
-      await testBirdiesInstance.createBirdGen0(106);
-      await testBirdiesInstance.createBirdGen0(107);
-      await testBirdiesInstance.createBirdGen0(108);
-      await testBirdiesInstance.createBirdGen0(108);
-      await testBirdiesInstance.createBirdGen0(110);
+    it.only("should only allow a maximum of 10 Gen0 birds to be created", async () => {
+      await testBirdiesInstance.testSetGenCounter(10);
 
-      //this should not work for the eleventh Gen0 bird.
+      //this should not work for an eleventh Gen0 bird.
       await truffleAssert.reverts(testBirdiesInstance.createBirdGen0(111));
     });
 
