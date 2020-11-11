@@ -176,7 +176,7 @@ contract("CryptoBirdies", (accounts) => {
       assert.equal(result, 1, "The counter is incorrect");
     });
 
-    it.only("should only allow a maximum of 10 Gen0 birds to be created", async () => {
+    it("should only allow a maximum of 10 Gen0 birds to be created", async () => {
       await testBirdiesInstance.testSetGenCounter(10);
 
       //this should not work for an eleventh Gen0 bird.
