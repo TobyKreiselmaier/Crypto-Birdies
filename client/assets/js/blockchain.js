@@ -4,8 +4,9 @@ ethereum.autoRefreshOnNetworkChange = false;
 var birdInstance;
 var marketInstance;
 var user;
-var birdAddress = "0x70E2324ccF7a76e201DFf26d4749ED1bB821C305";
-var marketAddress = "0x78ad2F9C3924278692125a23Ed05d4e5FaCFd97c";
+var access = false;
+var birdAddress = "0x29c2D933492DCEA2801c5047c223841c5668005B";
+var marketAddress = "0x5B4FB54C239662Eba1a8543Ab68358a616Dd1d67";
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -22,9 +23,14 @@ async function connectWallet() {
                 let mumId = event.returnValues.mumId;
                 let dadId = event.returnValues.dadId;
                 let genes = event.returnValues.genes;
-                if (location.href.replace(location.origin,'') == "/breeding.html") {
+
+                //check if the event belongs to one of the currently connected addresses
+                access = await isCurrentUserOwner(owner);
+
+                //birth events
+                if ((location.href.replace(location.origin,'') == "/breeding.html") && (access)) {
                     $('#birdCreation').text(
-                    "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: "
+                    "A new bird is born! Your baby bird will appear in the catalog after confirmation from the blockchain. Owner: "
                         + owner 
                         + " | BirdID: " + birdId 
                         + " | MumID: " + mumId 
@@ -46,22 +52,28 @@ async function connectWallet() {
             .on('error', console.error);
 
         marketInstance.events.MarketTransaction()
-            .on('data', (event) => {
-                var eventType = event.returnValues.TxType;
-                var tokenId = event.returnValues.tokenId;
-                if (eventType == "Offer created") {
+            .on('data', async function (event) {
+                let eventType = event.returnValues.TxType;
+                let owner = event.returnValues.owner;
+                let tokenId = event.returnValues.tokenId;
+
+                //check if the event belongs to one of the currently connected addresses
+                access = await isCurrentUserOwner(owner);
+                
+                //events
+                if ((eventType == "Offer created") && (access)) {
                     $('#offerCreated').css("display", "block");
                     $('#offerCreated').text(
                     "Offer successfully created! After confirmation from the blockchain, your new offer will appear in the market place. Owner: " 
-                    + user + " | BirdID: " + tokenId);
+                    + owner + " | BirdID: " + tokenId);
                 };
-                if (eventType == "Offer removed") {
+                if ((eventType == "Offer removed") && (access)) {
                     $('#offerRemoved').css("display", "block");
                     $('#offerRemoved').text(
                     "Offer successfully removed! After confirmation from the blockchain, your bird will again appear in the catalog. Owner: " 
                     + user + " | BirdID: " + tokenId);
                 };
-                if (eventType == "Bird successfully purchased") {
+                if ((eventType == "Bird successfully purchased") && (access)) {
                     $('#birdPurchased').css("display", "block");
                     $('#birdPurchased').text(
                     "Bird successfully purchased! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: " 
@@ -72,8 +84,15 @@ async function connectWallet() {
     });
 };
 
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+async function isCurrentUserOwner(eventOwner) {
+    var currentUsers = await web3.eth.getAccounts();
+    for (let i = 0; i < currentUsers.length; i++) {
+        if (currentUsers[i] == eventOwner) {
+            return true;
+        } else {
+            return false;
+        };
+    };
 };
 
 async function checkPause() {
@@ -277,7 +296,7 @@ async function buildMarket(ids){
         //console.log(bird);
         await appendBirdToMarket(bird, ids[i]);
     };
-    await activateBuyButtonListener();//must be activated after all buttons are rendered.
+    await activateBuyButtonListeners();//must be activated after all buttons are rendered.
 };
 
 async function buildOffers(ids){
@@ -286,7 +305,7 @@ async function buildOffers(ids){
         //console.log(bird);
         await appendBirdToOffers(bird, ids[i]);
     };
-    activateCancelButtonListener();
+    activateCancelButtonListeners();
 };
 
 async function getBirdDna(id) {

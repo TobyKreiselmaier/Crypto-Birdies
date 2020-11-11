@@ -15,6 +15,7 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     inOffers = onSale.filter(x => ids.includes(x));//user's offers
     await buildMarket(inMarket);//build market
     await buildOffers(inOffers);//build offers
+    activateMouseListeners();
 });
 
 async function appendBirdToMarket(dna, id) {
@@ -30,7 +31,7 @@ async function appendBirdToOffers(dna, id) {
 }
 
 function marketBox(price, id) {//used for offers of other users
-    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 buyBox m-2 light-b-shadow">
+    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 buyBox CatalogBox m-2 light-b-shadow">
                         <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -120,7 +121,7 @@ function marketBox(price, id) {//used for offers of other users
 }
 
 function offerBox(price, id) {//used for offers of current user
-    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 offerBox m-2 light-b-shadow">
+    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 offerBox CatalogBox m-2 light-b-shadow">
                         <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -210,8 +211,23 @@ function offerBox(price, id) {//used for offers of current user
     $('.myOffers').append(boxDiv);
 }
 
+//Listener for eye animation
+function activateMouseListeners() {
+    $('.CatalogBox').on("mousemove", () => {
+        var eyeballs = $('.eyesFollow');
+        document.onmousemove = function(event) {
+            var x = event.clientX * 65 / window.innerWidth + "%";
+            var y = event.clientY * 65 / window.innerHeight + "%";
+            for (let i = 0; i < eyeballs.length; i++) {
+                eyeballs[i].style.left = x;
+                eyeballs[i].style.top = y;
+            };
+        };
+    });
+};
+
 //Listeners for buttons
-async function activateBuyButtonListener() {
+async function activateBuyButtonListeners() {
     if(await checkPause()) {
         $(`[id^='buyButton']`).hide();
     } else {
@@ -229,7 +245,7 @@ async function activateBuyButtonListener() {
     };
 };
 
-function activateCancelButtonListener() {
+function activateCancelButtonListeners() {
     $(`[id^='cancelButton']`).on("click", async function() {
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
         await removeOffer(id);

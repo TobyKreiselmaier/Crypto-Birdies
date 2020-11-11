@@ -1,4 +1,5 @@
 var colors = Object.values(allColors());
+var addClass = "";
 
 function birdDna(dna) {
     var dnaObject = {
@@ -359,6 +360,7 @@ function resetAnimation(boxId) {
     $(`${boxId} .tail_bottom`).removeClass('bottomWaggingTail');
     $(`${boxId} .feather_top`).removeClass('topAttention');
     $(`${boxId} .feather_bottom`).removeClass('bottomAttention');
+    $(`${boxId} .pupil`).removeClass('eyesFollow');
 }
 
 function animationType1(boxId) {
@@ -402,14 +404,7 @@ function animationType7(boxId) {
 
 function animationType8(boxId) {
     basicEyes(boxId);
-    var eyeballs = $(`${boxId} .pupil`);
-    document.onmousemove = function(event) {
-        var x = event.clientX * 65 / window.innerWidth + "%";
-        var y = event.clientY * 65 / window.innerHeight + "%";
-        for (let i = 0; i < 2; i++) {
-            eyeballs[i].style.left = x;
-            eyeballs[i].style.top = y;
-        }}
+    $(`${boxId} .pupil`).addClass('eyesFollow');
 }
 
 function printGeneration(genNo, id) {

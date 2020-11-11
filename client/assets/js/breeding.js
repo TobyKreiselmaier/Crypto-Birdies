@@ -21,13 +21,14 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
         $('#swapButton').css("display", "none");
         await buildModal(ids); //iterates through array and returns full info from blockchain
         await renderDameAndSire(ids[0], ids[1]);
-    }
+    };
+    activateMouseListeners();
 });
 
 function appendBirdToModal(dna, id) {
     modalBox(id);
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
-}
+};
 
 async function setUpModal() {
     $('.row').empty(); //clear modal content
@@ -42,7 +43,8 @@ async function setUpModal() {
     };
     await buildModal(ids); //iterates through array and returns full info from blockchain
     $('#birdSelection').modal('show'); //open modal
-}
+    activateMouseListeners();
+};
 
 async function renderDameAndSire(dameId, sireId) {
     dameBox(dameId);
@@ -53,29 +55,29 @@ async function renderDameAndSire(dameId, sireId) {
     dna = await getBirdDna(sireId)
     obj = birdDna(dna, sireId);
     renderBird(`#sireBox`, obj, sireId);
-}
+};
 
 async function renderChild(id) {
     childBox(id);
     var dna = await getBirdDna(id);
     var obj = birdDna(dna, id);
     renderBird(`#childBox`, obj, id);
-}
+};
 
 //Listeners for buttons
 $('#dameButton').on("click", async function() {
     await setUpModal();
     selectDame(); //functionality when dame is to be selected
-})
+});
 
 $('#sireButton').on("click", async function() {
     await setUpModal();
     selectSire();//modal functionality when sire is to be selected
-})
+});
 
 $('#breedButton').click(async ()=>{ //sends parent IDs to blockchain with request to breed child
     await breedBird(sireId, dameId);
-})
+});
 
 //Listeners for selections
 function selectDame(){
@@ -88,7 +90,7 @@ function selectDame(){
         renderBird(`#dameBox`, obj, dameId);//render bird
         $('#birdSelection').modal('toggle'); //close modal
     });
-}
+};
 
 function selectSire(){
     $(`[id^='BirdBox']`).off("click");
@@ -100,11 +102,26 @@ function selectSire(){
             renderBird(`#sireBox`, obj, sireId);//render bird
             $('#birdSelection').modal('toggle'); //close modal
     });
-}
+};
+
+//Listener for eye animation
+function activateMouseListeners() {
+    $('.CatalogBox').on("mousemove", () => {
+        var eyeballs = $('.eyesFollow');
+        document.onmousemove = function(event) {
+            var x = event.clientX * 65 / window.innerWidth + "%";
+            var y = event.clientY * 65 / window.innerHeight + "%";
+            for (let i = 0; i < eyeballs.length; i++) {
+                eyeballs[i].style.left = x;
+                eyeballs[i].style.top = y;
+            };
+        };
+    });
+};
 
 //dynamic elements for breeding page
 function dameBox(id) {
-    var boxDiv =    `<div id="dameBox" class="col-lg-6 m-2 light-b-shadow">
+    var boxDiv =    `<div id="dameBox" class="col-lg-6 CatalogBox m-2 light-b-shadow">
                         <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -186,7 +203,7 @@ function dameBox(id) {
 }
 
 function sireBox(id) {
-    var boxDiv =    `<div id="sireBox" class="col-lg-4 m-2 light-b-shadow">
+    var boxDiv =    `<div id="sireBox" class="col-lg-4 CatalogBox m-2 light-b-shadow">
                         <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -268,7 +285,7 @@ function sireBox(id) {
 }
 
 function childBox(id) {
-    var boxDiv =    `<div style='transform: scaleX(0.8)' id="childBox" class="col-lg-6 m-2 light-b-shadow">
+    var boxDiv =    `<div style='transform: scaleX(0.8)' id="childBox" class="col-lg-6 m-2 CatalogBox light-b-shadow">
                         <div style='transform: scale(0.8) scaleX(1.2)' class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>
@@ -350,7 +367,7 @@ function childBox(id) {
 }
 
 function modalBox(id) {
-    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
+    var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 CatalogBox m-2 light-b-shadow">
                         <div class="bird">
                             <div class="tail">
                                 <div class="tail_top"></div>

@@ -19,6 +19,7 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     .filter(x => !onSale.includes(x));//all birds of this user not on sale
     }
     await buildCatalog(toDisplay);
+    activateMouseListeners();
 })
 
 function displayBalance(balance) {
@@ -26,7 +27,7 @@ function displayBalance(balance) {
 }
 
 function appendBirdToCatalog(dna, id) {
-    catalogBox(id);
+    catalogBox(id); //class is defined and set in rendering.js
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
 }
 
@@ -129,7 +130,7 @@ $('#withdrawButton').click(async ()=>{
     }
 });
 
-//Listener for offer button
+//Listeners for offer buttons
 function activateCatalogEventListeners() {
     $(`[id^='birdPrice']`).keypress(async function(e) {
         if ( e.which == 13 ) {//both enter buttons have '13'.
@@ -146,9 +147,9 @@ function activateCatalogEventListeners() {
                 toDisplay = ids
             .filter(x => !onSale.includes(x));//all birds of this user not on sale
                 await buildCatalog(toDisplay);//repopulate catalog with remaining birds
-            }
-        }
-    })
+            };
+        };
+    });
 
     $(`[id^='offerButton']`).on("click", async function() {
         var id = $(this).attr("id").substring(11);//extract id from HTML.
@@ -164,6 +165,21 @@ function activateCatalogEventListeners() {
             toDisplay = ids
         .filter(x => !onSale.includes(x));//all birds of this user not on sale
             await buildCatalog(toDisplay);//repopulate catalog with remaining birds
-        }
-    })
-}
+        };
+    });
+};
+
+//Listener for eye animation
+function activateMouseListeners() {
+    $('.CatalogBox').on("mousemove", () => {
+        var eyeballs = $('.eyesFollow');
+        document.onmousemove = function(event) {
+            var x = event.clientX * 65 / window.innerWidth + "%";
+            var y = event.clientY * 65 / window.innerHeight + "%";
+            for (let i = 0; i < eyeballs.length; i++) {
+                eyeballs[i].style.left = x;
+                eyeballs[i].style.top = y;
+            };
+        };
+    });
+};
