@@ -8,7 +8,6 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     await onlyOwnerAccess();
     balance = await returnBalance();
     displayBalance(balance);
-    await initializeMarketplace();//allow Marketplace contract to handle offers.
     ids = await getBirdsOfOwner();
     onSale = await getBirdsOnSale();
     if (onSale == "") {
@@ -20,16 +19,16 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     }
     await buildCatalog(toDisplay);
     activateMouseListeners();
-})
+});
 
 function displayBalance(balance) {
-    $('#fundsAvailable').html("You have " + balance + " ETH available from bird sales.");
-}
+    $('#fundsAvailable').html("You have " + balance + " ETH available from bird sales. ");
+};
 
 function appendBirdToCatalog(dna, id) {
     catalogBox(id); //class is defined and set in rendering.js
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
-}
+};
 
 function catalogBox(id) {
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 catalogBox m-2 light-b-shadow">
@@ -120,20 +119,21 @@ function catalogBox(id) {
                         </div>
                     </div>`
     $('.row').append(boxDiv);
-}
+};
 
 //Listener for withdraw button
 $('#withdrawButton').click(async ()=>{
     if(balance > 0) {
         await withdraw();
         window.location.reload();
-    }
+    };
 });
 
 //Listeners for offer buttons
 function activateCatalogEventListeners() {
     $(`[id^='birdPrice']`).keypress(async function(e) {
         if ( e.which == 13 ) {//both enter buttons have '13'.
+            await initializeMarketplace();//allow Marketplace contract to handle offers.
             var id = $(this).attr("id").substring(9);//extract id from HTML.
             var price = $(this).val();//get price of the bird with the same id as the button
             if (isNaN(price)) {
@@ -152,6 +152,7 @@ function activateCatalogEventListeners() {
     });
 
     $(`[id^='offerButton']`).on("click", async function() {
+        await initializeMarketplace();//allow Marketplace contract to handle offers.
         var id = $(this).attr("id").substring(11);//extract id from HTML.
         var price = $(`#birdPrice${id}`).val();//get price of the bird with the same id as the button
         if (isNaN(price)) {

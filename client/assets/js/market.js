@@ -6,8 +6,6 @@ var inOffers;
 $(document).ready( async () => {//when page is loaded, get latest instance of blockchain
     await connectWallet();
     await onlyOwnerAccess();
-    await initializeMarketplace();
-    //make sure marketplace contract is approved as operator for user
     ids = await getBirdsOfOwner();
     onSale = await getBirdsOnSale();
     inMarket = onSale.filter(x => !ids.includes(x));//offers of other users
@@ -22,13 +20,13 @@ async function appendBirdToMarket(dna, id) {
     var price = await getPrice(id);
     marketBox(price, id);
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
-}
+};
 
 async function appendBirdToOffers(dna, id) {
     var price = await getPrice(id);
     offerBox(price, id);
     renderBird(`#BirdBox${id}`, birdDna(dna), id);
-}
+};
 
 function marketBox(price, id) {//used for offers of other users
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 buyBox CatalogBox m-2 light-b-shadow">
@@ -118,7 +116,7 @@ function marketBox(price, id) {//used for offers of other users
                         </div>
                     </div>`
     $('.marketOffers').append(boxDiv);
-}
+};
 
 function offerBox(price, id) {//used for offers of current user
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 offerBox CatalogBox m-2 light-b-shadow">
@@ -209,7 +207,7 @@ function offerBox(price, id) {//used for offers of current user
                         </div>
                     </div>`
     $('.myOffers').append(boxDiv);
-}
+};
 
 //Listener for eye animation
 function activateMouseListeners() {
@@ -233,6 +231,8 @@ async function activateBuyButtonListeners() {
     } else {
         $(`[id^='buyButton']`).show();
         $(`[id^='buyButton']`).on("click", async function() {
+            await initializeMarketplace();
+            //make sure marketplace contract is approved as operator for user
             var id = $(this).attr("id").substring(9);//extract bird ID from HTML
             var price = await getPrice(id);
             await buyBird(price, id);
@@ -247,6 +247,8 @@ async function activateBuyButtonListeners() {
 
 function activateCancelButtonListeners() {
     $(`[id^='cancelButton']`).on("click", async function() {
+        await initializeMarketplace();
+        //make sure marketplace contract is approved as operator for user
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
         await removeOffer(id);
         $('.myOffers').empty();//clear offer content

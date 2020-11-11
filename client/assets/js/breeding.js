@@ -200,7 +200,7 @@ function dameBox(id) {
                     </div>`
     $('#dameDisplay').empty();
     $('#dameDisplay').append(boxDiv);
-}
+};
 
 function sireBox(id) {
     var boxDiv =    `<div id="sireBox" class="col-lg-4 CatalogBox m-2 light-b-shadow">
@@ -282,7 +282,7 @@ function sireBox(id) {
                     </div>`
     $('#sireDisplay').empty();
     $('#sireDisplay').append(boxDiv);
-}
+};
 
 function childBox(id) {
     var boxDiv =    `<div style='transform: scaleX(0.8)' id="childBox" class="col-lg-6 m-2 CatalogBox light-b-shadow">
@@ -364,7 +364,7 @@ function childBox(id) {
                     </div>`
     $('#childDisplay').empty();
     $('#childDisplay').append(boxDiv);
-}
+};
 
 function modalBox(id) {
     var boxDiv =    `<div id="BirdBox` + id + `" class="col-lg-3 CatalogBox m-2 light-b-shadow">
@@ -444,4 +444,4 @@ function modalBox(id) {
                         </div>
                     </div>`
     $('.row').append(boxDiv);
-}
+};

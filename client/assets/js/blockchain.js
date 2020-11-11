@@ -111,9 +111,9 @@ async function pauseResumeContract() {
         await marketInstance.methods.resume().send({}, function(error){
             if (error) {
                 console.log(error);
-            }
+            };
         });
-    }
+    };
     window.location.reload();
 };
 
@@ -260,7 +260,7 @@ async function getBirdsOfOwner() {
         ids = await birdInstance.methods.getAllBirdsOfOwner(user).call();
     } catch (error) {
         console.log(error);
-    }
+    };
     return ids;
 };
 
