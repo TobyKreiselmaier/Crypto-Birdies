@@ -3,6 +3,7 @@ var sireId;
 var ids;
 
 $(document).ready(async () => { //when page is loaded, get latest instance of blockchain
+    $('#breedAgainButton').css("display", "none");
     await connectWallet(); //connect MetaMask (if not already connected)
     await onlyOwnerAccess();
     ids = await getBirdsOfOwner(); //fill array with ids for all birds of this address
@@ -10,6 +11,7 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
     sireId = ids[1];
     if (ids.length == 2) { //user must own at least two birds to continue
         await renderDameAndSire(dameId, sireId);
+        $('#insufficient').hide();
         $('#swapButton').css("display", "block");
         $('#swapButton').click(async function() { //swap dame and sire if only 2 birds in array
             var helper = dameId;
@@ -18,6 +20,7 @@ $(document).ready(async () => { //when page is loaded, get latest instance of bl
             await renderDameAndSire(dameId, sireId);
         })
     } else if (ids.length > 2) {
+        $('#insufficient').hide();
         $('#swapButton').css("display", "none");
         await buildModal(ids); //iterates through array and returns full info from blockchain
         await renderDameAndSire(ids[0], ids[1]);
@@ -65,17 +68,17 @@ async function renderChild(id) {
 };
 
 //Listeners for buttons
-$('#dameButton').on("click", async function() {
+$('#dameButton').on("click", async () => {
     await setUpModal();
     selectDame(); //functionality when dame is to be selected
 });
 
-$('#sireButton').on("click", async function() {
+$('#sireButton').on("click", async () => {
     await setUpModal();
     selectSire();//modal functionality when sire is to be selected
 });
 
-$('#breedButton').click(async ()=>{ //sends parent IDs to blockchain with request to breed child
+$('#breedButton').on("click", async () => { //sends parent IDs to blockchain with request to breed child
     await breedBird(sireId, dameId);
 });
 

@@ -236,11 +236,7 @@ async function activateBuyButtonListeners() {
             var id = $(this).attr("id").substring(9);//extract bird ID from HTML
             var price = await getPrice(id);
             await buyBird(price, id);
-            $('.marketOffers').empty();//clear offer content
-            ids = await getBirdsOfOwner();
-            onSale = await getBirdsOnSale();
-            inMarket = onSale.filter(x => !ids.includes(x));//offers of other users
-            await buildMarket(inMarket);//repopulate with remaining birds that are for sale
+            $(`#BirdBox${id}`).remove();//remove bird from DOM
         });
     };
 };
@@ -251,11 +247,6 @@ function activateCancelButtonListeners() {
         //make sure marketplace contract is approved as operator for user
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
         await removeOffer(id);
-        $('.myOffers').empty();//clear offer content
-        ids = await getBirdsOfOwner();
-        onSale = await getBirdsOnSale();
-        inOffers = onSale.filter(x => ids.includes(x));//user's offers
-        await buildOffers(inOffers);
-        //repopulate offers with remaining birds of user that are for sale
+        $(`#BirdBox${id}`).remove();//remove bird from DOM
     });
 };

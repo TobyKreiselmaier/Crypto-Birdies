@@ -105,8 +105,8 @@ p {
     background-color: #f8f9fa;
     border-radius: 10px;
     height: 31em;
-    min-width: 21em;
-    max-width: 21em;
+    min-width: 20.7em;
+    max-width: 20.7em;
     padding-right: 30px;
     z-index: 20;
 }
@@ -159,6 +159,12 @@ p {
 }
 
 /* IDs */
+#breedAgainButton {
+    left: 28.4em;
+    position: relative;
+    top: -65em;
+}
+
 #breedButton {
     left: 10em;
     position: relative;
@@ -167,7 +173,7 @@ p {
 
 #breedFooter {
     position: relative;
-    top: -33em;
+    top: -36.5em;
 }
 
 #cardButton {

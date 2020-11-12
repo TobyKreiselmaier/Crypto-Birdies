@@ -125,7 +125,7 @@ function catalogBox(id) {
 $('#withdrawButton').click(async ()=>{
     if(balance > 0) {
         await withdraw();
-        window.location.reload();
+        location.reload();
     };
 });
 
@@ -142,11 +142,7 @@ function activateCatalogEventListeners() {
                 alert("Please enter a positive number!")
             } else{
                 await sellBird(price, id);
-                $('.row').empty();//clear catalog content
-                onSale = await getBirdsOnSale();
-                toDisplay = ids
-            .filter(x => !onSale.includes(x));//all birds of this user not on sale
-                await buildCatalog(toDisplay);//repopulate catalog with remaining birds
+                $(`#BirdBox${id}`).remove();//remove bird from DOM
             };
         };
     });
@@ -161,11 +157,7 @@ function activateCatalogEventListeners() {
             alert("Please enter a positive number!")
         } else{
             await sellBird(price, id);
-            $('.row').empty();//clear catalog content
-            onSale = await getBirdsOnSale();
-            toDisplay = ids
-        .filter(x => !onSale.includes(x));//all birds of this user not on sale
-            await buildCatalog(toDisplay);//repopulate catalog with remaining birds
+            $(`#BirdBox${id}`).remove();//remove bird from DOM
         };
     });
 };

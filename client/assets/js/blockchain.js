@@ -5,8 +5,8 @@ var birdInstance;
 var marketInstance;
 var user;
 var access = false;
-var birdAddress = "0x70e2324ccf7a76e201dff26d4749ed1bb821c305";
-var marketAddress = "0x78ad2f9c3924278692125a23ed05d4e5facfd97c";
+var birdAddress = "0x7ee527734467E27C836c8455Eb873102ff910abA";
+var marketAddress = "0xB43FF880578e72288E23d60CFA4a2b7eEeE7f80C";
 
 async function connectWallet() {
     return window.ethereum.enable().then(function(accounts){
@@ -28,7 +28,7 @@ async function connectWallet() {
                 access = await isCurrentUserOwner(owner);
 
                 //birth events
-                if ((location.href.replace(location.origin,'') == "/breeding.html") && (access)) {
+                if (location.href.includes("breeding") && (access)) {
                     $('#birdCreation').text(
                     "A new bird is born! Your baby bird will appear in the catalog after confirmation from the blockchain. Owner: "
                         + owner 
@@ -37,8 +37,12 @@ async function connectWallet() {
                         + " | DadID: " + dadId
                         + " | Genes: " + genes);
                     await renderChild(birdId);
-                    $('#breedFooter').css("top", "-67em");
-                } else if (location.href.replace(location.origin,'') == "/studio.html") {
+                    $('#breedAgainButton').css("display", "block");
+                    $('#breedFooter').css("top", "-65.5em");
+                    $('#breedAgainButton').on("click", () => {
+                        location.reload();
+                    });
+                } else if (location.href.includes("studio") && (access)) {
                     $('#birdCreation').css("display", "block");
                     $('#birdCreation').text(
                     "Bird successfully created! After confirmation from the blockchain, your new bird will appear in the catalog. Owner: "
@@ -101,8 +105,7 @@ async function checkPause() {
 
 async function pauseResumeContract() {
     $('#pauseMessage').show();
-    $('#pauseMessage').text(
-        "Please don't initialize another blockchain operation at the moment. Still waiting for confirmations...");
+    $('#pauseMessage').text("Waiting for confirmations from blockchain...");
     if(!await checkPause()){
         await marketInstance.methods.pause().send({}, function(error){
             if (error) {
@@ -202,8 +205,7 @@ async function returnBalance() {
 
 async function sellBird(price, id) {
     $('#offerCreated').css("display", "block");
-    $('#offerCreated').text(
-        "Please don't initialize another blockchain operation at the moment. Still waiting for confirmations...");
+    $('#offerCreated').text("Waiting for confirmations from blockchain...");
     var inWei = web3.utils.toWei(price, "ether");
     if (inWei < 0) {alert("Please enter a valid amount")};
     await marketInstance.methods.setOffer(inWei, id).send({}, function(error){
@@ -215,8 +217,7 @@ async function sellBird(price, id) {
 
 async function removeOffer(id) {
     $('#offerRemoved').css("display", "block");
-    $('#offerRemoved').text(
-        "Please don't initialize another blockchain operation at the moment. Still waiting for confirmations...");
+    $('#offerRemoved').text("Waiting for confirmations from blockchain...");
     await marketInstance.methods.removeOffer(id).send({}, function(error){
         if (error) {
             console.log(error);
@@ -226,8 +227,7 @@ async function removeOffer(id) {
 
 async function buyBird(price, id) {
     $('#birdPurchased').css("display", "block");
-    $('#birdPurchased').text(
-        "Please don't initialize another blockchain operation at the moment. Still waiting for confirmations...");
+    $('#birdPurchased').text("Waiting for confirmations from blockchain...");
     var inWei = web3.utils.toWei(price, "ether");
     await marketInstance.methods.buyBird(id).send({ value: inWei }, function(error){
         if (error) {
@@ -318,14 +318,13 @@ async function getBirdDna(id) {
 
 async function breedBird(dadId, mumId) {
     $('#birdCreation').css("display", "block");
-    $('#birdCreation').text(
-        "Please don't initialize another blockchain operation at the moment. Still waiting for confirmations...");
+    $('#birdCreation').text("Waiting for confirmations from blockchain...");
     $('.evolvingHeart').css("display", "block");
     $('#breedButton').css("display", "none");
     $('#dameButton').css("display", "none");
     $('#sireButton').css("display", "none");
     $('#swapButton').css("display", "none");
-    $('#breedFooter').css("top", "-67em");
+    $('#breedFooter').css("top", "-99em");
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error){
         if (error) {
             console.log(error);
