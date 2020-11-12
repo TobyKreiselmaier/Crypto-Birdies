@@ -11,8 +11,8 @@ $(document).ready( async () => {//when page is loaded, get latest instance of bl
     inMarket = onSale.filter(x => !ids.includes(x));//offers of other users
     inMarket = inMarket.filter(x => !["0"].includes(x));//remove Bird0
     inOffers = onSale.filter(x => ids.includes(x));//user's offers
-    await buildMarket(inMarket);//build market
     await buildOffers(inOffers);//build offers
+    await buildMarket(inMarket);//build market
     activateMouseListeners();
 });
 
