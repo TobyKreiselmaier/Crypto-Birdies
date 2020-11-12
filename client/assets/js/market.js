@@ -235,8 +235,8 @@ async function activateBuyButtonListeners() {
             //make sure marketplace contract is approved as operator for user
             var id = $(this).attr("id").substring(9);//extract bird ID from HTML
             var price = await getPrice(id);
-            $(`#BirdBox${id}`).remove();//remove bird from DOM
             await buyBird(price, id);
+            $(`#BirdBox${id}`).remove();//remove bird from DOM
         });
     };
 };
@@ -246,7 +246,7 @@ function activateCancelButtonListeners() {
         await initializeMarketplace();
         //make sure marketplace contract is approved as operator for user
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
-        $(`#BirdBox${id}`).remove();//remove bird from DOM
         await removeOffer(id);
+        $(`#BirdBox${id}`).remove();//remove bird from DOM
     });
 };
