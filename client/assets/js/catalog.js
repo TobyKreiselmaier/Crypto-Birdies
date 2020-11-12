@@ -141,8 +141,8 @@ function activateCatalogEventListeners() {
             } else if (price <= 0) {
                 alert("Please enter a positive number!")
             } else{
-                await sellBird(price, id);
                 $(`#BirdBox${id}`).remove();//remove bird from DOM
+                await sellBird(price, id);
             };
         };
     });
@@ -156,8 +156,8 @@ function activateCatalogEventListeners() {
         } else if (price <= 0) {
             alert("Please enter a positive number!")
         } else{
-            await sellBird(price, id);
             $(`#BirdBox${id}`).remove();//remove bird from DOM
+            await sellBird(price, id);
         };
     });
 };
