@@ -335,6 +335,9 @@ async function breedBird(dadId, mumId) {
             $('#dameButton').show();
             $('#sireButton').show();
             $('#breedFooter').css("top", "-33em");
+            if(ids.length == 2) {
+                $('#swapButton').show();
+            };
             console.log(error);
         };
     });
