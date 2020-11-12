@@ -247,8 +247,8 @@ function activateCancelButtonListeners() {
         await initializeMarketplace();
         //make sure marketplace contract is approved as operator for user
         var id = $(this).attr("id").substring(12);//extract bird ID from HTML
-        await removeOffer(id);
         $(`#cancelButton${id}`).hide();
+        await removeOffer(id);
         $(`#BirdBox${id}`).remove();//remove bird from DOM
     });
 };
