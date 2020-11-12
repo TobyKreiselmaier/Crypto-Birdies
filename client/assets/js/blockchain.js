@@ -185,6 +185,7 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
 async function withdraw() {
     await marketInstance.methods.withdrawFunds().send({}, function(error){
         if (error) {
+            $('#withdrawButton').show();
             console.log(error);
         };
     });
@@ -210,6 +211,8 @@ async function sellBird(price, id) {
     if (inWei < 0) {alert("Please enter a valid amount")};
     await marketInstance.methods.setOffer(inWei, id).send({}, function(error){
         if (error) {
+            $(`#birdPrice${id}`).show();
+            $(`#offerButton${id}`).show();
             console.log(error);
         };
     });
@@ -220,6 +223,7 @@ async function removeOffer(id) {
     $('#offerRemoved').text("Waiting for confirmations from blockchain...");
     await marketInstance.methods.removeOffer(id).send({}, function(error){
         if (error) {
+            $(`#cancelButton${id}`).show();
             console.log(error);
         };
     });
@@ -231,6 +235,7 @@ async function buyBird(price, id) {
     var inWei = web3.utils.toWei(price, "ether");
     await marketInstance.methods.buyBird(id).send({ value: inWei }, function(error){
         if (error) {
+            $(`#buyButton${id}`).show();
             console.log(error);
         };
     });
@@ -289,7 +294,6 @@ async function buildCatalog(ids){
 async function buildModal(ids){
     for (let i = 0; i < ids.length; i++) {
         bird = await birdInstance.methods.getBird(ids[i]).call();
-        //console.log(bird);
         appendBirdToModal(bird, ids[i]);
     };
 };
@@ -297,7 +301,6 @@ async function buildModal(ids){
 async function buildMarket(ids){
     for (let i = 0; i < ids.length; i++) {
         bird = await birdInstance.methods.getBird(ids[i]).call();
-        //console.log(bird);
         await appendBirdToMarket(bird, ids[i]);
     };
     await activateBuyButtonListeners();//must be activated after all buttons are rendered.
@@ -306,7 +309,6 @@ async function buildMarket(ids){
 async function buildOffers(ids){
     for (let i = 0; i < ids.length; i++) {
         bird = await birdInstance.methods.getBird(ids[i]).call();
-        //console.log(bird);
         await appendBirdToOffers(bird, ids[i]);
     };
     activateCancelButtonListeners();
@@ -317,16 +319,17 @@ async function getBirdDna(id) {
 };
 
 async function breedBird(dadId, mumId) {
-    $('#birdCreation').css("display", "block");
+    $('#birdCreation').hide();
     $('#birdCreation').text("Waiting for confirmations from blockchain...");
-    $('.evolvingHeart').css("display", "block");
-    $('#breedButton').css("display", "none");
-    $('#dameButton').css("display", "none");
-    $('#sireButton').css("display", "none");
-    $('#swapButton').css("display", "none");
+    $('.evolvingHeart').show();
+    $('#breedButton').hide();
+    $('#dameButton').hide();
+    $('#sireButton').hide();
+    $('#swapButton').hide();
     $('#breedFooter').css("top", "-99em");
     await birdInstance.methods.breed(dadId, mumId).send({}, function(error){
         if (error) {
+            location.reload();
             console.log(error);
         };
     });

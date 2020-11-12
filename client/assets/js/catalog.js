@@ -124,6 +124,7 @@ function catalogBox(id) {
 //Listener for withdraw button
 $('#withdrawButton').click(async ()=>{
     if(balance > 0) {
+        $('#withdrawButton').hide();
         await withdraw();
         location.reload();
     };
@@ -141,6 +142,8 @@ function activateCatalogEventListeners() {
             } else if (price <= 0) {
                 alert("Please enter a positive number!")
             } else{
+                $(`#birdPrice${id}`).hide();
+                $(`#offerButton${id}`).hide();
                 await sellBird(price, id);
                 $(`#BirdBox${id}`).remove();//remove bird from DOM
             };
@@ -156,6 +159,8 @@ function activateCatalogEventListeners() {
         } else if (price <= 0) {
             alert("Please enter a positive number!")
         } else{
+            $(`#birdPrice${id}`).hide();
+            $(`#offerButton${id}`).hide();
             await sellBird(price, id);
             $(`#BirdBox${id}`).remove();//remove bird from DOM
         };
