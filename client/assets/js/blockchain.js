@@ -151,7 +151,6 @@ async function onlyOwnerAccess() {//limits access to studio and pause/resume to 
             };
             $('#pauseButton').show();
 
-
         //logic for other users
         } else {
             $('#designStudio').hide();
