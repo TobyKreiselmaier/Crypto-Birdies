@@ -205,7 +205,6 @@ async function sellBird(price, id) {
     $('#offerCreated').css("display", "block");
     $('#offerCreated').text("Waiting for confirmations from blockchain...");
     var inWei = web3.utils.toWei(price, "ether");
-    if (inWei < 0) {alert("Please enter a valid amount")};
     await marketInstance.methods.setOffer(inWei, id).send({}, function(error){
         if (error) {
             $(`#birdPrice${id}`).show();
