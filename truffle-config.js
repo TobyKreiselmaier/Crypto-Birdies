@@ -67,7 +67,7 @@ module.exports = {
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
       skipDryRun: true,    // Skip dry run before migrations? (default: false for public nets )
       from: '0xA032dAD397c0Eeb4ad843A03A4b5Ac814Ab8F0BD'
-    },
+    }
 
     // Useful for private networks
     // private: {
